@@ -10,9 +10,9 @@
 		149DF8251A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = 149DF8241A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m */; };
 		149DF8271A021C5200D31CAC /* Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 149DF8261A021C5200D31CAC /* Model.xcdatamodel */; };
 		14C4182E1A01919C00636FD6 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C4182D1A01919C00636FD6 /* Tests.m */; };
-		14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Sources */ = {isa = PBXBuildFile; fileRef = 14C418381A019A1500636FD6 /* CONTRIBUTING.md */; };
+		14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C418381A019A1500636FD6 /* CONTRIBUTING.md */; };
 		14C4183D1A019A1500636FD6 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C418391A019A1500636FD6 /* LICENSE.md */; };
-		14C4183F1A019A1500636FD6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 14C4183B1A019A1500636FD6 /* README.md */; };
+		14C4183F1A019A1500636FD6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C4183B1A019A1500636FD6 /* README.md */; };
 		14C418421A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 14C418411A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec */; };
 /* End PBXBuildFile section */
 
@@ -153,6 +153,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Resources */,
+				14C4183F1A019A1500636FD6 /* README.md in Resources */,
 				14C4183D1A019A1500636FD6 /* LICENSE.md in Resources */,
 				14C418421A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec in Resources */,
 			);
@@ -166,8 +168,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				149DF8251A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m in Sources */,
-				14C4183F1A019A1500636FD6 /* README.md in Sources */,
-				14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Sources */,
 				14C4182E1A01919C00636FD6 /* Tests.m in Sources */,
 				149DF8271A021C5200D31CAC /* Model.xcdatamodel in Sources */,
 			);
