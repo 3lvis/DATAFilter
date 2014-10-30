@@ -15,14 +15,13 @@
 @implementation NSManagedObject (ANDYMapChanges)
 
 + (void)andy_mapChanges:(NSArray *)changes
-         withPrimaryKey:(NSString *)primaryKey
               inContext:(NSManagedObjectContext *)context
                inserted:(void (^)(NSDictionary *objectDict))inserted
                 updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated
 {
     [self andy_mapChanges:changes
-           withPrimaryKey:primaryKey
-             andRemoteKey:@"id"
+                 localKey:@"id"
+                remoteKey:@"id"
            usingPredicate:nil
                 inContext:context
                  inserted:inserted
@@ -30,40 +29,22 @@
 }
 
 + (void)andy_mapChanges:(NSArray *)changes
-         withPrimaryKey:(NSString *)primaryKey
+               localKey:(NSString *)localKey
+              remoteKey:(NSString *)remoteKey
          usingPredicate:(NSPredicate *)predicate
               inContext:(NSManagedObjectContext *)context
                inserted:(void (^)(NSDictionary *objectDict))inserted
                 updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated
-{
-    [self andy_mapChanges:changes
-           withPrimaryKey:primaryKey
-             andRemoteKey:@"id"
-           usingPredicate:nil
-                inContext:context
-                 inserted:inserted
-                  updated:updated];
-}
-
-
-+ (void)andy_mapChanges:(NSArray *)changes
-         withPrimaryKey:(NSString *)primaryKey
-           andRemoteKey:(NSString *)remoteKey
-         usingPredicate:(NSPredicate *)predicate
-              inContext:(NSManagedObjectContext *)context
-               inserted:(void (^)(NSDictionary *objectDict))inserted
-                updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated;
-
 {
     NSMutableDictionary *dictionaryIDAndObjectID = nil;
 
     if (predicate) {
         dictionaryIDAndObjectID = [self dictionaryOfIDsAndFetchedIDsUsingPredicate:predicate
-                                                                     andPrimaryKey:primaryKey
+                                                                       andLocalKey:localKey
                                                                          inContext:context];
     } else {
         dictionaryIDAndObjectID = [self dictionaryOfIDsAndFetchedIDsInContext:context
-                                                              usingPrimaryKey:primaryKey];
+                                                                usingLocalKey:localKey];
     }
 
     NSArray *fetchedObjectIDs = [dictionaryIDAndObjectID allKeys];
@@ -91,7 +72,7 @@
 
     for (NSNumber *fetchedID in insertedObjectIDs) {
         [changes enumerateObjectsUsingBlock:^(NSDictionary *objectDict, NSUInteger idx, BOOL *stop) {
-            if ([[objectDict objectForKey:remoteKey] isEqualToNumber:fetchedID]) {
+            if ([[objectDict objectForKey:remoteKey] isEqual:fetchedID]) {
                 if (inserted) {
                     inserted(objectDict);
                 }
@@ -101,7 +82,7 @@
 
     for (NSNumber *fetchedID in updatedObjectIDs) {
         [changes enumerateObjectsUsingBlock:^(NSDictionary *objectDict, NSUInteger idx, BOOL *stop) {
-            if ([[objectDict objectForKey:remoteKey] isEqualToNumber:fetchedID]) {
+            if ([[objectDict objectForKey:remoteKey] isEqual:fetchedID]) {
                 NSManagedObjectID *objectID = [dictionaryIDAndObjectID objectForKey:fetchedID];
                 if (objectID) {
                     NSManagedObject *object = [context objectWithID:objectID];
@@ -115,7 +96,7 @@
 }
 
 + (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsUsingPredicate:(NSPredicate *)predicate
-                                                      andPrimaryKey:(NSString *)primaryKey
+                                                        andLocalKey:(NSString *)localKey
                                                           inContext:(NSManagedObjectContext *)context
 {
     __block NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
@@ -128,11 +109,11 @@
         objectIdDesc.name = @"objectID";
         objectIdDesc.expression = [NSExpression expressionForEvaluatedObject];
         objectIdDesc.expressionResultType = NSObjectIDAttributeType;
-        [fetchRequest setPropertiesToFetch:@[objectIdDesc, primaryKey]];
+        [fetchRequest setPropertiesToFetch:@[objectIdDesc, localKey]];
 
         NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
         for (NSDictionary *object in objects) {
-            NSNumber *fetchedID = [object valueForKeyPath:primaryKey];
+            NSNumber *fetchedID = [object valueForKeyPath:localKey];
             if (fetchedID) {
                 [dictionary setObject:[object valueForKeyPath:@"objectID"] forKey:fetchedID];
             }
@@ -143,10 +124,10 @@
 }
 
 + (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsInContext:(NSManagedObjectContext *)context
-                                               usingPrimaryKey:(NSString *)primaryKey
+                                                 usingLocalKey:(NSString *)localKey
 {
     return [self dictionaryOfIDsAndFetchedIDsUsingPredicate:nil
-                                              andPrimaryKey:primaryKey
+                                                andLocalKey:localKey
                                                   inContext:context];
 }
 

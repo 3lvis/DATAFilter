@@ -9,21 +9,13 @@
 @interface NSManagedObject (ANDYMapChanges)
 
 + (void)andy_mapChanges:(NSArray *)changes
-         withPrimaryKey:(NSString *)primaryKey
               inContext:(NSManagedObjectContext *)context
                inserted:(void (^)(NSDictionary *objectDict))inserted
                 updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated;
 
 + (void)andy_mapChanges:(NSArray *)changes
-         withPrimaryKey:(NSString *)primaryKey
-         usingPredicate:(NSPredicate *)predicate
-              inContext:(NSManagedObjectContext *)context
-               inserted:(void (^)(NSDictionary *objectDict))inserted
-                updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated;
-
-+ (void)andy_mapChanges:(NSArray *)changes
-         withPrimaryKey:(NSString *)primaryKey
-           andRemoteKey:(NSString *)remoteKey
+               localKey:(NSString *)localKey
+              remoteKey:(NSString *)remoteKey
          usingPredicate:(NSPredicate *)predicate
               inContext:(NSManagedObjectContext *)context
                inserted:(void (^)(NSDictionary *objectDict))inserted
