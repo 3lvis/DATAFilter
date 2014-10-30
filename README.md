@@ -1,4 +1,4 @@
-# Podname
+# NSManagedObject-ANDYMapChanges
 
 [![CI Status](http://img.shields.io/travis/nselvis/NSManagedObject-ANDYMapChanges.svg?style=flat)](https://travis-ci.org/nselvis/NSManagedObject-ANDYMapChanges)
 [![Version](https://img.shields.io/cocoapods/v/NSManagedObject-ANDYMapChanges.svg?style=flat)](http://cocoadocs.org/docsets/NSManagedObject-ANDYMapChanges)

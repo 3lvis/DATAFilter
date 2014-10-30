@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		149DF8251A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = 149DF8241A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m */; };
 		14C4182E1A01919C00636FD6 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C4182D1A01919C00636FD6 /* Tests.m */; };
 		14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Sources */ = {isa = PBXBuildFile; fileRef = 14C418381A019A1500636FD6 /* CONTRIBUTING.md */; };
 		14C4183D1A019A1500636FD6 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C418391A019A1500636FD6 /* LICENSE.md */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		149DF8231A02183200D31CAC /* NSManagedObject+ANDYMapChanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+ANDYMapChanges.h"; sourceTree = "<group>"; };
+		149DF8241A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+ANDYMapChanges.m"; sourceTree = "<group>"; };
 		14C418261A01919C00636FD6 /* DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C4182C1A01919C00636FD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14C4182D1A01919C00636FD6 /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
@@ -73,6 +76,8 @@
 		14C418371A01974300636FD6 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				149DF8231A02183200D31CAC /* NSManagedObject+ANDYMapChanges.h */,
+				149DF8241A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m */,
 			);
 			name = Source;
 			path = ../Source;
@@ -157,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				149DF8251A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m in Sources */,
 				14C4183F1A019A1500636FD6 /* README.md in Sources */,
 				14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Sources */,
 				14C4182E1A01919C00636FD6 /* Tests.m in Sources */,

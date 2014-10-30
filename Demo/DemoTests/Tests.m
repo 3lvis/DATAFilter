@@ -8,24 +8,55 @@
 
 @import XCTest;
 
+#import "NSManagedObject+ANDYMapChanges.h"
+
 @interface DemoTests : XCTestCase
+
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSManagedObject *user;
 
 @end
 
 @implementation DemoTests
 
+#pragma mark - Set up
+
++ (NSManagedObjectContext *)managedObjectContextForTests
+{
+    NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
+    NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    NSPersistentStore *store = [psc addPersistentStoreWithType:NSInMemoryStoreType
+                                                 configuration:nil
+                                                           URL:nil
+                                                       options:nil
+                                                         error:nil];
+    NSAssert(store, @"Should have a store by now");
+
+    NSManagedObjectContext *moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    moc.persistentStoreCoordinator = psc;
+
+    return moc;
+}
+
 - (void)setUp
 {
     [super setUp];
 
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    self.managedObjectContext = [DemoTests managedObjectContextForTests];
+
+    self.user = [NSEntityDescription insertNewObjectForEntityForName:@"User"
+                                                  inManagedObjectContext:self.managedObjectContext];
+
+    [self.user setValue:@"John" forKey:@"firstName"];
+    [self.user setValue:@"Hyperseed" forKey:@"lastName"];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [self.managedObjectContext rollback];
 
     [super tearDown];
 }
+
 
 @end
