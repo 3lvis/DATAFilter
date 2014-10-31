@@ -6,9 +6,46 @@
 
 #import "NSManagedObject+ANDYMapChanges.h"
 
-@interface NSManagedObject ()
+@implementation NSManagedObject (ANDYMapChangesPrivate)
 
-+ (NSString *)entityName;
++ (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsInContext:(NSManagedObjectContext *)context
+                                                 usingLocalKey:(NSString *)localKey
+                                                 forEntityName:(NSString *)entityName
+{
+    return [self dictionaryOfIDsAndFetchedIDsUsingPredicate:nil
+                                                andLocalKey:localKey
+                                                  inContext:context
+                                              forEntityName:entityName];
+}
+
++ (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsUsingPredicate:(NSPredicate *)predicate
+                                                        andLocalKey:(NSString *)localKey
+                                                          inContext:(NSManagedObjectContext *)context
+                                                      forEntityName:(NSString *)entityName
+{
+    __block NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    [context performBlockAndWait:^{
+        NSError *error = nil;
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
+        fetchRequest.predicate = predicate;
+        [fetchRequest setResultType:NSDictionaryResultType];
+        NSExpressionDescription *objectIdDesc = [[NSExpressionDescription alloc] init];
+        objectIdDesc.name = @"objectID";
+        objectIdDesc.expression = [NSExpression expressionForEvaluatedObject];
+        objectIdDesc.expressionResultType = NSObjectIDAttributeType;
+        [fetchRequest setPropertiesToFetch:@[objectIdDesc, localKey]];
+
+        NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
+        for (NSDictionary *object in objects) {
+            NSNumber *fetchedID = [object valueForKeyPath:localKey];
+            if (fetchedID) {
+                [dictionary setObject:[object valueForKeyPath:@"objectID"] forKey:fetchedID];
+            }
+        }
+    }];
+
+    return dictionary;
+}
 
 @end
 
@@ -16,6 +53,7 @@
 
 + (void)andy_mapChanges:(NSArray *)changes
               inContext:(NSManagedObjectContext *)context
+          forEntityName:(NSString *)entityName
                inserted:(void (^)(NSDictionary *objectDict))inserted
                 updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated
 {
@@ -24,6 +62,7 @@
                 remoteKey:@"id"
            usingPredicate:nil
                 inContext:context
+            forEntityName:entityName
                  inserted:inserted
                   updated:updated];
 }
@@ -33,6 +72,7 @@
               remoteKey:(NSString *)remoteKey
          usingPredicate:(NSPredicate *)predicate
               inContext:(NSManagedObjectContext *)context
+          forEntityName:(NSString *)entityName
                inserted:(void (^)(NSDictionary *objectDict))inserted
                 updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated
 {
@@ -41,10 +81,12 @@
     if (predicate) {
         dictionaryIDAndObjectID = [self dictionaryOfIDsAndFetchedIDsUsingPredicate:predicate
                                                                        andLocalKey:localKey
-                                                                         inContext:context];
+                                                                         inContext:context
+                                                                     forEntityName:entityName];
     } else {
         dictionaryIDAndObjectID = [self dictionaryOfIDsAndFetchedIDsInContext:context
-                                                                usingLocalKey:localKey];
+                                                                usingLocalKey:localKey
+                                                                forEntityName:entityName];
     }
 
     NSArray *fetchedObjectIDs = [dictionaryIDAndObjectID allKeys];
@@ -93,42 +135,6 @@
             }
         }];
     }
-}
-
-+ (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsUsingPredicate:(NSPredicate *)predicate
-                                                        andLocalKey:(NSString *)localKey
-                                                          inContext:(NSManagedObjectContext *)context
-{
-    __block NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [context performBlockAndWait:^{
-        NSError *error = nil;
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
-        fetchRequest.predicate = predicate;
-        [fetchRequest setResultType:NSDictionaryResultType];
-        NSExpressionDescription *objectIdDesc = [[NSExpressionDescription alloc] init];
-        objectIdDesc.name = @"objectID";
-        objectIdDesc.expression = [NSExpression expressionForEvaluatedObject];
-        objectIdDesc.expressionResultType = NSObjectIDAttributeType;
-        [fetchRequest setPropertiesToFetch:@[objectIdDesc, localKey]];
-
-        NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
-        for (NSDictionary *object in objects) {
-            NSNumber *fetchedID = [object valueForKeyPath:localKey];
-            if (fetchedID) {
-                [dictionary setObject:[object valueForKeyPath:@"objectID"] forKey:fetchedID];
-            }
-        }
-    }];
-
-    return dictionary;
-}
-
-+ (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsInContext:(NSManagedObjectContext *)context
-                                                 usingLocalKey:(NSString *)localKey
-{
-    return [self dictionaryOfIDsAndFetchedIDsUsingPredicate:nil
-                                                andLocalKey:localKey
-                                                  inContext:context];
 }
 
 @end
