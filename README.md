@@ -1,9 +1,6 @@
 # NSManagedObject-ANDYMapChanges
 
-[![CI Status](http://img.shields.io/travis/nselvis/NSManagedObject-ANDYMapChanges.svg?style=flat)](https://travis-ci.org/nselvis/NSManagedObject-ANDYMapChanges)
-[![Version](https://img.shields.io/cocoapods/v/NSManagedObject-ANDYMapChanges.svg?style=flat)](http://cocoadocs.org/docsets/NSManagedObject-ANDYMapChanges)
-[![License](https://img.shields.io/cocoapods/l/NSManagedObject-ANDYMapChanges.svg?style=flat)](http://cocoadocs.org/docsets/NSManagedObject-ANDYMapChanges)
-[![Platform](https://img.shields.io/cocoapods/p/NSManagedObject-ANDYMapChanges.svg?style=flat)](http://cocoadocs.org/docsets/NSManagedObject-ANDYMapChanges)
+[![Build Status](https://img.shields.io/travis/hyperoslo/feeder.svg?style=flat)](https://travis-Ωci.org/nselvis/NSManagedObject-ANDYMapChanges)
 
 ## Usage
 
