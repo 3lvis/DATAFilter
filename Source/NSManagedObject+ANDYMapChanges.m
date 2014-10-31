@@ -24,24 +24,30 @@
                                                       forEntityName:(NSString *)entityName
 {
     __block NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [context performBlockAndWait:^{
-        NSError *error = nil;
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
-        fetchRequest.predicate = predicate;
-        [fetchRequest setResultType:NSDictionaryResultType];
-        NSExpressionDescription *objectIdDesc = [[NSExpressionDescription alloc] init];
-        objectIdDesc.name = @"objectID";
-        objectIdDesc.expression = [NSExpression expressionForEvaluatedObject];
-        objectIdDesc.expressionResultType = NSObjectIDAttributeType;
-        [fetchRequest setPropertiesToFetch:@[objectIdDesc, localKey]];
 
-        NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
+    [context performBlockAndWait:^{
+
+        NSExpressionDescription *expression = [[NSExpressionDescription alloc] init];
+        expression.name = @"objectID";
+        expression.expression = [NSExpression expressionForEvaluatedObject];
+        expression.expressionResultType = NSObjectIDAttributeType;
+
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:entityName];
+        request.predicate = predicate;
+        request.resultType = NSDictionaryResultType;
+        request.propertiesToFetch = @[expression, localKey];
+
+        NSError *error = nil;
+        NSArray *objects = [context executeFetchRequest:request error:&error];
+        if (error) NSLog(@"error fetching IDs: %@", [error description]);
+
         for (NSDictionary *object in objects) {
+
             NSNumber *fetchedID = [object valueForKeyPath:localKey];
-            if (fetchedID) {
-                [dictionary setObject:[object valueForKeyPath:@"objectID"] forKey:fetchedID];
-            }
+
+            if (fetchedID) [dictionary setObject:[object valueForKeyPath:@"objectID"] forKey:fetchedID];
         }
+
     }];
 
     return dictionary;
