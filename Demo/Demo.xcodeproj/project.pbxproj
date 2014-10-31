@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1417F1E51A0442D80003E3C7 /* users3.json in Resources */ = {isa = PBXBuildFile; fileRef = 1417F1E41A0442D80003E3C7 /* users3.json */; };
 		149DF8251A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = 149DF8241A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m */; };
 		149DF8271A021C5200D31CAC /* Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 149DF8261A021C5200D31CAC /* Model.xcdatamodel */; };
 		14A1FEE51A036E9E002A82C5 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 14A1FEE41A036E9E002A82C5 /* users.json */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1417F1E41A0442D80003E3C7 /* users3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users3.json; sourceTree = "<group>"; };
 		149DF8231A02183200D31CAC /* NSManagedObject+ANDYMapChanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+ANDYMapChanges.h"; sourceTree = "<group>"; };
 		149DF8241A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+ANDYMapChanges.m"; sourceTree = "<group>"; };
 		149DF8261A021C5200D31CAC /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			children = (
 				14A1FEE41A036E9E002A82C5 /* users.json */,
 				14A1FEE61A037308002A82C5 /* users2.json */,
+				1417F1E41A0442D80003E3C7 /* users3.json */,
 				149DF8261A021C5200D31CAC /* Model.xcdatamodel */,
 				14C4182D1A01919C00636FD6 /* Tests.m */,
 				14C4182B1A01919C00636FD6 /* Supporting Files */,
@@ -160,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14A1FEE51A036E9E002A82C5 /* users.json in Resources */,
+				1417F1E51A0442D80003E3C7 /* users3.json in Resources */,
 				14A1FEE71A037308002A82C5 /* users2.json in Resources */,
 				14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Resources */,
 				14C4183F1A019A1500636FD6 /* README.md in Resources */,

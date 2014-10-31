@@ -115,10 +115,15 @@
 
 - (void)testMapChanges
 {
+    NSMutableDictionary *before = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
+                                                                            usingLocalKey:@"userID"
+                                                                            forEntityName:@"User"];
+
     id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
 
     __block NSInteger inserted = 0;
     __block NSInteger updated = 0;
+    __block NSInteger deleted = before.count;
 
     [NSManagedObject andy_mapChanges:JSON
                             localKey:@"userID"
@@ -130,18 +135,25 @@
                                 inserted++;
                             } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
                                 updated++;
+                                deleted--;
                             }];
 
     XCTAssertEqual(inserted, 2);
     XCTAssertEqual(updated, 4);
+    XCTAssertEqual(deleted, 1);
 }
 
 - (void)testMapChangesB
 {
+    NSMutableDictionary *before = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
+                                                                           usingLocalKey:@"userID"
+                                                                           forEntityName:@"User"];
+
     id JSON = [self JSONObjectWithContentsOfFile:@"users2.json"];
 
     __block NSInteger inserted = 0;
     __block NSInteger updated = 0;
+    __block NSInteger deleted = before.count;
 
     [NSManagedObject andy_mapChanges:JSON
                             localKey:@"userID"
@@ -153,10 +165,42 @@
                                 inserted++;
                             } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
                                 updated++;
+                                deleted--;
                             }];
 
     XCTAssertEqual(inserted, 0);
-    XCTAssertEqual(updated, 1);
+    XCTAssertEqual(updated, 5);
+    XCTAssertEqual(deleted, 0);
+}
+
+- (void)testMapChangesC
+{
+    NSMutableDictionary *before = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
+                                                                           usingLocalKey:@"userID"
+                                                                           forEntityName:@"User"];
+
+    id JSON = [self JSONObjectWithContentsOfFile:@"users3.json"];
+
+    __block NSInteger inserted = 0;
+    __block NSInteger updated = 0;
+    __block NSInteger deleted = before.count;
+
+    [NSManagedObject andy_mapChanges:JSON
+                            localKey:@"userID"
+                           remoteKey:@"id"
+                      usingPredicate:nil
+                           inContext:self.context
+                       forEntityName:@"User"
+                            inserted:^(NSDictionary *objectDict) {
+                                inserted++;
+                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+                                updated++;
+                                deleted--;
+                            }];
+
+    XCTAssertEqual(inserted, 0);
+    XCTAssertEqual(updated, 0);
+    XCTAssertEqual(deleted, 5);
 }
 
 @end
