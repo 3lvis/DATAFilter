@@ -56,6 +56,25 @@
     return user;
 }
 
+- (id)JSONObjectWithContentsOfFile:(NSString*)fileName
+{
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+
+    NSString *filePath = [bundle pathForResource:[fileName stringByDeletingPathExtension]
+                                          ofType:[fileName pathExtension]];
+
+    NSData *data = [NSData dataWithContentsOfFile:filePath];
+
+    NSError *error = nil;
+
+    id result = [NSJSONSerialization JSONObjectWithData:data
+                                                options:NSJSONReadingMutableContainers
+                                                  error:&error];
+    if (error != nil) return nil;
+
+    return result;
+}
+
 - (void)setUp
 {
     [super setUp];
@@ -94,6 +113,50 @@
     XCTAssertEqual(results.count, 5);
 }
 
-- (void)testMapChanges { }
+- (void)testMapChanges
+{
+    id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+
+    __block NSInteger inserted = 0;
+    __block NSInteger updated = 0;
+
+    [NSManagedObject andy_mapChanges:JSON
+                            localKey:@"userID"
+                           remoteKey:@"id"
+                      usingPredicate:nil
+                           inContext:self.context
+                       forEntityName:@"User"
+                            inserted:^(NSDictionary *objectDict) {
+                                inserted++;
+                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+                                updated++;
+                            }];
+
+    XCTAssertEqual(inserted, 2);
+    XCTAssertEqual(updated, 4);
+}
+
+- (void)testMapChangesB
+{
+    id JSON = [self JSONObjectWithContentsOfFile:@"users2.json"];
+
+    __block NSInteger inserted = 0;
+    __block NSInteger updated = 0;
+
+    [NSManagedObject andy_mapChanges:JSON
+                            localKey:@"userID"
+                           remoteKey:@"id"
+                      usingPredicate:nil
+                           inContext:self.context
+                       forEntityName:@"User"
+                            inserted:^(NSDictionary *objectDict) {
+                                inserted++;
+                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+                                updated++;
+                            }];
+
+    XCTAssertEqual(inserted, 0);
+    XCTAssertEqual(updated, 1);
+}
 
 @end
