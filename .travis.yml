@@ -1,3 +1,2 @@
 language: objective-c
-xcode_project: Demo/Demo.xcodeproj
-xcode_scheme: Demo
+script: xctool -project Demo/Demo.xcodeproj -scheme Demo build test -sdk iphonesimulator
