@@ -65,6 +65,8 @@
     [self userWithID:2 firstName:@"Ricky" lastName:@"Underwood" age:19 inContext:self.context];
     [self userWithID:3 firstName:@"Grace" lastName:@"Bowman" age:20 inContext:self.context];
     [self userWithID:4 firstName:@"Adrian" lastName:@"Lee" age:20 inContext:self.context];
+
+    [self.context save:nil];
 }
 
 - (void)tearDown
@@ -82,5 +84,16 @@
 
     XCTAssertEqual(results.count, 5);
 }
+
+- (void)testDictionaryOfIDsAndFetchedIDsUsingPredicate
+{
+    NSMutableDictionary *results = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
+                                                                            usingLocalKey:@"userID"
+                                                                            forEntityName:@"User"];
+
+    XCTAssertEqual(results.count, 5);
+}
+
+- (void)testMapChanges { }
 
 @end
