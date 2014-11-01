@@ -4,13 +4,15 @@
 
 ## Usage
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run the example project, clone the repo, and open the `.xcodeproj` from the Demo directory.
 
 ## Requirements
 
+`iOS 7.0`
+
 ## Installation
 
-Podname is available through [CocoaPods](http://cocoapods.org). To install
+**NSManagedObject-ANDYMapChanges** is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 pod "NSManagedObject-ANDYMapChanges"
@@ -21,5 +23,5 @@ Elvis Nuñez, hello@nselvis.com
 
 ## License
 
-NSManagedObject-ANDYMapChanges is available under the MIT license. See the LICENSE file for more info.
+**NSManagedObject-ANDYMapChanges** is available under the MIT license. See the LICENSE file for more info.
 
