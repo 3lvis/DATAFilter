@@ -1,16 +1,16 @@
 Pod::Spec.new do |s|
 s.name             = "NSManagedObject-ANDYMapChanges"
 s.version          = "0.1"
-s.summary          = "A short description of NSManagedObject-ANDYMapChanges."
+s.summary          = "Maps inserts, updates and deletions using JSON"
 s.description      = <<-DESC
-An optional longer description of NSManagedObject-ANDYMapChanges
+Maps inserts, updates and deletions using JSON
 
-* Markdown format.
-* Don't worry about the indent, we strip it!
+Returns every insert and update in a block,
+handles deletions internally.
 DESC
 s.homepage         = "https://github.com/nselvis/NSManagedObject-ANDYMapChanges"
 s.license          = 'MIT'
-s.author           = { "Elvis Nuñez" => "hello@nselvis.com" }
+s.author           = { "Elvis Nuñez" => "elvisnunez@me.com" }
 s.source           = { :git => "https://github.com/nselvis/NSManagedObject-ANDYMapChanges.git", :tag => s.version.to_s }
 s.social_media_url = 'https://twitter.com/nselvis'
 
