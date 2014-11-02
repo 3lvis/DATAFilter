@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = "NSManagedObject-ANDYMapChanges"
-s.version          = "0.3"
+s.version          = "0.2"
 s.summary          = "Maps inserts, updates and deletions using JSON"
 s.description      = <<-DESC
 Maps inserts, updates and deletions using JSON
