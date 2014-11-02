@@ -1,12 +1,11 @@
 Pod::Spec.new do |s|
 s.name             = "NSManagedObject-ANDYMapChanges"
 s.version          = "0.2"
-s.summary          = "Maps inserts, updates and deletions using JSON"
+s.summary          = "Maps inserts, updates and deletions from your JSON response"
 s.description      = <<-DESC
-Maps inserts, updates and deletions using JSON
+Maps inserts, updates and deletions from your JSON response.
 
-Returns every insert and update in a block,
-handles deletions internally.
+Returns every insert and update in a block, handles deletions internally.
 DESC
 s.homepage         = "https://github.com/nselvis/NSManagedObject-ANDYMapChanges"
 s.license          = 'MIT'
