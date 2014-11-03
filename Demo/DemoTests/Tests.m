@@ -99,9 +99,9 @@
 {
     NSError *error = nil;
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
-    NSArray *results = [self.context executeFetchRequest:request error:&error];
+    NSInteger count = [self.context countForFetchRequest:request error:&error];
 
-    XCTAssertEqual(results.count, 5);
+    XCTAssertEqual(count, 5);
 }
 
 - (void)testDictionaryOfIDsAndFetchedIDsUsingPredicate
