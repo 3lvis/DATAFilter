@@ -10,6 +10,19 @@
 
 #import "NSManagedObject+ANDYMapChanges.h"
 
+@interface NSManagedObject (ANDYMapChangesPrivate)
+
++ (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsInContext:(NSManagedObjectContext *)context
+                                                 usingLocalKey:(NSString *)localKey
+                                                 forEntityName:(NSString *)entityName;
+
++ (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsUsingPredicate:(NSPredicate *)predicate
+                                                        andLocalKey:(NSString *)localKey
+                                                          inContext:(NSManagedObjectContext *)context
+                                                      forEntityName:(NSString *)entityName;
+
+@end
+
 @interface DemoTests : XCTestCase
 
 @property (nonatomic, strong) NSManagedObjectContext *context;
@@ -113,7 +126,7 @@
     XCTAssertEqual(results.count, 5);
 }
 
-- (void)testMapChanges
+- (void)testMapChangesWithExplicitKeys
 {
     NSMutableDictionary *before = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
                                                                             usingLocalKey:@"userID"
@@ -128,6 +141,34 @@
     [NSManagedObject andy_mapChanges:JSON
                             localKey:@"userID"
                            remoteKey:@"id"
+                      usingPredicate:nil
+                           inContext:self.context
+                       forEntityName:@"User"
+                            inserted:^(NSDictionary *objectDict) {
+                                inserted++;
+                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+                                updated++;
+                                deleted--;
+                            }];
+
+    XCTAssertEqual(inserted, 2);
+    XCTAssertEqual(updated, 4);
+    XCTAssertEqual(deleted, 1);
+}
+
+- (void)testMapChangesWithInferredKeys
+{
+    NSMutableDictionary *before = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
+                                                                           usingLocalKey:@"userID"
+                                                                           forEntityName:@"User"];
+
+    id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+
+    __block NSInteger inserted = 0;
+    __block NSInteger updated = 0;
+    __block NSInteger deleted = before.count;
+
+    [NSManagedObject andy_mapChanges:JSON
                       usingPredicate:nil
                            inContext:self.context
                        forEntityName:@"User"
