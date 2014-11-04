@@ -10,13 +10,12 @@ NSManagedObject-ANDYNetworking
 
 This is a category on NSManagedObject that helps you to evaluate insertions, deletions and updates by comparing your JSON dictionary with your CoreData local objects.
 
-*Requires your models to be generated using [mogenerator](http://rentzsch.github.io/mogenerator/).*
-
 ## The magic
 
 ```objc
 + (void)andy_mapChanges:(NSArray *)changes
               inContext:(NSManagedObjectContext *)context
+          forEntityName:entityName
                inserted:(void (^)(NSDictionary *objectDict))inserted
                 updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated;
 ```
