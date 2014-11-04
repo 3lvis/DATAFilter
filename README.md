@@ -62,7 +62,7 @@ To run the example project, clone the repo, and open the `.xcodeproj` from the D
 
 ## Requirements
 
-`iOS 7.0`
+`iOS 7.0`, `Core Data`
 
 ## Installation
 
@@ -73,9 +73,9 @@ it, simply add the following line to your Podfile:
 
 ## Author
 
-Elvis Nuñez, hello@nselvis.com
+Elvis Nuñez, [hello@nselvis.com](mailto:hello@nselvis.com)
 
 ## License
 
-**NSManagedObject-ANDYMapChanges** is available under the MIT license. See the LICENSE file for more info.
+**NSManagedObject-ANDYMapChanges** is available under the MIT license. See the [LICENSE](https://github.com/NSElvis/NSManagedObject-ANDYMapChanges/blob/master/LICENSE.md) file for more info.
 
