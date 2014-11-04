@@ -42,11 +42,11 @@ This is a category on NSManagedObject that helps you to evaluate insertions, del
 `localKey` is the name of the local primaryKey, if it's a user it could be `userID`.
 `remoteKey` is the name of the key from JSON, if it's a user it could be just `id`.
 
-The convenience method that doesn't contain this attributes, fallback to `id` for the `localKey` and `id` for the `remoteKey`.
+The convenience method that doesn't contain this attributes, fallsback to `id` for the `localKey` and `id` for the `remoteKey`.
 
 ## Predicate
 
-Use the predicate to filter out mapped changes. For example if the response belongs to only inactive users, you could have a predicate like this:
+Use the predicate to filter out mapped changes. For example if the JSON response belongs to only inactive users, you could have a predicate like this:
 
 ```objc
 NSPredicate *predicate = [NSString stringWithFormat:@"inactive = YES"];
