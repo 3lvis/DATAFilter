@@ -17,8 +17,6 @@ This is a category on NSManagedObject that helps you to evaluate insertions, del
                 updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated;
 ```
 
-*Take a look at the [wiki](https://github.com/NSElvis/NSManagedObject-ANDYMapChanges/wiki) if you need more control over which local and remote keys are used. Also you can specify a predicate which can be useful for things like processing changes only for users in a specific store.*
-
 ## How to use
 
 ```objc
@@ -38,6 +36,25 @@ This is a category on NSManagedObject that helps you to evaluate insertions, del
     [context save:nil];
 }
 ```
+
+## Local and Remote keys
+
+`localKey` is the name of the local primaryKey, if it's a user it could be `userID`.
+`remoteKey` is the name of the key from JSON, if it's a user it could be just `id`.
+
+The convenience method that doesn't contain this attributes, fallback to `id` for the `localKey` and `id` for the `remoteKey`.
+
+## Predicate
+
+Use the predicate to filter out mapped changes. For example if the response belongs to only inactive users, you could have a predicate like this:
+
+```objc
+NSPredicate *predicate = [NSString stringWithFormat:@"inactive = YES"];
+```
+
+***
+
+*As a side note, you could use a [fancier property mapper](https://github.com/hyperoslo/NSManagedObject-HYPPropertyMapper/blob/master/README.md) that does the `fillObjectWithAttributes` part for you.*
 
 ## Usage
 
