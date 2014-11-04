@@ -5,6 +5,43 @@
 [![License](https://img.shields.io/cocoapods/l/NSManagedObject-ANDYMapChanges.svg?style=flat)](http://cocoadocs.org/docsets/NSManagedObject-ANDYMapChanges)
 [![Platform](https://img.shields.io/cocoapods/p/NSManagedObject-ANDYMapChanges.svg?style=flat)](http://cocoadocs.org/docsets/NSManagedObject-ANDYMapChanges)
 
+NSManagedObject-ANDYNetworking
+==============================
+
+This is a category on NSManagedObject that helps you to evaluate insertions, deletions and updates by comparing your JSON dictionary with your CoreData local objects.
+
+*Requires your models to be generated using [mogenerator](http://rentzsch.github.io/mogenerator/).*
+
+## The magic
+
+```objc
++ (void)andy_mapChanges:(NSArray *)changes
+              inContext:(NSManagedObjectContext *)context
+               inserted:(void (^)(NSDictionary *objectDict))inserted
+                updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated;
+```
+
+*Take a look at the [wiki](https://github.com/NSElvis/NSManagedObject-ANDYMapChanges/wiki) if you need more control over which local and remote keys are used. Also you can specify a predicate which can be useful for things like processing changes only for users in a specific store.*
+
+## How to use
+
+```objc
+- (void)importObjects:(NSArray *)objects usingContext:(NSManagedObjectContext *)context
+{
+    [NSManagedObject andy_mapChanges:JSON
+                           inContext:context
+                       forEntityName:entityName
+                            inserted:^(NSDictionary *objectDict) {
+                                ANDYUser *user = [ANDYUser insertInManagedObjectContext:context];
+                                [user fillObjectWithAttributes:objectDict];
+                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+                                ANDYUser *user = (ANDYUser *)object;
+                                [user fillObjectWithAttributes:objectDict];
+                            }];
+
+    [context save:nil];
+}
+```
 
 ## Usage
 
