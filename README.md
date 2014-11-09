@@ -20,7 +20,7 @@ This is a category on NSManagedObject that helps you to evaluate insertions, del
 ## How to use
 
 ```objc
-- (void)importObjects:(NSArray *)objects usingContext:(NSManagedObjectContext *)context
+- (void)importObjects:(NSArray *)objects usingContext:(NSManagedObjectContext *)context error:(NSError *)error
 {
     [NSManagedObject andy_mapChanges:JSON
                            inContext:context
@@ -33,7 +33,7 @@ This is a category on NSManagedObject that helps you to evaluate insertions, del
                                 [user fillObjectWithAttributes:objectDict];
                             }];
 
-    [context save:nil];
+    [context save:&error];
 }
 ```
 
