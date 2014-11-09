@@ -244,4 +244,28 @@
     XCTAssertEqual(deleted, 5);
 }
 
+- (void)testUniquing
+{
+    [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:self.context];
+    [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:self.context];
+    [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:self.context];
+    [self.context save:nil];
+
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
+    NSInteger numberOfUsers = [self.context countForFetchRequest:request error:nil];
+    XCTAssertEqual(numberOfUsers, 8);
+
+    id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+
+    [NSManagedObject andy_mapChanges:JSON
+                      usingPredicate:nil
+                           inContext:self.context
+                       forEntityName:@"User"
+                            inserted:nil
+                             updated:nil];
+
+    NSInteger deletedNumberOfUsers = [self.context countForFetchRequest:request error:nil];
+    XCTAssertEqual(deletedNumberOfUsers, 4);
+}
+
 @end
