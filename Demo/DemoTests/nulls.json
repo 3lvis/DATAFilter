@@ -1,0 +1,38 @@
+[
+  {
+    "id": null,
+    "first_name": null,
+    "last_name": null,
+    "age": null
+  },
+  {
+    "id": null,
+    "first_name": null,
+    "last_name": null,
+    "age": null
+  },
+  {
+    "id": null,
+    "first_name": "Ricky",
+    "last_name": "Underwood",
+    "age": 19
+  },
+  {
+    "id": 3,
+    "first_name": "Grace",
+    "last_name": "Bowman",
+    "age": 20
+  },
+  {
+    "id": 6,
+    "first_name": "Ashley",
+    "last_name": "Juergens",
+    "age": 18
+  },
+  {
+    "id": 7,
+    "first_name": "Lauren",
+    "last_name": "Treacy",
+    "age": 28
+  },
+]
