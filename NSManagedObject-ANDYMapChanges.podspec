@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = "NSManagedObject-ANDYMapChanges"
-s.version          = "0.5"
+s.version          = "0.5.1"
 s.summary          = "Maps inserts, updates and deletions from your JSON response"
 s.description      = <<-DESC
 Maps inserts, updates and deletions from your JSON response.
@@ -19,4 +19,6 @@ s.requires_arc = true
 s.source_files = 'Source/**/*'
 
 s.frameworks = 'Foundation', 'CoreData'
+
+s.dependency 'NSManagedObject-ANDYObjectIDs'
 end
