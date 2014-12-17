@@ -1,27 +1,8 @@
-//
-//  DemoTests.m
-//  DemoTests
-//
-//  Created by Elvis Nunez on 10/29/14.
-//  Copyright (c) 2014 ANDY. All rights reserved.
-//
-
 @import XCTest;
 
 #import "NSManagedObject+ANDYMapChanges.h"
 
-@interface NSManagedObject (ANDYMapChangesPrivate)
-
-+ (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsInContext:(NSManagedObjectContext *)context
-                                                 usingLocalKey:(NSString *)localKey
-                                                 forEntityName:(NSString *)entityName;
-
-+ (NSMutableDictionary *)dictionaryOfIDsAndFetchedIDsUsingPredicate:(NSPredicate *)predicate
-                                                        andLocalKey:(NSString *)localKey
-                                                          inContext:(NSManagedObjectContext *)context
-                                                      forEntityName:(NSString *)entityName;
-
-@end
+#import "NSManagedObject+ANDYObjectIDs.h"
 
 @interface DemoTests : XCTestCase
 
@@ -117,20 +98,11 @@
     XCTAssertEqual(count, 5);
 }
 
-- (void)testDictionaryOfIDsAndFetchedIDsUsingPredicate
-{
-    NSMutableDictionary *results = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                            usingLocalKey:@"userID"
-                                                                            forEntityName:@"User"];
-
-    XCTAssertEqual(results.count, 5);
-}
-
 - (void)testMapChangesWithExplicitKeys
 {
-    NSMutableDictionary *before = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                            usingLocalKey:@"userID"
-                                                                            forEntityName:@"User"];
+    NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
+                                                                         usingLocalKey:@"userID"
+                                                                         forEntityName:@"User"];
 
     id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
 
@@ -158,9 +130,9 @@
 
 - (void)testMapChangesWithInferredKeys
 {
-    NSMutableDictionary *before = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                           usingLocalKey:@"userID"
-                                                                           forEntityName:@"User"];
+    NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
+                                                                         usingLocalKey:@"userID"
+                                                                         forEntityName:@"User"];
 
     id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
 
@@ -186,9 +158,9 @@
 
 - (void)testMapChangesB
 {
-    NSMutableDictionary *before = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                           usingLocalKey:@"userID"
-                                                                           forEntityName:@"User"];
+    NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
+                                                                         usingLocalKey:@"userID"
+                                                                         forEntityName:@"User"];
 
     id JSON = [self JSONObjectWithContentsOfFile:@"users2.json"];
 
@@ -216,9 +188,9 @@
 
 - (void)testMapChangesC
 {
-    NSMutableDictionary *before = [NSManagedObject dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                           usingLocalKey:@"userID"
-                                                                           forEntityName:@"User"];
+    NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
+                                                                         usingLocalKey:@"userID"
+                                                                         forEntityName:@"User"];
 
     id JSON = [self JSONObjectWithContentsOfFile:@"users3.json"];
 
