@@ -1,0 +1,10 @@
+PODS:
+  - NSManagedObject-ANDYObjectIDs (0.1)
+
+DEPENDENCIES:
+  - NSManagedObject-ANDYObjectIDs
+
+SPEC CHECKSUMS:
+  NSManagedObject-ANDYObjectIDs: d27bb3014026506848a8d164f3019ecaa2a4baca
+
+COCOAPODS: 0.35.0

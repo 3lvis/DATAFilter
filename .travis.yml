@@ -1,6 +1,2 @@
 language: objective-c
-xcode_project: Demo/Demo.xcodeproj
-matrix:
-  include:
-    - xcode_sdk: iphonesimulator
-      xcode_scheme: Demo
+script: xctool -workspace Demo/Demo.xcworkspace -scheme Demo -sdk iphonesimulator build test
