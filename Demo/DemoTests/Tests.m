@@ -33,7 +33,7 @@
     return _context;
 }
 
-- (NSManagedObject *)userWithID:(NSInteger)userID
+- (NSManagedObject *)userWithID:(NSInteger)remoteID
                       firstName:(NSString *)firstName
                        lastName:(NSString *)lastName
                             age:(NSInteger)age
@@ -42,7 +42,7 @@
     NSManagedObject *user = [NSEntityDescription insertNewObjectForEntityForName:@"User"
                                                           inManagedObjectContext:context];
 
-    [user setValue:@(userID) forKey:@"userID"];
+    [user setValue:@(remoteID) forKey:@"remoteID"];
     [user setValue:firstName forKey:@"firstName"];
     [user setValue:lastName forKey:@"lastName"];
     [user setValue:@(age) forKey:@"age"];
@@ -101,7 +101,7 @@
 - (void)testMapChangesWithExplicitKeys
 {
     NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                         usingLocalKey:@"userID"
+                                                                         usingLocalKey:@"remoteID"
                                                                          forEntityName:@"User"];
 
     id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
@@ -111,7 +111,7 @@
     __block NSInteger deleted = before.count;
 
     [NSManagedObject andy_mapChanges:JSON
-                            localKey:@"userID"
+                            localKey:@"remoteID"
                            remoteKey:@"id"
                       usingPredicate:nil
                            inContext:self.context
@@ -131,7 +131,7 @@
 - (void)testMapChangesWithInferredKeys
 {
     NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                         usingLocalKey:@"userID"
+                                                                         usingLocalKey:@"remoteID"
                                                                          forEntityName:@"User"];
 
     id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
@@ -159,7 +159,7 @@
 - (void)testMapChangesB
 {
     NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                         usingLocalKey:@"userID"
+                                                                         usingLocalKey:@"remoteID"
                                                                          forEntityName:@"User"];
 
     id JSON = [self JSONObjectWithContentsOfFile:@"users2.json"];
@@ -169,7 +169,7 @@
     __block NSInteger deleted = before.count;
 
     [NSManagedObject andy_mapChanges:JSON
-                            localKey:@"userID"
+                            localKey:@"remoteID"
                            remoteKey:@"id"
                       usingPredicate:nil
                            inContext:self.context
@@ -189,7 +189,7 @@
 - (void)testMapChangesC
 {
     NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                         usingLocalKey:@"userID"
+                                                                         usingLocalKey:@"remoteID"
                                                                          forEntityName:@"User"];
 
     id JSON = [self JSONObjectWithContentsOfFile:@"users3.json"];
@@ -199,7 +199,7 @@
     __block NSInteger deleted = before.count;
 
     [NSManagedObject andy_mapChanges:JSON
-                            localKey:@"userID"
+                            localKey:@"remoteID"
                            remoteKey:@"id"
                       usingPredicate:nil
                            inContext:self.context
