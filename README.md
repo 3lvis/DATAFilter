@@ -39,10 +39,10 @@ This is a category on NSManagedObject that helps you to evaluate insertions, del
 
 ## Local and Remote keys
 
-`localKey` is the name of the local primaryKey, if it's a user it could be `userID`.
+`localKey` is the name of the local primaryKey, if it's a user it could be `remoteID`.
 `remoteKey` is the name of the key from JSON, if it's a user it could be just `id`.
 
-The convenience method that doesn't contain this attributes, fallsback to `modelNameID`(`userID`) for the `localKey` and `id` for the `remoteKey`.
+The convenience method that doesn't contain this attributes, fallsback to `modelNameID`(`remoteID`) for the `localKey` and `id` for the `remoteKey`.
 
 ## Predicate
 
