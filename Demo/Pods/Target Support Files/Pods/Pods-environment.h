@@ -6,6 +6,12 @@
 // project.
 
 
+// DATAStack
+#define COCOAPODS_POD_AVAILABLE_DATAStack
+#define COCOAPODS_VERSION_MAJOR_DATAStack 2
+#define COCOAPODS_VERSION_MINOR_DATAStack 2
+#define COCOAPODS_VERSION_PATCH_DATAStack 3
+
 // NSManagedObject-ANDYObjectIDs
 #define COCOAPODS_POD_AVAILABLE_NSManagedObject_ANDYObjectIDs
 #define COCOAPODS_VERSION_MAJOR_NSManagedObject_ANDYObjectIDs 0
