@@ -69,7 +69,9 @@ To run the example project, clone the repo, and open the `.xcodeproj` from the D
 **NSManagedObject-ANDYMapChanges** is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
-`pod 'NSManagedObject-ANDYMapChanges'`
+```ruby
+pod 'NSManagedObject-ANDYMapChanges'
+```
 
 ## Author
 
