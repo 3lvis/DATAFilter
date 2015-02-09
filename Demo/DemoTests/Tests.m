@@ -4,34 +4,13 @@
 
 #import "NSManagedObject+ANDYObjectIDs.h"
 
-@interface DemoTests : XCTestCase
+#import "DATAStack.h"
 
-@property (nonatomic, strong) NSManagedObjectContext *context;
+@interface DemoTests : XCTestCase
 
 @end
 
 @implementation DemoTests
-
-#pragma mark - Set up
-
-- (NSManagedObjectContext *)context
-{
-    if (_context) return _context;
-
-    NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
-    NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-    NSPersistentStore *store = [psc addPersistentStoreWithType:NSInMemoryStoreType
-                                                 configuration:nil
-                                                           URL:nil
-                                                       options:nil
-                                                         error:nil];
-    NSAssert(store, @"Should have a store by now");
-
-    _context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    _context.persistentStoreCoordinator = psc;
-
-    return _context;
-}
 
 - (NSManagedObject *)userWithID:(NSInteger)remoteID
                       firstName:(NSString *)firstName
@@ -46,6 +25,8 @@
     [user setValue:firstName forKey:@"firstName"];
     [user setValue:lastName forKey:@"lastName"];
     [user setValue:@(age) forKey:@"age"];
+
+    [context save:nil];
 
     return user;
 }
@@ -69,175 +50,241 @@
     return result;
 }
 
-- (void)setUp
+- (void)createUsersInContext:(NSManagedObjectContext *)context
 {
-    [super setUp];
-
-    [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:self.context];
-    [self userWithID:1 firstName:@"Ben" lastName:@"Boykewich" age:23 inContext:self.context];
-    [self userWithID:2 firstName:@"Ricky" lastName:@"Underwood" age:19 inContext:self.context];
-    [self userWithID:3 firstName:@"Grace" lastName:@"Bowman" age:20 inContext:self.context];
-    [self userWithID:4 firstName:@"Adrian" lastName:@"Lee" age:20 inContext:self.context];
-
-    [self.context save:nil];
-}
-
-- (void)tearDown
-{
-    [self.context rollback];
-
-    [super tearDown];
+    [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
+    [self userWithID:1 firstName:@"Ben" lastName:@"Boykewich" age:23 inContext:context];
+    [self userWithID:2 firstName:@"Ricky" lastName:@"Underwood" age:19 inContext:context];
+    [self userWithID:3 firstName:@"Grace" lastName:@"Bowman" age:20 inContext:context];
+    [self userWithID:4 firstName:@"Adrian" lastName:@"Lee" age:20 inContext:context];
 }
 
 - (void)testUsersCount
 {
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+    NSManagedObjectContext *context = stack.mainThreadContext;
+
+    [self createUsersInContext:context];
+
     NSError *error = nil;
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
-    NSInteger count = [self.context countForFetchRequest:request error:&error];
+    NSInteger count = [context countForFetchRequest:request error:&error];
 
     XCTAssertEqual(count, 5);
 }
 
 - (void)testMapChangesWithExplicitKeys
 {
-    NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                         usingLocalKey:@"remoteID"
-                                                                         forEntityName:@"User"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
 
-    id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
 
-    __block NSInteger inserted = 0;
-    __block NSInteger updated = 0;
-    __block NSInteger deleted = before.count;
+    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+        [self createUsersInContext:context];
 
-    [NSManagedObject andy_mapChanges:JSON
-                            localKey:@"remoteID"
-                           remoteKey:@"id"
-                      usingPredicate:nil
-                           inContext:self.context
-                       forEntityName:@"User"
-                            inserted:^(NSDictionary *objectDict) {
-                                inserted++;
-                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-                                updated++;
-                                deleted--;
-                            }];
+        NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
+                                                                             usingLocalKey:@"remoteID"
+                                                                             forEntityName:@"User"];
 
-    XCTAssertEqual(inserted, 2);
-    XCTAssertEqual(updated, 4);
-    XCTAssertEqual(deleted, 1);
+        id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [NSManagedObject andy_mapChanges:JSON
+                                localKey:@"remoteID"
+                               remoteKey:@"id"
+                          usingPredicate:nil
+                               inContext:context
+                           forEntityName:@"User"
+                                inserted:^(NSDictionary *objectDict) {
+                                    inserted++;
+                                } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+                                    updated++;
+                                    deleted--;
+                                }];
+
+        XCTAssertEqual(inserted, 2);
+        XCTAssertEqual(updated, 4);
+        XCTAssertEqual(deleted, 1);
+
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testMapChangesWithInferredKeys
 {
-    NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                         usingLocalKey:@"remoteID"
-                                                                         forEntityName:@"User"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
 
-    id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
 
-    __block NSInteger inserted = 0;
-    __block NSInteger updated = 0;
-    __block NSInteger deleted = before.count;
+    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+        [self createUsersInContext:context];
 
-    [NSManagedObject andy_mapChanges:JSON
-                      usingPredicate:nil
-                           inContext:self.context
-                       forEntityName:@"User"
-                            inserted:^(NSDictionary *objectDict) {
-                                inserted++;
-                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-                                updated++;
-                                deleted--;
-                            }];
+        NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
+                                                                             usingLocalKey:@"remoteID"
+                                                                             forEntityName:@"User"];
 
-    XCTAssertEqual(inserted, 2);
-    XCTAssertEqual(updated, 4);
-    XCTAssertEqual(deleted, 1);
+        id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [NSManagedObject andy_mapChanges:JSON
+                          usingPredicate:nil
+                               inContext:context
+                           forEntityName:@"User"
+                                inserted:^(NSDictionary *objectDict) {
+                                    inserted++;
+                                } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+                                    updated++;
+                                    deleted--;
+                                }];
+
+        XCTAssertEqual(inserted, 2);
+        XCTAssertEqual(updated, 4);
+        XCTAssertEqual(deleted, 1);
+
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testMapChangesB
 {
-    NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                         usingLocalKey:@"remoteID"
-                                                                         forEntityName:@"User"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
 
-    id JSON = [self JSONObjectWithContentsOfFile:@"users2.json"];
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
 
-    __block NSInteger inserted = 0;
-    __block NSInteger updated = 0;
-    __block NSInteger deleted = before.count;
+    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+        [self createUsersInContext:context];
 
-    [NSManagedObject andy_mapChanges:JSON
-                            localKey:@"remoteID"
-                           remoteKey:@"id"
-                      usingPredicate:nil
-                           inContext:self.context
-                       forEntityName:@"User"
-                            inserted:^(NSDictionary *objectDict) {
-                                inserted++;
-                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-                                updated++;
-                                deleted--;
-                            }];
+        NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
+                                                                             usingLocalKey:@"remoteID"
+                                                                             forEntityName:@"User"];
 
-    XCTAssertEqual(inserted, 0);
-    XCTAssertEqual(updated, 5);
-    XCTAssertEqual(deleted, 0);
+        id JSON = [self JSONObjectWithContentsOfFile:@"users2.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [NSManagedObject andy_mapChanges:JSON
+                                localKey:@"remoteID"
+                               remoteKey:@"id"
+                          usingPredicate:nil
+                               inContext:context
+                           forEntityName:@"User"
+                                inserted:^(NSDictionary *objectDict) {
+                                    inserted++;
+                                } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+                                    updated++;
+                                    deleted--;
+                                }];
+
+        XCTAssertEqual(inserted, 0);
+        XCTAssertEqual(updated, 5);
+        XCTAssertEqual(deleted, 0);
+
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testMapChangesC
 {
-    NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:self.context
-                                                                         usingLocalKey:@"remoteID"
-                                                                         forEntityName:@"User"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
 
-    id JSON = [self JSONObjectWithContentsOfFile:@"users3.json"];
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
 
-    __block NSInteger inserted = 0;
-    __block NSInteger updated = 0;
-    __block NSInteger deleted = before.count;
+    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+        [self createUsersInContext:context];
 
-    [NSManagedObject andy_mapChanges:JSON
-                            localKey:@"remoteID"
-                           remoteKey:@"id"
-                      usingPredicate:nil
-                           inContext:self.context
-                       forEntityName:@"User"
-                            inserted:^(NSDictionary *objectDict) {
-                                inserted++;
-                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-                                updated++;
-                                deleted--;
-                            }];
+        NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
+                                                                             usingLocalKey:@"remoteID"
+                                                                             forEntityName:@"User"];
 
-    XCTAssertEqual(inserted, 0);
-    XCTAssertEqual(updated, 0);
-    XCTAssertEqual(deleted, 5);
+        id JSON = [self JSONObjectWithContentsOfFile:@"users3.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [NSManagedObject andy_mapChanges:JSON
+                                localKey:@"remoteID"
+                               remoteKey:@"id"
+                          usingPredicate:nil
+                               inContext:context
+                           forEntityName:@"User"
+                                inserted:^(NSDictionary *objectDict) {
+                                    inserted++;
+                                } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+                                    updated++;
+                                    deleted--;
+                                }];
+
+        XCTAssertEqual(inserted, 0);
+        XCTAssertEqual(updated, 0);
+        XCTAssertEqual(deleted, 5);
+
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testUniquing
 {
-    [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:self.context];
-    [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:self.context];
-    [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:self.context];
-    [self.context save:nil];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
 
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
-    NSInteger numberOfUsers = [self.context countForFetchRequest:request error:nil];
-    XCTAssertEqual(numberOfUsers, 8);
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
 
-    id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+        [self createUsersInContext:context];
 
-    [NSManagedObject andy_mapChanges:JSON
-                      usingPredicate:nil
-                           inContext:self.context
-                       forEntityName:@"User"
-                            inserted:nil
-                             updated:nil];
+        [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
+        [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
+        [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
+        [context save:nil];
 
-    NSInteger deletedNumberOfUsers = [self.context countForFetchRequest:request error:nil];
-    XCTAssertEqual(deletedNumberOfUsers, 4);
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
+        NSInteger numberOfUsers = [context countForFetchRequest:request error:nil];
+        XCTAssertEqual(numberOfUsers, 8);
+
+        id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+
+        [NSManagedObject andy_mapChanges:JSON
+                          usingPredicate:nil
+                               inContext:context
+                           forEntityName:@"User"
+                                inserted:nil
+                                 updated:nil];
+
+        NSInteger deletedNumberOfUsers = [context countForFetchRequest:request error:nil];
+        XCTAssertEqual(deletedNumberOfUsers, 4);
+
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 @end

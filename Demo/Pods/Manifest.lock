@@ -1,5 +1,5 @@
 PODS:
-  - DATAStack (2.2.2)
+  - DATAStack (2.2.3)
   - NSManagedObject-ANDYObjectIDs (0.1)
 
 DEPENDENCIES:
@@ -7,7 +7,7 @@ DEPENDENCIES:
   - NSManagedObject-ANDYObjectIDs
 
 SPEC CHECKSUMS:
-  DATAStack: 2ca3130ab7216056783533ce0482a6b3a78b1f5c
+  DATAStack: 0dc349315b3416d1347f6b45dd571d812c8dff6c
   NSManagedObject-ANDYObjectIDs: d27bb3014026506848a8d164f3019ecaa2a4baca
 
 COCOAPODS: 0.35.0
