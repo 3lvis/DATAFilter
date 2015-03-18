@@ -303,7 +303,6 @@
 
 - (void)testStringID
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"StringID expectations"];
 
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
@@ -322,11 +321,9 @@
             XCTAssertFalse(true, @"shoudn't create an object");
         } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
             XCTAssertEqualObjects(objectDict[@"id"], @"123");
-            [expectation fulfill];
+
         }];
     }];
-
-    [self waitForExpectationsWithTimeout:5.0 handler:nil];
 }
 
 
