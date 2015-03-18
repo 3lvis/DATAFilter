@@ -20,6 +20,7 @@
 		14C4183F1A019A1500636FD6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C4183B1A019A1500636FD6 /* README.md */; };
 		14C418421A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 14C418411A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec */; };
 		14D4C1111A8827CF00763462 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14D4C10F1A8827CF00763462 /* Model.xcdatamodeld */; };
+		B50EA9D21AB9C03400985408 /* note.json in Resources */ = {isa = PBXBuildFile; fileRef = B50EA9D11AB9C03400985408 /* note.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		14D4C1101A8827CF00763462 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		5637220D40195E9746D87D1D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A24379F05D49AD32B0D8ED20 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B50EA9D11AB9C03400985408 /* note.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = note.json; sourceTree = "<group>"; };
 		EFC2AA4E4640CEBC089B0E1C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -78,6 +80,7 @@
 		14C4182A1A01919C00636FD6 /* DemoTests */ = {
 			isa = PBXGroup;
 			children = (
+				B50EA9D11AB9C03400985408 /* note.json */,
 				14A1FEE41A036E9E002A82C5 /* users.json */,
 				14A1FEE61A037308002A82C5 /* users2.json */,
 				1417F1E41A0442D80003E3C7 /* users3.json */,
@@ -196,6 +199,7 @@
 			files = (
 				14A1FEE51A036E9E002A82C5 /* users.json in Resources */,
 				1417F1E51A0442D80003E3C7 /* users3.json in Resources */,
+				B50EA9D21AB9C03400985408 /* note.json in Resources */,
 				147A5EFE1A214D9D001DF73F /* .travis.yml in Resources */,
 				143616401A241B6600AE181F /* nulls.json in Resources */,
 				14A1FEE71A037308002A82C5 /* users2.json in Resources */,

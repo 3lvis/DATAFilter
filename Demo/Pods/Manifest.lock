@@ -1,13 +1,16 @@
 PODS:
-  - DATAStack (2.2.3)
+  - DATAStack (3.0.0):
+    - NSObject-HYPTesting (~> 1.2)
   - NSManagedObject-ANDYObjectIDs (0.1)
+  - NSObject-HYPTesting (1.2)
 
 DEPENDENCIES:
-  - DATAStack
+  - DATAStack (~> 3.0)
   - NSManagedObject-ANDYObjectIDs
 
 SPEC CHECKSUMS:
-  DATAStack: 0dc349315b3416d1347f6b45dd571d812c8dff6c
+  DATAStack: 6e3a1100630f1180ab0b61f649622a879a93c085
   NSManagedObject-ANDYObjectIDs: d27bb3014026506848a8d164f3019ecaa2a4baca
+  NSObject-HYPTesting: f54d8bf73f75e2f2f4e49f4baa985df6fa699c2a
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.0

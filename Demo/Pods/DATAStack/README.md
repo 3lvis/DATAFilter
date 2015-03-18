@@ -9,15 +9,15 @@ This is class that helps you to aliviate the Core Data boilerplate. Now you can 
 }
 ```
 
-Then in your NSFetchedResultsController backed app (attached to your main context). You can do this:
+Then in your DATASource backed app (attached to your main context). You can do this:
 
 ``` objc
 #pragma mark - Actions
 
 - (void)createTask
 {
-    [self.dataStack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
-        Task *task = [Task insertInManagedObjectContext:context];
+    [self.dataStack performInNewBackgroundContext:^(NSManagedObjectContext *backgroundContext) {
+        Task *task = [Task insertInManagedObjectContext:backgroundContext];
         task.title = @"Hello!";
         task.date = [NSDate date];
         [context save:nil];
@@ -27,7 +27,16 @@ Then in your NSFetchedResultsController backed app (attached to your main contex
 
 **BOOM, it just works.**
 
-(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/NSElvis/ANDYFetchedResultsTableDataSource).)
+_(Hint: Maybe you haven't found the best way to use NSFetchedResultsController, well [here it is](https://github.com/NSElvis/DATASource).)_
+
+Installation
+===========
+
+**DATAStack** is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+
+```ruby
+pod 'DATAStack', '~> 2.4.2'
+```
 
 Be Awesome
 ==========
