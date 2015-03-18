@@ -91,7 +91,7 @@
         }];
     }
 
-    for (NSNumber *fetchedID in updatedObjectIDs) {
+    for (id fetchedID in updatedObjectIDs) {
         [changes enumerateObjectsUsingBlock:^(NSDictionary *objectDict, NSUInteger idx, BOOL *stop) {
             if ([[objectDict objectForKey:remoteKey] isEqual:fetchedID]) {
                 NSManagedObjectID *objectID = [dictionaryIDAndObjectID objectForKey:fetchedID];
