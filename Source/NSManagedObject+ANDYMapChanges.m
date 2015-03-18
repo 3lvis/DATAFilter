@@ -71,7 +71,7 @@
     NSMutableArray *insertedObjectIDs = [NSMutableArray arrayWithArray:remoteObjectIDs];
     [insertedObjectIDs removeObjectsInArray:fetchedObjectIDs];
 
-    for (NSNumber *fetchedID in deletedObjectIDs) {
+    for (id fetchedID in deletedObjectIDs) {
         NSManagedObjectID *objectID = [dictionaryIDAndObjectID objectForKey:fetchedID];
         if (objectID) {
             NSManagedObject *object = [context objectWithID:objectID];
@@ -81,7 +81,7 @@
         }
     }
 
-    for (NSNumber *fetchedID in insertedObjectIDs) {
+    for (id fetchedID in insertedObjectIDs) {
         [changes enumerateObjectsUsingBlock:^(NSDictionary *objectDict, NSUInteger idx, BOOL *stop) {
             if ([[objectDict objectForKey:remoteKey] isEqual:fetchedID]) {
                 if (inserted) {
