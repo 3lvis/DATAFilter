@@ -31,6 +31,21 @@
     return user;
 }
 
+- (NSManagedObject *)noteWithID:(NSString *)remoteID
+                      note:(NSString *)text
+                      inContext:(NSManagedObjectContext *)context
+{
+    NSManagedObject *note = [NSEntityDescription insertNewObjectForEntityForName:@"Note"
+                                                          inManagedObjectContext:context];
+
+    [note setValue:remoteID forKey:@"remoteID"];
+    [note setValue:text forKey:@"note"];
+
+    [context save:nil];
+
+    return note;
+}
+
 - (id)JSONObjectWithContentsOfFile:(NSString*)fileName
 {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
@@ -64,13 +79,12 @@
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
-    NSManagedObjectContext *context = stack.mainThreadContext;
+    NSManagedObjectContext *context = stack.mainContext;
 
     [self createUsersInContext:context];
 
-    NSError *error = nil;
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"User"];
-    NSInteger count = [context countForFetchRequest:request error:&error];
+    NSInteger count = [context countForFetchRequest:request error:nil];
 
     XCTAssertEqual(count, 5);
 }
@@ -83,7 +97,7 @@
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
 
-    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
         [self createUsersInContext:context];
 
         NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
@@ -127,7 +141,7 @@
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
 
-    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
         [self createUsersInContext:context];
 
         NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
@@ -169,7 +183,7 @@
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
 
-    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
         [self createUsersInContext:context];
 
         NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
@@ -213,7 +227,7 @@
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
 
-    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
         [self createUsersInContext:context];
 
         NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
@@ -257,7 +271,7 @@
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
 
-    [stack performInNewBackgroundThreadContext:^(NSManagedObjectContext *context) {
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
         [self createUsersInContext:context];
 
         [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
@@ -286,5 +300,31 @@
 
     [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
+
+- (void)testStringID
+{
+
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
+        [self noteWithID:@"123" note:@"text" inContext:context];
+        [context save:nil];
+
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Note"];
+        NSInteger numberOfUsers = [context countForFetchRequest:request error:nil];
+        XCTAssertEqual(numberOfUsers, 1);
+
+        id JSON = [self JSONObjectWithContentsOfFile:@"note.json"];
+        [NSManagedObject andy_mapChanges:JSON inContext:context forEntityName:@"Note" inserted:^(NSDictionary *objectDict) {
+            XCTAssertFalse(true, @"shoudn't create an object");
+        } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
+            XCTAssertEqualObjects(objectDict[@"id"], @"123");
+
+        }];
+    }];
+}
+
 
 @end

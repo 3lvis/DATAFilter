@@ -1,2 +1,9 @@
 language: objective-c
+podfile: Demo/Podfile
+cache:
+- bundler
+- cocoapods
+before_install:
+- gem install cocoapods -v '0.36'
+- pod install --project-directory=Demo
 script: xctool -workspace Demo/Demo.xcworkspace -scheme Demo -sdk iphonesimulator build test

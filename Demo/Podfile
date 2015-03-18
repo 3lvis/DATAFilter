@@ -1,2 +1,2 @@
 pod 'NSManagedObject-ANDYObjectIDs'
-pod 'DATAStack'
+pod 'DATAStack', '~> 3.0'
