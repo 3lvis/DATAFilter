@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = "DATAFilter"
-s.version          = "0.7"
+s.version          = "0.8"
 s.summary          = "Maps inserts, updates and deletions from your JSON response"
 s.description      = <<-DESC
 Maps inserts, updates and deletions from your JSON response.
