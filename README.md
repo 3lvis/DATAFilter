@@ -1,6 +1,6 @@
 # DATAFilter
 
-[![CI Status](http://img.shields.io/travis/NSElvis/DATAFilter.svg?style=flat)](https://travis-ci.org/NSElvis/DATAFilter)
+[![CI Status](http://img.shields.io/travis/3lvis/DATAFilter.svg?style=flat)](https://travis-ci.org/3lvis/DATAFilter)
 [![Version](https://img.shields.io/cocoapods/v/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
 [![License](https://img.shields.io/cocoapods/l/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
 [![Platform](https://img.shields.io/cocoapods/p/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
@@ -11,27 +11,32 @@ Helps you to filter insertions, deletions and updates by comparing your JSON dic
 
 ```objc
 + (void)changes:(NSArray *)changes
-              inContext:(NSManagedObjectContext *)context
-          forEntityName:(NSString *)entityName
-               inserted:(void (^)(NSDictionary *objectDict))inserted
-                updated:(void (^)(NSDictionary *objectDict, NSManagedObject *object))updated;
+  inEntityNamed:(NSString *)entityName
+       localKey:(NSString *)localKey
+      remoteKey:(NSString *)remoteKey
+        context:(NSManagedObjectContext *)context
+       inserted:(void (^)(NSDictionary *objectJSON))inserted
+        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated;
 ```
 
 ## How to use
 
 ```objc
-- (void)importObjects:(NSArray *)objects usingContext:(NSManagedObjectContext *)context error:(NSError *)error
+- (void)importObjects:(NSArray *)JSON usingContext:(NSManagedObjectContext *)context error:(NSError *)error
 {
-    [NSManagedObject changes:JSON
-                           inContext:context
-                       forEntityName:@"User"
-                            inserted:^(NSDictionary *objectDict) {
-                                ANDYUser *user = [ANDYUser insertInManagedObjectContext:context];
-                                [user fillObjectWithAttributes:objectDict];
-                            } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-                                ANDYUser *user = (ANDYUser *)object;
-                                [user fillObjectWithAttributes:objectDict];
-                            }];
+    [DATAFilter changes:JSON
+          inEntityNamed:@"User"
+               localKey:@"remoteID"
+              remoteKey:@"id"
+                context:context
+              predicate:nil
+               inserted:^(NSDictionary *objectJSON) {
+                    ANDYUser *user = [ANDYUser insertInManagedObjectContext:context];
+                    [user fillObjectWithAttributes:objectDict];
+              } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                    ANDYUser *user = (ANDYUser *)object;
+                    [user fillObjectWithAttributes:objectDict];
+              }];
 
     [context save:&error];
 }
@@ -75,9 +80,9 @@ pod 'DATAFilter'
 
 ## Author
 
-Elvis Nuñez, [hello@nselvis.com](mailto:hello@nselvis.com)
+Elvis Nuñez, [elvisnunez@me.com](mailto:elvisnunez@me.com)
 
 ## License
 
-**DATAFilter** is available under the MIT license. See the [LICENSE](https://github.com/NSElvis/DATAFilter/blob/master/LICENSE.md) file for more info.
+**DATAFilter** is available under the MIT license. See the [LICENSE](https://github.com/3lvis/DATAFilter/blob/master/LICENSE.md) file for more info.
 
