@@ -1,8 +1,8 @@
 @import XCTest;
 
-#import "NSManagedObject+ANDYMapChanges.h"
+#import "DATAFilter.h"
 
-#import "NSManagedObject+ANDYObjectIDs.h"
+#import "DATAObjectIDs.h"
 
 #import "DATAStack.h"
 
@@ -32,7 +32,7 @@
 }
 
 - (NSManagedObject *)noteWithID:(NSString *)remoteID
-                      note:(NSString *)text
+                           note:(NSString *)text
                       inContext:(NSManagedObjectContext *)context
 {
     NSManagedObject *note = [NSEntityDescription insertNewObjectForEntityForName:@"Note"
@@ -89,10 +89,8 @@
     XCTAssertEqual(count, 5);
 }
 
-- (void)testMapChangesWithExplicitKeys
+- (void)testMapChangesA
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
-
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
@@ -100,85 +98,36 @@
     [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
         [self createUsersInContext:context];
 
-        NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
-                                                                             usingLocalKey:@"remoteID"
-                                                                             forEntityName:@"User"];
-
+        NSDictionary *before = [DATAObjectIDs objectIDsInEntityNamed:@"User"
+                                                 withAttributesNamed:@"remoteID"
+                                                             context:context];
         id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
 
         __block NSInteger inserted = 0;
         __block NSInteger updated = 0;
         __block NSInteger deleted = before.count;
 
-        [NSManagedObject andy_mapChanges:JSON
-                                localKey:@"remoteID"
-                               remoteKey:@"id"
-                          usingPredicate:nil
-                               inContext:context
-                           forEntityName:@"User"
-                                inserted:^(NSDictionary *objectDict) {
-                                    inserted++;
-                                } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-                                    updated++;
-                                    deleted--;
-                                }];
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                  predicate:nil
+                   inserted:^(NSDictionary *objectJSON) {
+                       inserted++;
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       updated++;
+                       deleted--;
+                   }];
 
         XCTAssertEqual(inserted, 2);
         XCTAssertEqual(updated, 4);
         XCTAssertEqual(deleted, 1);
-
-        [expectation fulfill];
     }];
-
-    [self waitForExpectationsWithTimeout:5.0f handler:nil];
-}
-
-- (void)testMapChangesWithInferredKeys
-{
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
-
-    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
-                                                     bundle:[NSBundle bundleForClass:[self class]]
-                                                  storeType:DATAStackInMemoryStoreType];
-
-    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
-        [self createUsersInContext:context];
-
-        NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
-                                                                             usingLocalKey:@"remoteID"
-                                                                             forEntityName:@"User"];
-
-        id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
-
-        __block NSInteger inserted = 0;
-        __block NSInteger updated = 0;
-        __block NSInteger deleted = before.count;
-
-        [NSManagedObject andy_mapChanges:JSON
-                          usingPredicate:nil
-                               inContext:context
-                           forEntityName:@"User"
-                                inserted:^(NSDictionary *objectDict) {
-                                    inserted++;
-                                } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-                                    updated++;
-                                    deleted--;
-                                }];
-
-        XCTAssertEqual(inserted, 2);
-        XCTAssertEqual(updated, 4);
-        XCTAssertEqual(deleted, 1);
-
-        [expectation fulfill];
-    }];
-
-    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testMapChangesB
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
-
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
@@ -186,53 +135,45 @@
     [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
         [self createUsersInContext:context];
 
-        NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
-                                                                             usingLocalKey:@"remoteID"
-                                                                             forEntityName:@"User"];
-
+        NSDictionary *before = [DATAObjectIDs objectIDsInEntityNamed:@"User"
+                                                 withAttributesNamed:@"remoteID"
+                                                             context:context];
         id JSON = [self JSONObjectWithContentsOfFile:@"users2.json"];
 
         __block NSInteger inserted = 0;
         __block NSInteger updated = 0;
         __block NSInteger deleted = before.count;
 
-        [NSManagedObject andy_mapChanges:JSON
-                                localKey:@"remoteID"
-                               remoteKey:@"id"
-                          usingPredicate:nil
-                               inContext:context
-                           forEntityName:@"User"
-                                inserted:^(NSDictionary *objectDict) {
-                                    inserted++;
-                                } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-                                    updated++;
-                                    deleted--;
-                                }];
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                  predicate:nil
+                   inserted:^(NSDictionary *objectJSON) {
+                       inserted++;
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       updated++;
+                       deleted--;
+                   }];
 
         XCTAssertEqual(inserted, 0);
         XCTAssertEqual(updated, 5);
         XCTAssertEqual(deleted, 0);
-
-        [expectation fulfill];
     }];
-
-    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testMapChangesC
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
-
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
 
     [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
         [self createUsersInContext:context];
-
-        NSDictionary *before = [NSManagedObject andy_dictionaryOfIDsAndFetchedIDsInContext:context
-                                                                             usingLocalKey:@"remoteID"
-                                                                             forEntityName:@"User"];
+        NSDictionary *before = [DATAObjectIDs objectIDsInEntityNamed:@"User"
+                                                 withAttributesNamed:@"remoteID"
+                                                             context:context];
 
         id JSON = [self JSONObjectWithContentsOfFile:@"users3.json"];
 
@@ -240,33 +181,27 @@
         __block NSInteger updated = 0;
         __block NSInteger deleted = before.count;
 
-        [NSManagedObject andy_mapChanges:JSON
-                                localKey:@"remoteID"
-                               remoteKey:@"id"
-                          usingPredicate:nil
-                               inContext:context
-                           forEntityName:@"User"
-                                inserted:^(NSDictionary *objectDict) {
-                                    inserted++;
-                                } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-                                    updated++;
-                                    deleted--;
-                                }];
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                  predicate:nil
+                   inserted:^(NSDictionary *objectJSON) {
+                       inserted++;
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       updated++;
+                       deleted--;
+                   }];
 
         XCTAssertEqual(inserted, 0);
         XCTAssertEqual(updated, 0);
         XCTAssertEqual(deleted, 5);
-
-        [expectation fulfill];
     }];
-
-    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testUniquing
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Saving expectations"];
-
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
@@ -285,25 +220,22 @@
 
         id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
 
-        [NSManagedObject andy_mapChanges:JSON
-                          usingPredicate:nil
-                               inContext:context
-                           forEntityName:@"User"
-                                inserted:nil
-                                 updated:nil];
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                  predicate:nil
+                   inserted:nil
+                    updated:nil];
 
         NSInteger deletedNumberOfUsers = [context countForFetchRequest:request error:nil];
         XCTAssertEqual(deletedNumberOfUsers, 4);
-
-        [expectation fulfill];
     }];
-
-    [self waitForExpectationsWithTimeout:5.0f handler:nil];
 }
 
 - (void)testStringID
 {
-
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
@@ -317,14 +249,19 @@
         XCTAssertEqual(numberOfUsers, 1);
 
         id JSON = [self JSONObjectWithContentsOfFile:@"note.json"];
-        [NSManagedObject andy_mapChanges:JSON inContext:context forEntityName:@"Note" inserted:^(NSDictionary *objectDict) {
-            XCTAssertFalse(true, @"shoudn't create an object");
-        } updated:^(NSDictionary *objectDict, NSManagedObject *object) {
-            XCTAssertEqualObjects(objectDict[@"id"], @"123");
 
-        }];
+        [DATAFilter changes:JSON
+              inEntityNamed:@"Note"
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                  predicate:nil
+                   inserted:^(NSDictionary *objectJSON) {
+                       XCTAssertFalse(true, @"shoudn't create an object");
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       XCTAssertEqualObjects(objectJSON[@"id"], @"123");
+                   }];
     }];
 }
-
 
 @end

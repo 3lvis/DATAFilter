@@ -1,16 +1,16 @@
-# NSManagedObject-ANDYMapChanges
+# DATAFilter
 
-[![CI Status](http://img.shields.io/travis/NSElvis/NSManagedObject-ANDYMapChanges.svg?style=flat)](https://travis-ci.org/NSElvis/NSManagedObject-ANDYMapChanges)
-[![Version](https://img.shields.io/cocoapods/v/NSManagedObject-ANDYMapChanges.svg?style=flat)](http://cocoadocs.org/docsets/NSManagedObject-ANDYMapChanges)
-[![License](https://img.shields.io/cocoapods/l/NSManagedObject-ANDYMapChanges.svg?style=flat)](http://cocoadocs.org/docsets/NSManagedObject-ANDYMapChanges)
-[![Platform](https://img.shields.io/cocoapods/p/NSManagedObject-ANDYMapChanges.svg?style=flat)](http://cocoadocs.org/docsets/NSManagedObject-ANDYMapChanges)
+[![CI Status](http://img.shields.io/travis/NSElvis/DATAFilter.svg?style=flat)](https://travis-ci.org/NSElvis/DATAFilter)
+[![Version](https://img.shields.io/cocoapods/v/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
+[![License](https://img.shields.io/cocoapods/l/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
+[![Platform](https://img.shields.io/cocoapods/p/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
 
 This is a category on NSManagedObject that helps you to evaluate insertions, deletions and updates by comparing your JSON dictionary with your CoreData local objects. It also provides uniquing for you locally stored objects.
 
 ## The magic
 
 ```objc
-+ (void)andy_mapChanges:(NSArray *)changes
++ (void)changes:(NSArray *)changes
               inContext:(NSManagedObjectContext *)context
           forEntityName:(NSString *)entityName
                inserted:(void (^)(NSDictionary *objectDict))inserted
@@ -22,7 +22,7 @@ This is a category on NSManagedObject that helps you to evaluate insertions, del
 ```objc
 - (void)importObjects:(NSArray *)objects usingContext:(NSManagedObjectContext *)context error:(NSError *)error
 {
-    [NSManagedObject andy_mapChanges:JSON
+    [NSManagedObject changes:JSON
                            inContext:context
                        forEntityName:@"User"
                             inserted:^(NSDictionary *objectDict) {
@@ -66,11 +66,11 @@ To run the example project, clone the repo, and open the `.xcodeproj` from the D
 
 ## Installation
 
-**NSManagedObject-ANDYMapChanges** is available through [CocoaPods](http://cocoapods.org). To install
+**DATAFilter** is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'NSManagedObject-ANDYMapChanges'
+pod 'DATAFilter'
 ```
 
 ## Author
@@ -79,5 +79,5 @@ Elvis Nuñez, [hello@nselvis.com](mailto:hello@nselvis.com)
 
 ## License
 
-**NSManagedObject-ANDYMapChanges** is available under the MIT license. See the [LICENSE](https://github.com/NSElvis/NSManagedObject-ANDYMapChanges/blob/master/LICENSE.md) file for more info.
+**DATAFilter** is available under the MIT license. See the [LICENSE](https://github.com/NSElvis/DATAFilter/blob/master/LICENSE.md) file for more info.
 

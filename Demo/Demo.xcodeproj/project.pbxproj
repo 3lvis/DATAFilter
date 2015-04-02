@@ -11,14 +11,14 @@
 		143616401A241B6600AE181F /* nulls.json in Resources */ = {isa = PBXBuildFile; fileRef = 1436163F1A241B6600AE181F /* nulls.json */; };
 		147A5EFE1A214D9D001DF73F /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 147A5EFD1A214D9D001DF73F /* .travis.yml */; };
 		147E9405B10C7FB33CC64B95 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFC2AA4E4640CEBC089B0E1C /* libPods.a */; };
-		149DF8251A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = 149DF8241A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m */; };
+		149DF8251A02183200D31CAC /* DATAFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 149DF8241A02183200D31CAC /* DATAFilter.m */; };
 		14A1FEE51A036E9E002A82C5 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 14A1FEE41A036E9E002A82C5 /* users.json */; };
 		14A1FEE71A037308002A82C5 /* users2.json in Resources */ = {isa = PBXBuildFile; fileRef = 14A1FEE61A037308002A82C5 /* users2.json */; };
 		14C4182E1A01919C00636FD6 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C4182D1A01919C00636FD6 /* Tests.m */; };
 		14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C418381A019A1500636FD6 /* CONTRIBUTING.md */; };
 		14C4183D1A019A1500636FD6 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C418391A019A1500636FD6 /* LICENSE.md */; };
 		14C4183F1A019A1500636FD6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C4183B1A019A1500636FD6 /* README.md */; };
-		14C418421A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 14C418411A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec */; };
+		14C418421A01A60500636FD6 /* DATAFilter.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 14C418411A01A60500636FD6 /* DATAFilter.podspec */; };
 		14D4C1111A8827CF00763462 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14D4C10F1A8827CF00763462 /* Model.xcdatamodeld */; };
 		B50EA9D21AB9C03400985408 /* note.json in Resources */ = {isa = PBXBuildFile; fileRef = B50EA9D11AB9C03400985408 /* note.json */; };
 /* End PBXBuildFile section */
@@ -27,8 +27,8 @@
 		1417F1E41A0442D80003E3C7 /* users3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users3.json; sourceTree = "<group>"; };
 		1436163F1A241B6600AE181F /* nulls.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nulls.json; sourceTree = "<group>"; };
 		147A5EFD1A214D9D001DF73F /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .travis.yml; path = ../.travis.yml; sourceTree = "<group>"; };
-		149DF8231A02183200D31CAC /* NSManagedObject+ANDYMapChanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+ANDYMapChanges.h"; sourceTree = "<group>"; };
-		149DF8241A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+ANDYMapChanges.m"; sourceTree = "<group>"; };
+		149DF8231A02183200D31CAC /* DATAFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATAFilter.h; sourceTree = "<group>"; };
+		149DF8241A02183200D31CAC /* DATAFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATAFilter.m; sourceTree = "<group>"; };
 		14A1FEE41A036E9E002A82C5 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		14A1FEE61A037308002A82C5 /* users2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users2.json; sourceTree = "<group>"; };
 		14C418261A01919C00636FD6 /* DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,7 +37,7 @@
 		14C418381A019A1500636FD6 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CONTRIBUTING.md; path = ../CONTRIBUTING.md; sourceTree = "<group>"; };
 		14C418391A019A1500636FD6 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		14C4183B1A019A1500636FD6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		14C418411A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "NSManagedObject-ANDYMapChanges.podspec"; path = "../NSManagedObject-ANDYMapChanges.podspec"; sourceTree = "<group>"; };
+		14C418411A01A60500636FD6 /* DATAFilter.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "DATAFilter.podspec"; path = "../DATAFilter.podspec"; sourceTree = "<group>"; };
 		14D4C1101A8827CF00763462 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		5637220D40195E9746D87D1D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A24379F05D49AD32B0D8ED20 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,8 +103,8 @@
 		14C418371A01974300636FD6 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				149DF8231A02183200D31CAC /* NSManagedObject+ANDYMapChanges.h */,
-				149DF8241A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m */,
+				149DF8231A02183200D31CAC /* DATAFilter.h */,
+				149DF8241A02183200D31CAC /* DATAFilter.m */,
 			);
 			name = Source;
 			path = ../Source;
@@ -114,7 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				147A5EFD1A214D9D001DF73F /* .travis.yml */,
-				14C418411A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec */,
+				14C418411A01A60500636FD6 /* DATAFilter.podspec */,
 				14C418381A019A1500636FD6 /* CONTRIBUTING.md */,
 				14C418391A019A1500636FD6 /* LICENSE.md */,
 				14C4183B1A019A1500636FD6 /* README.md */,
@@ -206,7 +206,7 @@
 				14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Resources */,
 				14C4183F1A019A1500636FD6 /* README.md in Resources */,
 				14C4183D1A019A1500636FD6 /* LICENSE.md in Resources */,
-				14C418421A01A60500636FD6 /* NSManagedObject-ANDYMapChanges.podspec in Resources */,
+				14C418421A01A60500636FD6 /* DATAFilter.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				149DF8251A02183200D31CAC /* NSManagedObject+ANDYMapChanges.m in Sources */,
+				149DF8251A02183200D31CAC /* DATAFilter.m in Sources */,
 				14C4182E1A01919C00636FD6 /* Tests.m in Sources */,
 				14D4C1111A8827CF00763462 /* Model.xcdatamodeld in Sources */,
 			);
