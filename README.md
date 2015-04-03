@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
 [![Platform](https://img.shields.io/cocoapods/p/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
 
-Helps you to filter insertions, deletions and updates by comparing your JSON dictionary with your Core Data local objects. It also provides uniquing for you locally stored objects and automatic removal of not found ones.
+Helps you filter insertions, deletions and updates by comparing your JSON dictionary with your Core Data local objects. It also provides uniquing for you locally stored objects and automatic removal of not found ones.
 
 ## The magic
 
@@ -44,10 +44,8 @@ Helps you to filter insertions, deletions and updates by comparing your JSON dic
 
 ## Local and Remote keys
 
-`localKey` is the name of the local primaryKey, if it's a user it could be `remoteID`.
-`remoteKey` is the name of the key from JSON, if it's a user it could be just `id`.
-
-The convenience method that doesn't contain this attributes, fallsback to `remoteID` for the `localKey` and `id` for the `remoteKey`.
+`localKey` is the name of the local primaryKey, for example `remoteID`.
+`remoteKey` is the name of the key from JSON, for example `id`.
 
 ## Predicate
 
