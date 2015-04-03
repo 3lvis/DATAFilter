@@ -1,8 +1,5 @@
 language: objective-c
 podfile: Demo/Podfile
-cache:
-- bundler
-- cocoapods
 before_install:
 - gem install cocoapods
 - pod install --project-directory=Demo
