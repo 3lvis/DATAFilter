@@ -39,6 +39,8 @@
     NSMutableArray *remoteObjectIDs = [[changes valueForKey:remoteKey] mutableCopy];
     [remoteObjectIDs removeObject:[NSNull null]];
 
+    NSDictionary *changeIDAndChange = [NSDictionary dictionaryWithObjects:changes forKeys:remoteObjectIDs];
+    
     NSMutableSet *intersection = [NSMutableSet setWithArray:remoteObjectIDs];
     [intersection intersectSet:[NSSet setWithArray:fetchedObjectIDs]];
     NSArray *updatedObjectIDs = [intersection allObjects];
@@ -60,27 +62,21 @@
     }
 
     for (id fetchedID in insertedObjectIDs) {
-        [changes enumerateObjectsUsingBlock:^(NSDictionary *objectDict, NSUInteger idx, BOOL *stop) {
-            if ([[objectDict objectForKey:remoteKey] isEqual:fetchedID]) {
-                if (inserted) {
-                    inserted(objectDict);
-                }
-            }
-        }];
+        NSDictionary *objectDict = changeIDAndChange[fetchedID];
+        if (inserted) {
+            inserted(objectDict);
+        }
     }
 
     for (id fetchedID in updatedObjectIDs) {
-        [changes enumerateObjectsUsingBlock:^(NSDictionary *objectDict, NSUInteger idx, BOOL *stop) {
-            if ([[objectDict objectForKey:remoteKey] isEqual:fetchedID]) {
-                NSManagedObjectID *objectID = [dictionaryIDAndObjectID objectForKey:fetchedID];
-                if (objectID) {
-                    NSManagedObject *object = [context objectWithID:objectID];
-                    if (object && updated) {
-                        updated(objectDict, object);
-                    }
-                }
+        NSDictionary *objectDict = changeIDAndChange[fetchedID];
+        NSManagedObjectID *objectID = [dictionaryIDAndObjectID objectForKey:fetchedID];
+        if (objectID) {
+            NSManagedObject *object = [context objectWithID:objectID];
+            if (object && updated) {
+                updated(objectDict, object);
             }
-        }];
+        }
     }
 }
 
