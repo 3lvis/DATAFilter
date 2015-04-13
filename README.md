@@ -44,7 +44,7 @@ Helps you filter insertions, deletions and updates by comparing your JSON dictio
 
 ## Local and Remote keys
 
-`localKey` is the name of the local primaryKey, for example `remoteID`.
+`localKey` is the name of the local primaryKey, for example `remoteID`. 
 `remoteKey` is the name of the key from JSON, for example `id`.
 
 ## Predicate
