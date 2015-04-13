@@ -39,20 +39,21 @@
     NSMutableArray *remoteObjectIDs = [[changes valueForKey:remoteKey] mutableCopy];
     [remoteObjectIDs removeObject:[NSNull null]];
 
-    NSDictionary *changeIDAndChange = [NSDictionary dictionaryWithObjects:changes forKeys:remoteObjectIDs];
-    
+    NSDictionary *remoteIDAndChange = [NSDictionary dictionaryWithObjects:changes
+                                                                  forKeys:remoteObjectIDs];
+
     NSMutableSet *intersection = [NSMutableSet setWithArray:remoteObjectIDs];
     [intersection intersectSet:[NSSet setWithArray:fetchedObjectIDs]];
-    NSArray *updatedObjectIDs = [intersection allObjects];
+    NSArray *updatedObjectIDs = intersection.allObjects;
 
-    NSMutableArray *deletedObjectIDs = [NSMutableArray arrayWithArray:fetchedObjectIDs];
+    NSMutableArray *deletedObjectIDs = [fetchedObjectIDs mutableCopy];
     [deletedObjectIDs removeObjectsInArray:remoteObjectIDs];
 
-    NSMutableArray *insertedObjectIDs = [NSMutableArray arrayWithArray:remoteObjectIDs];
+    NSMutableArray *insertedObjectIDs = [remoteObjectIDs mutableCopy];
     [insertedObjectIDs removeObjectsInArray:fetchedObjectIDs];
 
     for (id fetchedID in deletedObjectIDs) {
-        NSManagedObjectID *objectID = [dictionaryIDAndObjectID objectForKey:fetchedID];
+        NSManagedObjectID *objectID = dictionaryIDAndObjectID[fetchedID];
         if (objectID) {
             NSManagedObject *object = [context objectWithID:objectID];
             if (object) {
@@ -62,19 +63,19 @@
     }
 
     for (id fetchedID in insertedObjectIDs) {
-        NSDictionary *objectDict = changeIDAndChange[fetchedID];
+        NSDictionary *objectDictionary = remoteIDAndChange[fetchedID];
         if (inserted) {
-            inserted(objectDict);
+            inserted(objectDictionary);
         }
     }
 
     for (id fetchedID in updatedObjectIDs) {
-        NSDictionary *objectDict = changeIDAndChange[fetchedID];
-        NSManagedObjectID *objectID = [dictionaryIDAndObjectID objectForKey:fetchedID];
+        NSDictionary *objectDictionary = remoteIDAndChange[fetchedID];
+        NSManagedObjectID *objectID = dictionaryIDAndObjectID[fetchedID];
         if (objectID) {
             NSManagedObject *object = [context objectWithID:objectID];
             if (object && updated) {
-                updated(objectDict, object);
+                updated(objectDictionary, object);
             }
         }
     }
