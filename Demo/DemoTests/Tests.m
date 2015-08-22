@@ -282,9 +282,34 @@
                        deleted--;
                    }];
 
-        XCTAssertEqual(inserted, 2);
+        XCTAssertEqual(inserted, 5);
         XCTAssertEqual(updated, 0);
         XCTAssertEqual(deleted, 0);
+    }];
+}
+
+- (void)testMaintainingTheOrder {
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
+        id JSON = [self JSONObjectWithContentsOfFile:@"duplicated.json"];
+
+        __block NSMutableArray *insertedElements = [NSMutableArray new];
+
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                  predicate:nil
+                   inserted:^(NSDictionary *objectJSON) {
+                       [insertedElements addObject:objectJSON[@"id"]];
+                   } updated:nil];
+
+        NSArray *comparedArray = @[@1, @2, @3, @4, @5];
+        XCTAssertEqualObjects(insertedElements, comparedArray);
     }];
 }
 
