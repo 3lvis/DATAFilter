@@ -40,6 +40,7 @@
 
     NSDictionary *remoteIDAndChange = [NSDictionary dictionaryWithObjects:changes
                                                                   forKeys:remoteObjectIDs];
+    remoteObjectIDs = [[remoteIDAndChange allKeys] mutableCopy];
 
     NSMutableSet *intersection = [NSMutableSet setWithArray:remoteObjectIDs];
     [intersection intersectSet:[NSSet setWithArray:fetchedObjectIDs]];
