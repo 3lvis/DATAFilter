@@ -16,8 +16,7 @@
                       firstName:(NSString *)firstName
                        lastName:(NSString *)lastName
                             age:(NSInteger)age
-                      inContext:(NSManagedObjectContext *)context
-{
+                      inContext:(NSManagedObjectContext *)context {
     NSManagedObject *user = [NSEntityDescription insertNewObjectForEntityForName:@"User"
                                                           inManagedObjectContext:context];
 
@@ -33,8 +32,7 @@
 
 - (NSManagedObject *)noteWithID:(NSString *)remoteID
                            note:(NSString *)text
-                      inContext:(NSManagedObjectContext *)context
-{
+                      inContext:(NSManagedObjectContext *)context {
     NSManagedObject *note = [NSEntityDescription insertNewObjectForEntityForName:@"Note"
                                                           inManagedObjectContext:context];
 
@@ -46,8 +44,7 @@
     return note;
 }
 
-- (id)JSONObjectWithContentsOfFile:(NSString*)fileName
-{
+- (id)JSONObjectWithContentsOfFile:(NSString*)fileName {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 
     NSString *filePath = [bundle pathForResource:[fileName stringByDeletingPathExtension]
@@ -65,8 +62,7 @@
     return result;
 }
 
-- (void)createUsersInContext:(NSManagedObjectContext *)context
-{
+- (void)createUsersInContext:(NSManagedObjectContext *)context {
     [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
     [self userWithID:1 firstName:@"Ben" lastName:@"Boykewich" age:23 inContext:context];
     [self userWithID:2 firstName:@"Ricky" lastName:@"Underwood" age:19 inContext:context];
@@ -74,8 +70,7 @@
     [self userWithID:4 firstName:@"Adrian" lastName:@"Lee" age:20 inContext:context];
 }
 
-- (void)testUsersCount
-{
+- (void)testUsersCount {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
@@ -89,8 +84,7 @@
     XCTAssertEqual(count, 5);
 }
 
-- (void)testMapChangesA
-{
+- (void)testMapChangesA {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
@@ -126,8 +120,7 @@
     }];
 }
 
-- (void)testMapChangesB
-{
+- (void)testMapChangesB {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
@@ -163,8 +156,7 @@
     }];
 }
 
-- (void)testMapChangesC
-{
+- (void)testMapChangesC {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
@@ -200,8 +192,7 @@
     }];
 }
 
-- (void)testUniquing
-{
+- (void)testUniquing {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];
@@ -234,8 +225,7 @@
     }];
 }
 
-- (void)testStringID
-{
+- (void)testStringID {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
                                                   storeType:DATAStackInMemoryStoreType];

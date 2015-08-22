@@ -10,8 +10,7 @@
       remoteKey:(NSString *)remoteKey
         context:(NSManagedObjectContext *)context
        inserted:(void (^)(NSDictionary *objectJSON))inserted
-        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated
-{
+        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated {
     return [self changes:changes
            inEntityNamed:entityName
                 localKey:localKey
@@ -29,8 +28,7 @@
         context:(NSManagedObjectContext *)context
       predicate:(NSPredicate *)predicate
        inserted:(void (^)(NSDictionary *objectJSON))inserted
-        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated;
-{
+        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated {
     NSDictionary *dictionaryIDAndObjectID = [DATAObjectIDs objectIDsInEntityNamed:entityName
                                                               withAttributesNamed:localKey
                                                                           context:context
