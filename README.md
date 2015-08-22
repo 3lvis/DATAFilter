@@ -22,8 +22,7 @@ Helps you filter insertions, deletions and updates by comparing your JSON dictio
 ## How to use
 
 ```objc
-- (void)importObjects:(NSArray *)JSON usingContext:(NSManagedObjectContext *)context error:(NSError *)error
-{
+- (void)importObjects:(NSArray *)JSON usingContext:(NSManagedObjectContext *)context error:(NSError *)error {
     [DATAFilter changes:JSON
           inEntityNamed:@"User"
                localKey:@"remoteID"
