@@ -254,4 +254,38 @@
     }];
 }
 
+- (void)testDuplicatedItems {
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
+        NSDictionary *before = [DATAObjectIDs objectIDsInEntityNamed:@"User"
+                                                 withAttributesNamed:@"remoteID"
+                                                             context:context];
+        id JSON = [self JSONObjectWithContentsOfFile:@"duplicated.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                  predicate:nil
+                   inserted:^(NSDictionary *objectJSON) {
+                       inserted++;
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       updated++;
+                       deleted--;
+                   }];
+
+        XCTAssertEqual(inserted, 2);
+        XCTAssertEqual(updated, 0);
+        XCTAssertEqual(deleted, 0);
+    }];
+}
+
 @end

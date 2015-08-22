@@ -1,0 +1,20 @@
+[
+  {
+    "id": 0,
+    "first_name": "Amy",
+    "last_name": "Juergens",
+    "age": 21
+  },
+  {
+    "id": 0,
+    "first_name": "Ben",
+    "last_name": "Boykewich",
+    "age": 23
+  },
+  {
+    "id": 1,
+    "first_name": "Ricky",
+    "last_name": "Underwood",
+    "age": 19
+  }
+]
