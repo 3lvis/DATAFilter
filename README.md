@@ -1,6 +1,5 @@
 # DATAFilter
 
-[![CI Status](http://img.shields.io/travis/3lvis/DATAFilter.svg?style=flat)](https://travis-ci.org/3lvis/DATAFilter)
 [![Version](https://img.shields.io/cocoapods/v/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
 [![License](https://img.shields.io/cocoapods/l/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
 [![Platform](https://img.shields.io/cocoapods/p/DATAFilter.svg?style=flat)](http://cocoadocs.org/docsets/DATAFilter)
