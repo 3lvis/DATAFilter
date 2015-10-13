@@ -64,6 +64,7 @@ Usage goes like this:
 
 ```objc
 // No items will be deleted here
+
 [DATAFilter changes:JSON
       inEntityNamed:@"User"
           predicate:nil
