@@ -437,4 +437,46 @@
     }];
 }
 
+/*
+ 5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+ The predicate "remoteID == 1" means that we will only compare the users.json with
+ the set existing ID: 1, meaning that if an item with ID: 2 appears, then this item will be inserted.
+ */
+- (void)testPredicate {
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
+        [self createUsersInContext:context];
+
+        NSDictionary *before = [DATAObjectIDs objectIDsInEntityNamed:@"User"
+                                                 withAttributesNamed:@"remoteID"
+                                                             context:context];
+        id JSON = [self JSONObjectWithContentsOfFile:@"users.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                  predicate:[NSPredicate predicateWithFormat:@"remoteID == %@", @0]
+                 operations:DATAFilterOperationAll
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                   inserted:^(NSDictionary *objectJSON) {
+                       inserted++;
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       updated++;
+                       deleted--;
+                   }];
+
+        XCTAssertEqual(inserted, 5);
+        XCTAssertEqual(updated, 1);
+        XCTAssertEqual(deleted, 4);
+    }];
+}
+
 @end
