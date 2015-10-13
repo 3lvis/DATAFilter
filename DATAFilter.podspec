@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = "DATAFilter"
-s.version          = "0.8.4"
+s.version          = "0.9.0"
 s.summary          = "Filter inserts, updates and deletions from your JSON response"
 s.description      = <<-DESC
 Filters inserts, updates and deletions from your JSON response.
