@@ -27,7 +27,6 @@ Helps you filter insertions, deletions and updates by comparing your JSON dictio
                localKey:@"remoteID"
               remoteKey:@"id"
                 context:context
-              predicate:nil
                inserted:^(NSDictionary *objectJSON) {
                     ANDYUser *user = [ANDYUser insertInManagedObjectContext:context];
                     [user fillObjectWithAttributes:objectDict];
