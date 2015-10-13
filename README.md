@@ -56,10 +56,6 @@ NSPredicate *predicate = [NSString stringWithFormat:@"inactive = YES"];
 
 *As a side note, you should use a [fancier property mapper](https://github.com/hyperoslo/NSManagedObject-HYPPropertyMapper/blob/master/README.md) that does the `fillObjectWithAttributes` part for you.*
 
-## Usage
-
-To run the example project, clone the repo, and open the `.xcodeproj` from the Demo directory.
-
 ## Requirements
 
 `iOS 7.0`, `Core Data`
