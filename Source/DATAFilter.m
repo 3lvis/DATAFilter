@@ -10,67 +10,25 @@
       remoteKey:(NSString *)remoteKey
         context:(NSManagedObjectContext *)context
        inserted:(void (^)(NSDictionary *objectJSON))inserted
-        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated
-{
-    return [self changes:changes
-              operations:DATAFilterChangOperationAll
-           inEntityNamed:entityName
-                localKey:localKey
-               remoteKey:remoteKey
-                 context:context
-               predicate:nil
-                inserted:inserted
-                 updated:updated];
-}
-
-+ (void)changes:(NSArray *)changes
-  inEntityNamed:(NSString *)entityName
-       localKey:(NSString *)localKey
-      remoteKey:(NSString *)remoteKey
-        context:(NSManagedObjectContext *)context
-      predicate:(NSPredicate *)predicate
-       inserted:(void (^)(NSDictionary *objectJSON))inserted
-        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated
-{
-    return [self changes:changes
-              operations:DATAFilterChangOperationAll
-           inEntityNamed:entityName
-                localKey:localKey
-               remoteKey:remoteKey
-                 context:context
-               predicate:predicate
-                inserted:inserted
-                 updated:updated];
-}
-
-
-
-+ (void)changes:(NSArray *)changes
-     operations:(DATAFilterChangOperations)operations
-  inEntityNamed:(NSString *)entityName
-       localKey:(NSString *)localKey
-      remoteKey:(NSString *)remoteKey
-        context:(NSManagedObjectContext *)context
-       inserted:(void (^)(NSDictionary *objectJSON))inserted
         updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated {
     return [self changes:changes
-              operations:operations
            inEntityNamed:entityName
+               predicate:nil
+              operations:DATAFilterOperationAll
                 localKey:localKey
                remoteKey:remoteKey
                  context:context
-               predicate:nil
                 inserted:inserted
                  updated:updated];
 }
 
 + (void)changes:(NSArray *)changes
-     operations:(DATAFilterChangOperations)operations
   inEntityNamed:(NSString *)entityName
+      predicate:(NSPredicate *)predicate
+     operations:(DATAFilterOperation)operations
        localKey:(NSString *)localKey
       remoteKey:(NSString *)remoteKey
         context:(NSManagedObjectContext *)context
-      predicate:(NSPredicate *)predicate
        inserted:(void (^)(NSDictionary *objectJSON))inserted
         updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated {
     NSDictionary *dictionaryIDAndObjectID = [DATAObjectIDs objectIDsInEntityNamed:entityName
@@ -95,7 +53,7 @@
     NSMutableArray *insertedObjectIDs = [remoteObjectIDs mutableCopy];
     [insertedObjectIDs removeObjectsInArray:fetchedObjectIDs];
 
-    if (operations & DATAFilterChangOperationDelete){
+    if (operations & DATAFilterOperationDelete) {
         for (id fetchedID in deletedObjectIDs) {
             NSManagedObjectID *objectID = dictionaryIDAndObjectID[fetchedID];
             if (objectID) {
@@ -107,7 +65,7 @@
         }
     }
 
-    if (operations & DATAFilterChangOperationInsert){
+    if (operations & DATAFilterOperationInsert) {
         for (id fetchedID in insertedObjectIDs) {
             NSDictionary *objectDictionary = remoteIDAndChange[fetchedID];
             if (inserted) {
@@ -116,7 +74,7 @@
         }
     }
 
-    if (operations & DATAFilterChangOperationUpdate){
+    if (operations & DATAFilterOperationUpdate) {
         for (id fetchedID in updatedObjectIDs) {
             NSDictionary *objectDictionary = remoteIDAndChange[fetchedID];
             NSManagedObjectID *objectID = dictionaryIDAndObjectID[fetchedID];
