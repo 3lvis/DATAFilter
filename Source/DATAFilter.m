@@ -10,8 +10,10 @@
       remoteKey:(NSString *)remoteKey
         context:(NSManagedObjectContext *)context
        inserted:(void (^)(NSDictionary *objectJSON))inserted
-        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated {
+        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated
+{
     return [self changes:changes
+              operations:DATAFilterChangOperationAll
            inEntityNamed:entityName
                 localKey:localKey
                remoteKey:remoteKey
@@ -22,6 +24,48 @@
 }
 
 + (void)changes:(NSArray *)changes
+  inEntityNamed:(NSString *)entityName
+       localKey:(NSString *)localKey
+      remoteKey:(NSString *)remoteKey
+        context:(NSManagedObjectContext *)context
+      predicate:(NSPredicate *)predicate
+       inserted:(void (^)(NSDictionary *objectJSON))inserted
+        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated
+{
+    return [self changes:changes
+              operations:DATAFilterChangOperationAll
+           inEntityNamed:entityName
+                localKey:localKey
+               remoteKey:remoteKey
+                 context:context
+               predicate:predicate
+                inserted:inserted
+                 updated:updated];
+}
+
+
+
++ (void)changes:(NSArray *)changes
+     operations:(DATAFilterChangOperations)operations
+  inEntityNamed:(NSString *)entityName
+       localKey:(NSString *)localKey
+      remoteKey:(NSString *)remoteKey
+        context:(NSManagedObjectContext *)context
+       inserted:(void (^)(NSDictionary *objectJSON))inserted
+        updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated {
+    return [self changes:changes
+              operations:operations
+           inEntityNamed:entityName
+                localKey:localKey
+               remoteKey:remoteKey
+                 context:context
+               predicate:nil
+                inserted:inserted
+                 updated:updated];
+}
+
++ (void)changes:(NSArray *)changes
+     operations:(DATAFilterChangOperations)operations
   inEntityNamed:(NSString *)entityName
        localKey:(NSString *)localKey
       remoteKey:(NSString *)remoteKey
@@ -51,30 +95,36 @@
     NSMutableArray *insertedObjectIDs = [remoteObjectIDs mutableCopy];
     [insertedObjectIDs removeObjectsInArray:fetchedObjectIDs];
 
-    for (id fetchedID in deletedObjectIDs) {
-        NSManagedObjectID *objectID = dictionaryIDAndObjectID[fetchedID];
-        if (objectID) {
-            NSManagedObject *object = [context objectWithID:objectID];
-            if (object) {
-                [context deleteObject:object];
+    if (operations & DATAFilterChangOperationDelete){
+        for (id fetchedID in deletedObjectIDs) {
+            NSManagedObjectID *objectID = dictionaryIDAndObjectID[fetchedID];
+            if (objectID) {
+                NSManagedObject *object = [context objectWithID:objectID];
+                if (object) {
+                    [context deleteObject:object];
+                }
             }
         }
     }
 
-    for (id fetchedID in insertedObjectIDs) {
-        NSDictionary *objectDictionary = remoteIDAndChange[fetchedID];
-        if (inserted) {
-            inserted(objectDictionary);
+    if (operations & DATAFilterChangOperationInsert){
+        for (id fetchedID in insertedObjectIDs) {
+            NSDictionary *objectDictionary = remoteIDAndChange[fetchedID];
+            if (inserted) {
+                inserted(objectDictionary);
+            }
         }
     }
 
-    for (id fetchedID in updatedObjectIDs) {
-        NSDictionary *objectDictionary = remoteIDAndChange[fetchedID];
-        NSManagedObjectID *objectID = dictionaryIDAndObjectID[fetchedID];
-        if (objectID) {
-            NSManagedObject *object = [context objectWithID:objectID];
-            if (object && updated) {
-                updated(objectDictionary, object);
+    if (operations & DATAFilterChangOperationUpdate){
+        for (id fetchedID in updatedObjectIDs) {
+            NSDictionary *objectDictionary = remoteIDAndChange[fetchedID];
+            NSManagedObjectID *objectID = dictionaryIDAndObjectID[fetchedID];
+            if (objectID) {
+                NSManagedObject *object = [context objectWithID:objectID];
+                if (object && updated) {
+                    updated(objectDictionary, object);
+                }
             }
         }
     }
