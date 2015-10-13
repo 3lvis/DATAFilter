@@ -56,6 +56,28 @@ NSPredicate *predicate = [NSString stringWithFormat:@"inactive = YES"];
 
 *As a side note, you should use a [fancier property mapper](https://github.com/hyperoslo/NSManagedObject-HYPPropertyMapper/blob/master/README.md) that does the `fillObjectWithAttributes` part for you.*
 
+## Operations
+
+`DATAFilter` also provides the option to set which operations should be run when filtering, by default `DATAFilterOperationAll` is used but you could also set the option to just Insert and Update (avoiding removing items) or Update and Delete (avoiding updating items).
+
+Usage goes like this:
+
+```objc
+// No items will be deleted here
+[DATAFilter changes:JSON
+      inEntityNamed:@"User"
+          predicate:nil
+         operations:DATAFilterOperationInsert | DATAFilterOperationUpdate
+           localKey:@"remoteID"
+          remoteKey:@"id"
+            context:context
+           inserted:^(NSDictionary *objectJSON) {
+               // Do something with inserted items
+           } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+               // Do something with updated items
+           }];
+```
+
 ## Requirements
 
 `iOS 7.0`, `Core Data`
