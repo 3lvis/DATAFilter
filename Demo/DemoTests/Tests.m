@@ -106,7 +106,6 @@
                    localKey:@"remoteID"
                   remoteKey:@"id"
                     context:context
-                  predicate:nil
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
                    } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
@@ -142,7 +141,6 @@
                    localKey:@"remoteID"
                   remoteKey:@"id"
                     context:context
-                  predicate:nil
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
                    } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
@@ -178,7 +176,6 @@
                    localKey:@"remoteID"
                   remoteKey:@"id"
                     context:context
-                  predicate:nil
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
                    } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
@@ -216,7 +213,6 @@
                    localKey:@"remoteID"
                   remoteKey:@"id"
                     context:context
-                  predicate:nil
                    inserted:nil
                     updated:nil];
 
@@ -245,7 +241,6 @@
                    localKey:@"remoteID"
                   remoteKey:@"id"
                     context:context
-                  predicate:nil
                    inserted:^(NSDictionary *objectJSON) {
                        XCTAssertFalse(true, @"shoudn't create an object");
                    } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
