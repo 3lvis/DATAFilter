@@ -84,6 +84,13 @@
     XCTAssertEqual(count, 5);
 }
 
+/*
+ 5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+ In users.json:
+ - Inserted: 6 and 7
+ - Updated: 0, 1, 2 and 3
+ - Deleted: 4
+ */
 - (void)testMapChangesA {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
@@ -119,6 +126,13 @@
     }];
 }
 
+/*
+ 5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+ In users.json:
+ - Inserted: None
+ - Updated: 0, 1, 2, 3 and 4
+ - Deleted: None
+ */
 - (void)testMapChangesB {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
@@ -154,6 +168,13 @@
     }];
 }
 
+/*
+ 5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+ In users.json:
+ - Inserted: None
+ - Updated: None
+ - Deleted: None
+ */
 - (void)testMapChangesC {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
@@ -189,6 +210,14 @@
     }];
 }
 
+/*
+ 5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+ After the pre-defined ones, we try to insert the user 0 many times.
+ In users.json:
+ - Inserted: 6 and 7
+ - Updated: 0, 1, 2 and 3
+ - Deleted: 4
+ */
 - (void)testUniquing {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
@@ -221,6 +250,13 @@
     }];
 }
 
+/*
+ 1 pre-defined none is inserted with id "123"
+ In notes.json:
+ - Inserted: 0
+ - Updated: "123"
+ - Deleted: 0
+ */
 - (void)testStringID {
     DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
                                                      bundle:[NSBundle bundleForClass:[self class]]
@@ -246,6 +282,158 @@
                    } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
                        XCTAssertEqualObjects(objectJSON[@"id"], @"123");
                    }];
+    }];
+}
+
+- (void)testInsertOnly {
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
+        [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
+        [self userWithID:1 firstName:@"Ben" lastName:@"Boykewich" age:23 inContext:context];
+
+        NSDictionary *before = [DATAObjectIDs objectIDsInEntityNamed:@"User"
+                                                 withAttributesNamed:@"remoteID"
+                                                             context:context];
+        id JSON = [self JSONObjectWithContentsOfFile:@"simple.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                  predicate:nil
+                 operations:DATAFilterOperationInsert
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                   inserted:^(NSDictionary *objectJSON) {
+                       inserted++;
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       updated++;
+                       deleted--;
+                   }];
+
+        XCTAssertEqual(inserted, 1);
+        XCTAssertEqual(updated, 0);
+        XCTAssertEqual(deleted, 2);
+    }];
+}
+
+- (void)testUpdateOnly {
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
+        [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
+        [self userWithID:1 firstName:@"Ben" lastName:@"Boykewich" age:23 inContext:context];
+
+        NSDictionary *before = [DATAObjectIDs objectIDsInEntityNamed:@"User"
+                                                 withAttributesNamed:@"remoteID"
+                                                             context:context];
+        id JSON = [self JSONObjectWithContentsOfFile:@"simple.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                  predicate:nil
+                 operations:DATAFilterOperationUpdate
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                   inserted:^(NSDictionary *objectJSON) {
+                       inserted++;
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       updated++;
+                       deleted--;
+                   }];
+
+        XCTAssertEqual(inserted, 0);
+        XCTAssertEqual(updated, 1);
+        XCTAssertEqual(deleted, 1);
+    }];
+}
+
+- (void)testDeleteOnly {
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
+        [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
+        [self userWithID:1 firstName:@"Ben" lastName:@"Boykewich" age:23 inContext:context];
+
+        NSDictionary *before = [DATAObjectIDs objectIDsInEntityNamed:@"User"
+                                                 withAttributesNamed:@"remoteID"
+                                                             context:context];
+        id JSON = [self JSONObjectWithContentsOfFile:@"simple.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                  predicate:nil
+                 operations:DATAFilterOperationDelete
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                   inserted:^(NSDictionary *objectJSON) {
+                       inserted++;
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       updated++;
+                       deleted--;
+                   }];
+
+        XCTAssertEqual(inserted, 0);
+        XCTAssertEqual(updated, 0);
+        XCTAssertEqual(deleted, 2);
+    }];
+}
+
+- (void)testInsertAndUpdateButNoDelete {
+    DATAStack *stack = [[DATAStack alloc] initWithModelName:@"Model"
+                                                     bundle:[NSBundle bundleForClass:[self class]]
+                                                  storeType:DATAStackInMemoryStoreType];
+
+    [stack performInNewBackgroundContext:^(NSManagedObjectContext *context) {
+        [self userWithID:0 firstName:@"Amy" lastName:@"Juergens" age:21 inContext:context];
+        [self userWithID:1 firstName:@"Ben" lastName:@"Boykewich" age:23 inContext:context];
+
+        NSDictionary *before = [DATAObjectIDs objectIDsInEntityNamed:@"User"
+                                                 withAttributesNamed:@"remoteID"
+                                                             context:context];
+        id JSON = [self JSONObjectWithContentsOfFile:@"simple.json"];
+
+        __block NSInteger inserted = 0;
+        __block NSInteger updated = 0;
+        __block NSInteger deleted = before.count;
+
+        [DATAFilter changes:JSON
+              inEntityNamed:@"User"
+                  predicate:nil
+                 operations:DATAFilterOperationInsert | DATAFilterOperationUpdate
+                   localKey:@"remoteID"
+                  remoteKey:@"id"
+                    context:context
+                   inserted:^(NSDictionary *objectJSON) {
+                       inserted++;
+                   } updated:^(NSDictionary *objectJSON, NSManagedObject *updatedObject) {
+                       updated++;
+                       deleted--;
+                   }];
+
+        XCTAssertEqual(inserted, 1);
+        XCTAssertEqual(updated, 1);
+        XCTAssertEqual(deleted, 1);
     }];
 }
 
