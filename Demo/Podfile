@@ -1,2 +1,4 @@
+use_frameworks!
+
 pod 'DATAObjectIDs'
 pod 'DATAStack'
