@@ -18,5 +18,5 @@ s.tvos.deployment_target = '9.0'
 s.requires_arc = true
 s.source_files = 'Source/**/*'
 s.frameworks = 'Foundation', 'CoreData'
-s.dependency 'DATAObjectIDs'
+s.dependency 'DATAObjectIDs', '~> 0.5.1'
 end
