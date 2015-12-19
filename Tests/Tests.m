@@ -1,10 +1,10 @@
 @import XCTest;
 
-#import "DATAFilter.h"
-
 @import DATAObjectIDs;
 
 @import DATAStack;
+
+@import DATAFilter;
 
 @interface DemoTests : XCTestCase
 
