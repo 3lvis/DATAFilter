@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14782D2C1CC146CA00BB1C91 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14782D2B1CC146CA00BB1C91 /* Info.plist */; };
+		14782D3A1CC1474D00BB1C91 /* DATAFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 147ED54F1C2491C1006EC4C6 /* DATAFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14782D3B1CC1475600BB1C91 /* DATAFilter.h in Sources */ = {isa = PBXBuildFile; fileRef = 147ED54F1C2491C1006EC4C6 /* DATAFilter.h */; };
+		14782D3C1CC1475600BB1C91 /* DATAFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 147ED5501C2491C1006EC4C6 /* DATAFilter.m */; };
 		147ED5511C2491C1006EC4C6 /* DATAFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 147ED5501C2491C1006EC4C6 /* DATAFilter.m */; };
 		147ED55B1C2491D3006EC4C6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 147ED5521C2491D3006EC4C6 /* Model.xcdatamodeld */; };
 		147ED55C1C2491D3006EC4C6 /* note.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5541C2491D3006EC4C6 /* note.json */; };
@@ -22,6 +26,8 @@
 /* Begin PBXFileReference section */
 		146D72AC1AB782920058798C /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		146D72B11AB782920058798C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		14782D2B1CC146CA00BB1C91 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		14782D321CC146F400BB1C91 /* DATAFilter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DATAFilter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		147ED54F1C2491C1006EC4C6 /* DATAFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATAFilter.h; sourceTree = "<group>"; };
 		147ED5501C2491C1006EC4C6 /* DATAFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATAFilter.m; sourceTree = "<group>"; };
 		147ED5531C2491D3006EC4C6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -51,6 +57,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		14782D2E1CC146F400BB1C91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -72,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				146D72AC1AB782920058798C /* Tests.xctest */,
+				14782D321CC146F400BB1C91 /* DATAFilter.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,6 +126,7 @@
 		14C136501AB7849300B7B07A /* Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				14782D2B1CC146CA00BB1C91 /* Info.plist */,
 				14C0AF7F1BD6D4230009ECBE /* .slather.yml */,
 				14C0AF801BD6D4230009ECBE /* .travis.yml */,
 				14C0AF811BD6D4230009ECBE /* CHANGELOG.md */,
@@ -140,6 +155,17 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		14782D2F1CC146F400BB1C91 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14782D3A1CC1474D00BB1C91 /* DATAFilter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		146D72AB1AB782920058798C /* Tests */ = {
 			isa = PBXNativeTarget;
@@ -161,6 +187,24 @@
 			productReference = 146D72AC1AB782920058798C /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		14782D311CC146F400BB1C91 /* DATAFilter-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14782D371CC146F400BB1C91 /* Build configuration list for PBXNativeTarget "DATAFilter-iOS" */;
+			buildPhases = (
+				14782D2D1CC146F400BB1C91 /* Sources */,
+				14782D2E1CC146F400BB1C91 /* Frameworks */,
+				14782D2F1CC146F400BB1C91 /* Headers */,
+				14782D301CC146F400BB1C91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DATAFilter-iOS";
+			productName = "DATAFilter-iOS";
+			productReference = 14782D321CC146F400BB1C91 /* DATAFilter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -174,6 +218,9 @@
 				TargetAttributes = {
 					146D72AB1AB782920058798C = {
 						CreatedOnToolsVersion = 6.2;
+					};
+					14782D311CC146F400BB1C91 = {
+						CreatedOnToolsVersion = 7.3;
 					};
 				};
 			};
@@ -191,6 +238,7 @@
 			projectRoot = "";
 			targets = (
 				146D72AB1AB782920058798C /* Tests */,
+				14782D311CC146F400BB1C91 /* DATAFilter-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -206,6 +254,14 @@
 				147ED55E1C2491D3006EC4C6 /* simple.json in Resources */,
 				147ED5621C2491D3006EC4C6 /* users3.json in Resources */,
 				147ED5611C2491D3006EC4C6 /* users2.json in Resources */,
+				14782D2C1CC146CA00BB1C91 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14782D301CC146F400BB1C91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +323,15 @@
 				147ED55F1C2491D3006EC4C6 /* Tests.m in Sources */,
 				147ED5511C2491C1006EC4C6 /* DATAFilter.m in Sources */,
 				147ED55B1C2491D3006EC4C6 /* Model.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14782D2D1CC146F400BB1C91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14782D3B1CC1475600BB1C91 /* DATAFilter.h in Sources */,
+				14782D3C1CC1475600BB1C91 /* DATAFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +446,54 @@
 			};
 			name = Release;
 		};
+		14782D381CC146F400BB1C91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.3lvis.DATAFilter;
+				PRODUCT_NAME = DATAFilter;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		14782D391CC146F400BB1C91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.3lvis.DATAFilter;
+				PRODUCT_NAME = DATAFilter;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -401,6 +514,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		14782D371CC146F400BB1C91 /* Build configuration list for PBXNativeTarget "DATAFilter-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14782D381CC146F400BB1C91 /* Debug */,
+				14782D391CC146F400BB1C91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 

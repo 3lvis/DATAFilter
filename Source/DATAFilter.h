@@ -1,5 +1,8 @@
 @import CoreData;
 
+FOUNDATION_EXPORT double DATAFilterVersionNumber;
+FOUNDATION_EXPORT const unsigned char DATAFilterVersionString[];
+
 typedef NS_OPTIONS(NSUInteger, DATAFilterOperation) {
     DATAFilterOperationInsert = 1 << 0,
     DATAFilterOperationUpdate = 1 << 1,
