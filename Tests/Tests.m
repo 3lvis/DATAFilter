@@ -110,8 +110,8 @@
 
         [DATAFilter changes:JSON
               inEntityNamed:@"User"
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
@@ -152,8 +152,8 @@
 
         [DATAFilter changes:JSON
               inEntityNamed:@"User"
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
@@ -194,8 +194,8 @@
 
         [DATAFilter changes:JSON
               inEntityNamed:@"User"
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
@@ -239,8 +239,8 @@
 
         [DATAFilter changes:JSON
               inEntityNamed:@"User"
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:nil
                     updated:nil];
@@ -274,8 +274,8 @@
 
         [DATAFilter changes:JSON
               inEntityNamed:@"Note"
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:^(NSDictionary *objectJSON) {
                        XCTAssertFalse(true, @"shoudn't create an object");
@@ -307,8 +307,8 @@
               inEntityNamed:@"User"
                   predicate:nil
                  operations:DATAFilterOperationInsert
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
@@ -345,8 +345,8 @@
               inEntityNamed:@"User"
                   predicate:nil
                  operations:DATAFilterOperationUpdate
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
@@ -383,8 +383,8 @@
               inEntityNamed:@"User"
                   predicate:nil
                  operations:DATAFilterOperationDelete
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
@@ -421,8 +421,8 @@
               inEntityNamed:@"User"
                   predicate:nil
                  operations:DATAFilterOperationInsert | DATAFilterOperationUpdate
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
@@ -463,8 +463,8 @@
               inEntityNamed:@"User"
                   predicate:[NSPredicate predicateWithFormat:@"remoteID == %@", @0]
                  operations:DATAFilterOperationAll
-                   localKey:@"remoteID"
-                  remoteKey:@"id"
+            localPrimaryKey:@"remoteID"
+           remotePrimaryKey:@"id"
                     context:context
                    inserted:^(NSDictionary *objectJSON) {
                        inserted++;
