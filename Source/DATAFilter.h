@@ -34,7 +34,7 @@ remotePrimaryKey:(NSString *)remotePrimaryKey
         context:(NSManagedObjectContext *)context
        inserted:(void (^)(NSDictionary *objectJSON))inserted
         updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated
-__attribute__((deprecated("Use changes:inEntityNamed:localPrimaryKey:remotePrimaryKey:context:inserted:updated instead")));
+__attribute__((deprecated("localKey renamed to localPrimaryKey and remoteKey renamed to remotePrimaryKey")));
 
 + (void)changes:(NSArray *)changes
   inEntityNamed:(NSString *)entityName
@@ -45,6 +45,6 @@ __attribute__((deprecated("Use changes:inEntityNamed:localPrimaryKey:remotePrima
         context:(NSManagedObjectContext *)context
        inserted:(void (^)(NSDictionary *objectJSON))inserted
         updated:(void (^)(NSDictionary *objectJSON, NSManagedObject *updatedObject))updated
-__attribute__((deprecated("Use changes:inEntityNamed:predicate:operations:localPrimaryKey:remotePrimaryKey:context:inserted:updated instead")));
+__attribute__((deprecated("localKey renamed to localPrimaryKey and remoteKey renamed to remotePrimaryKey")));
 
 @end
