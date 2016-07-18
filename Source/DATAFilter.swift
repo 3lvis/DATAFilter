@@ -16,7 +16,16 @@ public struct DATAFilterOperation : OptionSetType {
 }
 
 public class DATAFilter: NSObject {
-    public class func changes(changes: NSArray, inEntityNamed entityName: String, predicate: NSPredicate? = nil, operations: DATAFilterOperation = .All, localKey: String, remoteKey: String, context: NSManagedObjectContext, inserted: (objectJSON: NSDictionary) -> Void, updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
+    public class func changes(
+							  changes: NSArray,
+				inEntityNamed entityName: String,
+				              predicate: NSPredicate? = nil,
+				              operations: DATAFilterOperation = .All,
+				              localPrimaryKey: String,
+				              remotePrimaryKey: String,
+				              context: NSManagedObjectContext,
+				              inserted: (objectJSON: NSDictionary) -> Void,
+				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
         let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localKey, context: context, predicate: predicate)
         let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
         let remoteObjectIDs = changes.valueForKey(remoteKey) as! NSMutableArray
