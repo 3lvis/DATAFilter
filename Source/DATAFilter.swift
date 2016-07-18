@@ -24,8 +24,7 @@ public class DATAFilter: NSObject {
 				              context: NSManagedObjectContext,
 				              inserted: (objectJSON: NSDictionary) -> Void,
 				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void){
-		return changes(changes, entityName, nil, DATAFilterOperation.All, localKey, remoteKey, context, inserted, updatedObject)
-	
+		self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
 	}
 	
     public class func changes(
@@ -87,7 +86,7 @@ public class DATAFilter: NSObject {
 				              context: NSManagedObjectContext,
 				              inserted: (objectJSON: NSDictionary) -> Void,
 				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void){
-		return changes(changes, entityName, localKey, remoteKey, context, inserted, updated)
+		self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localKey, remotePrimaryKey: remoteKey, context: context, inserted: inserted, updated: updated)
 	}
 	
 	public class func changes(
@@ -100,8 +99,7 @@ public class DATAFilter: NSObject {
 				              context: NSManagedObjectContext,
 				              inserted: (objectJSON: NSDictionary) -> Void,
 				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
-		return changes(changes, entityName, predicate, operations, localKey, remoteKey, context, inserted, updatedObject)
-	
+		self.changes(changes, inEntityNamed: entityName, predicate: predicate, operations: operations, localPrimaryKey: localKey, remotePrimaryKey: remoteKey, context: context, inserted: inserted, updated: updated)
 	}
 	
 }
