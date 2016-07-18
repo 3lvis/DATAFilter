@@ -11,8 +11,8 @@ public struct DATAFilterOperation : OptionSetType {
 
     public static let Insert = DATAFilterOperation(rawValue: 1 << 0)
     public static let Update = DATAFilterOperation(rawValue: 1 << 1)
-    public static let Delete = DATAFilterOperation(rawValue: 1 << 2)
-    public static let All = DATAFilterOperation(rawValue: 0)
+	public static let Delete = DATAFilterOperation(rawValue: 1 << 2)
+	public static let All: DATAFilterOperation = [.Insert, .Update, .Delete]
 }
 
 public class DATAFilter: NSObject {
@@ -53,7 +53,7 @@ public class DATAFilter: NSObject {
         let insertedObjectIDs = remoteObjectIDs.mutableCopy() as! NSMutableArray
         insertedObjectIDs.removeObjectsInArray(fetchedObjectIDs as [AnyObject])
 
-        if operations == .Delete {
+        if operations == .Delete || operations == .All {
             for fetchedID in deletedObjectIDs {
                 let objectID = dictionaryIDAndObjectID[fetchedID as! NSObject] as! NSManagedObjectID
                 let object = context.objectWithID(objectID)
@@ -61,14 +61,14 @@ public class DATAFilter: NSObject {
             }
         }
 
-        if operations == .Insert {
+        if operations == .Insert || operations == .All {
             for fetchedID in insertedObjectIDs as! [NSCopying] {
                 let objectDictionary = remoteIDAndChange[fetchedID] as! NSDictionary
                 inserted(objectJSON: objectDictionary)
             }
         }
 
-        if operations == .Update {
+        if operations == .Update || operations == .All {
             for fetchedID in updatedObjectIDs as! [NSCopying] {
                 let objectDictionary = remoteIDAndChange[fetchedID] as! NSDictionary
                 let objectID = dictionaryIDAndObjectID[fetchedID as! NSObject] as! NSManagedObjectID
