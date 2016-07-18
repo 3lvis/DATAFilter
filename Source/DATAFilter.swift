@@ -16,6 +16,18 @@ public struct DATAFilterOperation : OptionSetType {
 }
 
 public class DATAFilter: NSObject {
+	public class func changes(
+							  changes: NSArray,
+				inEntityNamed entityName: String,
+				              localPrimaryKey: String,
+				              remotePrimaryKey: String,
+				              context: NSManagedObjectContext,
+				              inserted: (objectJSON: NSDictionary) -> Void,
+				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void){
+		return changes(changes, entityName, nil, DATAFilterOperation.All, localKey, remoteKey, context, inserted, updatedObject)
+	
+	}
+	
     public class func changes(
 							  changes: NSArray,
 				inEntityNamed entityName: String,
@@ -66,4 +78,30 @@ public class DATAFilter: NSObject {
             }
         }
     }
+	
+	public class func changes(
+							  changes: NSArray,
+				inEntityNamed entityName: String,
+				              localKey: String,
+				              remoteKey: String,
+				              context: NSManagedObjectContext,
+				              inserted: (objectJSON: NSDictionary) -> Void,
+				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void){
+		return changes(changes, entityName, localKey, remoteKey, context, inserted, updated)
+	}
+	
+	public class func changes(
+							  changes: NSArray,
+				inEntityNamed entityName: String,
+				              predicate: NSPredicate? = nil,
+				              operations: DATAFilterOperation = .All,
+				              localKey: String,
+				              remoteKey: String,
+				              context: NSManagedObjectContext,
+				              inserted: (objectJSON: NSDictionary) -> Void,
+				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
+		return changes(changes, entityName, predicate, operations, localKey, remoteKey, context, inserted, updatedObject)
+	
+	}
+	
 }
