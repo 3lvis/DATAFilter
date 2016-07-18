@@ -9,10 +9,10 @@ public struct DATAFilterOperation : OptionSetType {
         self.rawValue = rawValue
     }
 
-    static let Insert = DATAFilterOperation(rawValue: 1 << 0)
-    static let Update = DATAFilterOperation(rawValue: 1 << 1)
-    static let Delete = DATAFilterOperation(rawValue: 1 << 2)
-    static let All = DATAFilterOperation(rawValue: 0)
+    public static let Insert = DATAFilterOperation(rawValue: 1 << 0)
+    public static let Update = DATAFilterOperation(rawValue: 1 << 1)
+    public static let Delete = DATAFilterOperation(rawValue: 1 << 2)
+    public static let All = DATAFilterOperation(rawValue: 0)
 }
 
 public class DATAFilter: NSObject {
