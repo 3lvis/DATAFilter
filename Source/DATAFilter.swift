@@ -37,9 +37,9 @@ public class DATAFilter: NSObject {
 				              context: NSManagedObjectContext,
 				              inserted: (objectJSON: NSDictionary) -> Void,
 				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
-        let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localKey, context: context, predicate: predicate)
+        let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate)
         let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
-        let remoteObjectIDs = changes.valueForKey(remoteKey) as! NSMutableArray
+        let remoteObjectIDs = changes.valueForKey(remotePrimaryKey) as! NSMutableArray
         remoteObjectIDs.removeObject(NSNull())
 
         let remoteIDAndChange = NSDictionary(objects: changes as [AnyObject], forKeys: remoteObjectIDs as! [NSCopying])
