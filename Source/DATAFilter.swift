@@ -11,32 +11,30 @@ public struct DATAFilterOperation : OptionSetType {
 
     public static let Insert = DATAFilterOperation(rawValue: 1 << 0)
     public static let Update = DATAFilterOperation(rawValue: 1 << 1)
-	public static let Delete = DATAFilterOperation(rawValue: 1 << 2)
-	public static let All: DATAFilterOperation = [.Insert, .Update, .Delete]
+    public static let Delete = DATAFilterOperation(rawValue: 1 << 2)
+    public static let All: DATAFilterOperation = [.Insert, .Update, .Delete]
 }
 
 @objc public class DATAFilter: NSObject {
-	public class func changes(
-							  changes: NSArray,
-				inEntityNamed entityName: String,
-				              localPrimaryKey: String,
-				              remotePrimaryKey: String,
-				              context: NSManagedObjectContext,
-				              inserted: (objectJSON: NSDictionary) -> Void,
-				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void){
-		self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
-	}
-	
-    public class func changes(
-							  changes: NSArray,
-				inEntityNamed entityName: String,
-				              predicate: NSPredicate? = nil,
-				              operations: DATAFilterOperation = .All,
-				              localPrimaryKey: String,
-				              remotePrimaryKey: String,
-				              context: NSManagedObjectContext,
-				              inserted: (objectJSON: NSDictionary) -> Void,
-				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
+    public class func changes(changes: NSArray,
+                              inEntityNamed entityName: String,
+                                            localPrimaryKey: String,
+                                            remotePrimaryKey: String,
+                                            context: NSManagedObjectContext,
+                                            inserted: (objectJSON: NSDictionary) -> Void,
+                                            updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void){
+        self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
+    }
+
+    public class func changes(changes: NSArray,
+                              inEntityNamed entityName: String,
+                                            predicate: NSPredicate?,
+                                            operations: DATAFilterOperation,
+                                            localPrimaryKey: String,
+                                            remotePrimaryKey: String,
+                                            context: NSManagedObjectContext,
+                                            inserted: (objectJSON: NSDictionary) -> Void,
+                                            updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
         let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate)
         let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
         let remoteObjectIDs = changes.valueForKey(remotePrimaryKey).mutableCopy() as! NSMutableArray
@@ -77,29 +75,4 @@ public struct DATAFilterOperation : OptionSetType {
             }
         }
     }
-	
-	public class func changes(
-							  changes: NSArray,
-				inEntityNamed entityName: String,
-				              localKey: String,
-				              remoteKey: String,
-				              context: NSManagedObjectContext,
-				              inserted: (objectJSON: NSDictionary) -> Void,
-				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void){
-		self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localKey, remotePrimaryKey: remoteKey, context: context, inserted: inserted, updated: updated)
-	}
-	
-	public class func changes(
-							  changes: NSArray,
-				inEntityNamed entityName: String,
-				              predicate: NSPredicate? = nil,
-				              operations: DATAFilterOperation = .All,
-				              localKey: String,
-				              remoteKey: String,
-				              context: NSManagedObjectContext,
-				              inserted: (objectJSON: NSDictionary) -> Void,
-				              updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
-		self.changes(changes, inEntityNamed: entityName, predicate: predicate, operations: operations, localPrimaryKey: localKey, remotePrimaryKey: remoteKey, context: context, inserted: inserted, updated: updated)
-	}
-	
 }
