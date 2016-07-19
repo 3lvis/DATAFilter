@@ -40,7 +40,7 @@ public struct DATAFilterOperation : OptionSetType {
         let remoteObjectIDs = changes.valueForKey(remotePrimaryKey).mutableCopy() as! NSMutableArray
         remoteObjectIDs.removeObject(NSNull())
 
-        let remoteIDAndChange = NSDictionary(objects: changes as [AnyObject], forKeys: remoteObjectIDs as! [NSCopying])
+        let remoteIDAndChange = NSDictionary(objects: changes as [AnyObject], forKeys: remoteObjectIDs as NSArray as! [NSCopying])
         let intersection = NSMutableSet(array: remoteObjectIDs as [AnyObject])
         intersection.intersectSet(NSSet(array: fetchedObjectIDs) as Set<NSObject>)
         let updatedObjectIDs = intersection.allObjects
@@ -60,7 +60,7 @@ public struct DATAFilterOperation : OptionSetType {
         }
 
         if operations.contains(.Insert) {
-            for fetchedID in insertedObjectIDs as! [NSCopying] {
+            for fetchedID in insertedObjectIDs as NSArray as! [NSCopying] {
                 let objectDictionary = remoteIDAndChange[fetchedID] as! NSDictionary
                 inserted(objectJSON: objectDictionary)
             }
