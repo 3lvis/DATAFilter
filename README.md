@@ -61,7 +61,7 @@ let predicate = NSPredicate(format: "inactive == %@", true)
 
 Usage goes like this:
 
-```swoft
+```swift
 // No items will be deleted here
 
 DATAFilter.changes(JSONObjects,
