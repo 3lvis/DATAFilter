@@ -8,14 +8,14 @@ Helps you filter insertions, deletions and updates by comparing your JSON dictio
 
 ## The magic
 
-```objc
-+ (void)changes:(NSArray *)changes
-  inEntityNamed:(NSString *)entityName
-localPrimaryKey:(NSString *)localPrimaryKey
-remotePrimaryKey:(NSString *)remotePrimaryKey
-        context:(NSManagedObjectContext *)context
-       inserted:(void (^)(NSDictionary *JSON))inserted
-        updated:(void (^)(NSDictionary *JSON, NSManagedObject *updatedObject))updated;
+```swift
+public class func changes(changes: NSArray, 
+      inEntityNamed entityName: String, 
+      localPrimaryKey: String, 
+      remotePrimaryKey: String, 
+      context: NSManagedObjectContext, 
+      inserted: (objectJSON: NSDictionary) -> Void, 
+      updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void)
 ```
 
 ## How to use
