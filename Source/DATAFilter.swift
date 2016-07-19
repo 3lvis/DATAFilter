@@ -2,20 +2,20 @@ import Foundation
 import CoreData
 import DATAObjectIDs
 
-public struct DATAFilterOperation : OptionSetType {
-    public let rawValue: Int
+public class DATAFilter: NSObject {
+    public struct Operation : OptionSetType {
+        public let rawValue: Int
 
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
+
+        public static let Insert = Operation(rawValue: 1 << 0)
+        public static let Update = Operation(rawValue: 1 << 1)
+        public static let Delete = Operation(rawValue: 1 << 2)
+        public static let All: Operation = [.Insert, .Update, .Delete]
     }
 
-    public static let Insert = DATAFilterOperation(rawValue: 1 << 0)
-    public static let Update = DATAFilterOperation(rawValue: 1 << 1)
-    public static let Delete = DATAFilterOperation(rawValue: 1 << 2)
-    public static let All: DATAFilterOperation = [.Insert, .Update, .Delete]
-}
-
-@objc public class DATAFilter: NSObject {
     public class func changes(changes: NSArray,
                               inEntityNamed entityName: String,
                                             localPrimaryKey: String,
@@ -29,7 +29,7 @@ public struct DATAFilterOperation : OptionSetType {
     public class func changes(changes: NSArray,
                               inEntityNamed entityName: String,
                                             predicate: NSPredicate?,
-                                            operations: DATAFilterOperation,
+                                            operations: Operation,
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
