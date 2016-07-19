@@ -38,17 +38,7 @@ public class DATAFilter: NSObject {
         let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate)
         let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
 		let remoteObjectIDsOpt = changes.map({$0[remotePrimaryKey]})
-		let remoteObjectIDs = (remoteObjectIDsOpt.filter({$0 != nil}) as! [AnyObject!] as NSArray).mutableCopy() as! NSMutableArray
-
-		/*
-		let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
-		let remoteObjectIDsOpt = changes.map({$0[remotePrimaryKey]})
-		let remoteObjectIDs = remoteObjectIDsOpt as! [AnyObject!]
-		let remoteObjectIDsNSArray = remoteObjectIDs as NSArray
-		let remoteObjectIDsCopy = remoteObjectIDsNSArray.mutableCopy()
-		let remoteObjectIDsMutable = remoteObjectIDsCopy as! NSMutableArray
-		remoteObjectIDsMutable.removeObject(NSNull())
-		*/
+		let remoteObjectIDs = remoteObjectIDsOpt.filter({$0 != nil}) as! [AnyObject!]
 
         let remoteIDAndChange = NSDictionary(objects: changes as [AnyObject], forKeys: remoteObjectIDs as NSArray as! [NSCopying])
         let intersection = NSMutableSet(array: remoteObjectIDs as [AnyObject])
@@ -58,8 +48,11 @@ public class DATAFilter: NSObject {
         let deletedObjectIDs = NSMutableArray(array: fetchedObjectIDs)
         deletedObjectIDs.removeObjectsInArray(remoteObjectIDs as [AnyObject])
 
-        let insertedObjectIDs = remoteObjectIDs.mutableCopy() as! NSMutableArray
-        insertedObjectIDs.removeObjectsInArray(fetchedObjectIDs as [AnyObject])
+		var insertedObjectIDs = remoteObjectIDs
+
+		for fetchedObjectID in fetchedObjectIDs {
+			insertedObjectIDs = insertedObjectIDs.filter({$0 as? NSObject != fetchedObjectID})
+		}
 
         if operations.contains(.Delete) {
             for fetchedID in deletedObjectIDs {
