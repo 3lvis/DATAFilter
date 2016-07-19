@@ -16,7 +16,7 @@ public class DATAFilter: NSObject {
         public static let All: Operation = [.Insert, .Update, .Delete]
     }
 
-    public class func changes(changes: [AnyObject],
+    public class func changes(changes: [[String : AnyObject]],
                               inEntityNamed entityName: String,
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
@@ -26,7 +26,7 @@ public class DATAFilter: NSObject {
         self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
     }
 
-    public class func changes(changes: [AnyObject],
+    public class func changes(changes: [[String : AnyObject]],
                               inEntityNamed entityName: String,
                                             predicate: NSPredicate?,
                                             operations: Operation,
