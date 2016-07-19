@@ -285,5 +285,4 @@ class Tests: XCTestCase {
             XCTAssertEqual(deleted, 4)
         }
     }
-
 }
