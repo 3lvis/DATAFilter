@@ -17,10 +17,10 @@ class Tests: XCTestCase {
         return user
     }
 
-    func note(remoteID remoteID: String, note: String, context: NSManagedObjectContext) -> NSManagedObject {
+    func note(remoteID remoteID: String, text: String, context: NSManagedObjectContext) -> NSManagedObject {
         let note = NSEntityDescription.insertNewObjectForEntityForName("Note", inManagedObjectContext: context)
         note.setValue(remoteID, forKey: "remoteID")
-        note.setValue(note, forKey: "note")
+        note.setValue(text, forKey: "text")
 
         try! context.save()
 
@@ -173,7 +173,7 @@ class Tests: XCTestCase {
     func testStringID() {
         let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
         dataStack.performInNewBackgroundContext { backgroundContext in
-            self.note(remoteID: "123", note: "text", context: backgroundContext)
+            self.note(remoteID: "123", text: "text", context: backgroundContext)
             try! backgroundContext.save()
 
             let request = NSFetchRequest(entityName: "Note")
