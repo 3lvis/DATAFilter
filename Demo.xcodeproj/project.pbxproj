@@ -7,35 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		140949BB1D3E5A9E00C6F448 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140949BA1D3E5A9E00C6F448 /* Tests.swift */; };
 		147ED55B1C2491D3006EC4C6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 147ED5521C2491D3006EC4C6 /* Model.xcdatamodeld */; };
 		147ED55C1C2491D3006EC4C6 /* note.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5541C2491D3006EC4C6 /* note.json */; };
 		147ED55D1C2491D3006EC4C6 /* nulls.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5551C2491D3006EC4C6 /* nulls.json */; };
 		147ED55E1C2491D3006EC4C6 /* simple.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5561C2491D3006EC4C6 /* simple.json */; };
-		147ED55F1C2491D3006EC4C6 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 147ED5571C2491D3006EC4C6 /* Tests.m */; };
 		147ED5601C2491D3006EC4C6 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5581C2491D3006EC4C6 /* users.json */; };
 		147ED5611C2491D3006EC4C6 /* users2.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5591C2491D3006EC4C6 /* users2.json */; };
 		147ED5621C2491D3006EC4C6 /* users3.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED55A1C2491D3006EC4C6 /* users3.json */; };
-		155D76011D3C198400F061F9 /* Source in Resources */ = {isa = PBXBuildFile; fileRef = 155D76001D3C198400F061F9 /* Source */; };
+		14862AFF1D3E77E4005E9C74 /* DATAFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14862AFE1D3E77E4005E9C74 /* DATAFilter.swift */; };
 		2A9E5100B6116A6744A6B30D /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FBEF58BCBBDFEA919AA9ADF /* Pods_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		140949BA1D3E5A9E00C6F448 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		146D72AC1AB782920058798C /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		146D72B11AB782920058798C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147ED5531C2491D3006EC4C6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		147ED5541C2491D3006EC4C6 /* note.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = note.json; sourceTree = "<group>"; };
 		147ED5551C2491D3006EC4C6 /* nulls.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nulls.json; sourceTree = "<group>"; };
 		147ED5561C2491D3006EC4C6 /* simple.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simple.json; sourceTree = "<group>"; };
-		147ED5571C2491D3006EC4C6 /* Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		147ED5581C2491D3006EC4C6 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		147ED5591C2491D3006EC4C6 /* users2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users2.json; sourceTree = "<group>"; };
 		147ED55A1C2491D3006EC4C6 /* users3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users3.json; sourceTree = "<group>"; };
+		14862AFE1D3E77E4005E9C74 /* DATAFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATAFilter.swift; sourceTree = "<group>"; };
 		14C0AF7F1BD6D4230009ECBE /* .slather.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .slather.yml; sourceTree = "<group>"; };
 		14C0AF801BD6D4230009ECBE /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		14C0AF811BD6D4230009ECBE /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		14C0AF821BD6D4230009ECBE /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		14C0AF831BD6D4230009ECBE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		155D76001D3C198400F061F9 /* Source */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Source; sourceTree = "<group>"; };
 		228D6D24CF44224BCD0CC8F6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25CA582152479CEFF1BA001B /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		74E643DF2C36BB46C577273E /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				14C136501AB7849300B7B07A /* Metadata */,
-				155D76001D3C198400F061F9 /* Source */,
+				14862AFD1D3E77E4005E9C74 /* Source */,
 				146D72AF1AB782920058798C /* Tests */,
 				146D72941AB782920058798C /* Products */,
 				8CE0FC38F90425DF731E9FDD /* Frameworks */,
@@ -83,11 +83,11 @@
 				147ED5541C2491D3006EC4C6 /* note.json */,
 				147ED5551C2491D3006EC4C6 /* nulls.json */,
 				147ED5561C2491D3006EC4C6 /* simple.json */,
-				147ED5571C2491D3006EC4C6 /* Tests.m */,
 				147ED5581C2491D3006EC4C6 /* users.json */,
 				147ED5591C2491D3006EC4C6 /* users2.json */,
 				147ED55A1C2491D3006EC4C6 /* users3.json */,
 				146D72B01AB782920058798C /* Supporting Files */,
+				140949BA1D3E5A9E00C6F448 /* Tests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -98,6 +98,14 @@
 				146D72B11AB782920058798C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		14862AFD1D3E77E4005E9C74 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				14862AFE1D3E77E4005E9C74 /* DATAFilter.swift */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 		14C136501AB7849300B7B07A /* Metadata */ = {
@@ -192,7 +200,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				155D76011D3C198400F061F9 /* Source in Resources */,
 				147ED5601C2491D3006EC4C6 /* users.json in Resources */,
 				147ED55D1C2491D3006EC4C6 /* nulls.json in Resources */,
 				147ED55C1C2491D3006EC4C6 /* note.json in Resources */,
@@ -257,7 +264,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				147ED55F1C2491D3006EC4C6 /* Tests.m in Sources */,
+				140949BB1D3E5A9E00C6F448 /* Tests.swift in Sources */,
+				14862AFF1D3E77E4005E9C74 /* DATAFilter.swift in Sources */,
 				147ED55B1C2491D3006EC4C6 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,7 +364,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Source/Tests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -371,7 +378,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Source/Tests-Bridging-Header.h";
 			};
 			name = Release;
 		};
