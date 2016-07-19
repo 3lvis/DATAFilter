@@ -16,7 +16,7 @@ public class DATAFilter: NSObject {
         public static let All: Operation = [.Insert, .Update, .Delete]
     }
 
-    public class func changes(changes: NSArray,
+    public class func changes(changes: [AnyObject],
                               inEntityNamed entityName: String,
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
@@ -26,7 +26,7 @@ public class DATAFilter: NSObject {
         self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
     }
 
-    public class func changes(changes: NSArray,
+    public class func changes(changes: [AnyObject],
                               inEntityNamed entityName: String,
                                             predicate: NSPredicate?,
                                             operations: Operation,
@@ -37,7 +37,7 @@ public class DATAFilter: NSObject {
                                             updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
         let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate)
         let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
-        let remoteObjectIDs = changes.valueForKey(remotePrimaryKey).mutableCopy() as! NSMutableArray
+        let remoteObjectIDs = (changes as NSArray).valueForKey(remotePrimaryKey).mutableCopy() as! NSMutableArray
         remoteObjectIDs.removeObject(NSNull())
 
         let remoteIDAndChange = NSDictionary(objects: changes as [AnyObject], forKeys: remoteObjectIDs as NSArray as! [NSCopying])
