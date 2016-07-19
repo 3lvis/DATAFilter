@@ -9,7 +9,7 @@ Helps you filter insertions, deletions and updates by comparing your JSON dictio
 ## The magic
 
 ```swift
-public class func changes(changes: NSArray, 
+public class func changes(changes: [[String : AnyObject]], 
       inEntityNamed entityName: String, 
       localPrimaryKey: String, 
       remotePrimaryKey: String, 
@@ -21,7 +21,7 @@ public class func changes(changes: NSArray,
 ## How to use
 
 ```swift
-func importObjects(JSON: [AnyObject], context: NSManagedObjectContext) {
+func importObjects(JSON: [[String : AnyObject]], context: NSManagedObjectContext) {
     DATAFilter.changes(JSON,
                        inEntityNamed: "User",
                        localPrimaryKey: "remoteID",
