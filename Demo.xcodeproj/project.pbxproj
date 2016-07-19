@@ -7,31 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		147ED5511C2491C1006EC4C6 /* DATAFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 147ED5501C2491C1006EC4C6 /* DATAFilter.m */; };
+		140949BB1D3E5A9E00C6F448 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140949BA1D3E5A9E00C6F448 /* Tests.swift */; };
 		147ED55B1C2491D3006EC4C6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 147ED5521C2491D3006EC4C6 /* Model.xcdatamodeld */; };
 		147ED55C1C2491D3006EC4C6 /* note.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5541C2491D3006EC4C6 /* note.json */; };
 		147ED55D1C2491D3006EC4C6 /* nulls.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5551C2491D3006EC4C6 /* nulls.json */; };
 		147ED55E1C2491D3006EC4C6 /* simple.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5561C2491D3006EC4C6 /* simple.json */; };
-		147ED55F1C2491D3006EC4C6 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 147ED5571C2491D3006EC4C6 /* Tests.m */; };
 		147ED5601C2491D3006EC4C6 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5581C2491D3006EC4C6 /* users.json */; };
 		147ED5611C2491D3006EC4C6 /* users2.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED5591C2491D3006EC4C6 /* users2.json */; };
 		147ED5621C2491D3006EC4C6 /* users3.json in Resources */ = {isa = PBXBuildFile; fileRef = 147ED55A1C2491D3006EC4C6 /* users3.json */; };
+		14862AFF1D3E77E4005E9C74 /* DATAFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14862AFE1D3E77E4005E9C74 /* DATAFilter.swift */; };
 		2A9E5100B6116A6744A6B30D /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FBEF58BCBBDFEA919AA9ADF /* Pods_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		140949BA1D3E5A9E00C6F448 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		146D72AC1AB782920058798C /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		146D72B11AB782920058798C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		147ED54F1C2491C1006EC4C6 /* DATAFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATAFilter.h; sourceTree = "<group>"; };
-		147ED5501C2491C1006EC4C6 /* DATAFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATAFilter.m; sourceTree = "<group>"; };
 		147ED5531C2491D3006EC4C6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		147ED5541C2491D3006EC4C6 /* note.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = note.json; sourceTree = "<group>"; };
 		147ED5551C2491D3006EC4C6 /* nulls.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nulls.json; sourceTree = "<group>"; };
 		147ED5561C2491D3006EC4C6 /* simple.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simple.json; sourceTree = "<group>"; };
-		147ED5571C2491D3006EC4C6 /* Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		147ED5581C2491D3006EC4C6 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		147ED5591C2491D3006EC4C6 /* users2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users2.json; sourceTree = "<group>"; };
 		147ED55A1C2491D3006EC4C6 /* users3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users3.json; sourceTree = "<group>"; };
+		14862AFE1D3E77E4005E9C74 /* DATAFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATAFilter.swift; sourceTree = "<group>"; };
 		14C0AF7F1BD6D4230009ECBE /* .slather.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .slather.yml; sourceTree = "<group>"; };
 		14C0AF801BD6D4230009ECBE /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		14C0AF811BD6D4230009ECBE /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -59,7 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				14C136501AB7849300B7B07A /* Metadata */,
-				14C0AF841BD6D4370009ECBE /* Source */,
+				14862AFD1D3E77E4005E9C74 /* Source */,
 				146D72AF1AB782920058798C /* Tests */,
 				146D72941AB782920058798C /* Products */,
 				8CE0FC38F90425DF731E9FDD /* Frameworks */,
@@ -84,11 +83,11 @@
 				147ED5541C2491D3006EC4C6 /* note.json */,
 				147ED5551C2491D3006EC4C6 /* nulls.json */,
 				147ED5561C2491D3006EC4C6 /* simple.json */,
-				147ED5571C2491D3006EC4C6 /* Tests.m */,
 				147ED5581C2491D3006EC4C6 /* users.json */,
 				147ED5591C2491D3006EC4C6 /* users2.json */,
 				147ED55A1C2491D3006EC4C6 /* users3.json */,
 				146D72B01AB782920058798C /* Supporting Files */,
+				140949BA1D3E5A9E00C6F448 /* Tests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -101,11 +100,10 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		14C0AF841BD6D4370009ECBE /* Source */ = {
+		14862AFD1D3E77E4005E9C74 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				147ED54F1C2491C1006EC4C6 /* DATAFilter.h */,
-				147ED5501C2491C1006EC4C6 /* DATAFilter.m */,
+				14862AFE1D3E77E4005E9C74 /* DATAFilter.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -147,12 +145,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
-				F9673DFA1E321BC3D9FE6E52 /* 📦 Check Pods Manifest.lock */,
+				F9673DFA1E321BC3D9FE6E52 /* [CP] Check Pods Manifest.lock */,
 				146D72A81AB782920058798C /* Sources */,
 				146D72A91AB782920058798C /* Frameworks */,
 				146D72AA1AB782920058798C /* Resources */,
-				D669B4DA114E9BD15D206A90 /* 📦 Embed Pods Frameworks */,
-				D8A543CEE33BE6C7CDDFB909 /* 📦 Copy Pods Resources */,
+				D669B4DA114E9BD15D206A90 /* [CP] Embed Pods Frameworks */,
+				D8A543CEE33BE6C7CDDFB909 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -214,14 +212,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D669B4DA114E9BD15D206A90 /* 📦 Embed Pods Frameworks */ = {
+		D669B4DA114E9BD15D206A90 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,14 +227,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D8A543CEE33BE6C7CDDFB909 /* 📦 Copy Pods Resources */ = {
+		D8A543CEE33BE6C7CDDFB909 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,14 +242,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F9673DFA1E321BC3D9FE6E52 /* 📦 Check Pods Manifest.lock */ = {
+		F9673DFA1E321BC3D9FE6E52 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,8 +264,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				147ED55F1C2491D3006EC4C6 /* Tests.m in Sources */,
-				147ED5511C2491C1006EC4C6 /* DATAFilter.m in Sources */,
+				140949BB1D3E5A9E00C6F448 /* Tests.swift in Sources */,
+				14862AFF1D3E77E4005E9C74 /* DATAFilter.swift in Sources */,
 				147ED55B1C2491D3006EC4C6 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
