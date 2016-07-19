@@ -1,4 +1,6 @@
 use_frameworks!
 
-pod 'DATAFilter', path: "."
-pod 'DATAStack'
+target 'Tests' do
+  pod 'DATAFilter', path: "."
+  pod 'DATAStack'  
+end
