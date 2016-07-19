@@ -20,63 +20,22 @@ public class func changes(changes: NSArray,
 
 ## How to use
 
-```objc
-- (void)importObjects:(NSArray *)JSON usingContext:(NSManagedObjectContext *)context error:(NSError *)error {
-    [DATAFilter changes:JSON
-          inEntityNamed:@"User"
-        localPrimaryKey:@"remoteID"
-       remotePrimaryKey:@"id"
-                context:context
-               inserted:^(NSDictionary *JSON) {
-                    ANDYUser *user = [ANDYUser insertInManagedObjectContext:context];
-                    [user fillObjectWithAttributes:JSON];
-              } updated:^(NSDictionary *JSON, NSManagedObject *updatedObject) {
-                    ANDYUser *user = (ANDYUser *)object;
-                    [user fillObjectWithAttributes:JSON];
-              }];
-
-    [context save:&error];
+```swift
+func importObjects(JSON: [AnyObject], context: NSManagedObjectContext) {
+    DATAFilter.changes(JSON,
+                       inEntityNamed: "User",
+                       localPrimaryKey: "remoteID",
+                       remotePrimaryKey: "id",
+                       context: context,
+                       inserted: { objectJSON in
+                        let user = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: context)
+                        user.fillObjectWithAttributes(JSON)
+        }) { objectJSON, updatedObject in
+            if let user = updatedObject as? User {
+                user.fillObjectWithAttributes(JSON)
+            }
+    }
 }
-```
-
-## Local and remote primary keys
-
-`localPrimaryKey` is the name of the local primary key, for example `id` or `remoteKey`.
-`remotePrimaryKey` is the name of the key from JSON, for example `id`.
-
-## Predicate
-
-Use the predicate to filter out mapped changes. For example if the JSON response belongs to only inactive users, you could have a predicate like this:
-
-```objc
-NSPredicate *predicate = [NSString stringWithFormat:@"inactive = YES"];
-```
-
----------------
-
-*As a side note, you should use a [fancier property mapper](https://github.com/hyperoslo/NSManagedObject-HYPPropertyMapper/blob/master/README.md) that does the `fillObjectWithAttributes` part for you.*
-
-## Operations
-
-`DATAFilter` also provides the option to set which operations should be run when filtering, by default `DATAFilterOperationAll` is used but you could also set the option to just Insert and Update (avoiding removing items) or Update and Delete (avoiding updating items).
-
-Usage goes like this:
-
-```objc
-// No items will be deleted here
-
-[DATAFilter changes:JSON
-      inEntityNamed:@"User"
-          predicate:nil
-         operations:DATAFilterOperationInsert | DATAFilterOperationUpdate
-    localPrimaryKey:@"remoteID"
-   remotePrimaryKey:@"id"
-            context:context
-           inserted:^(NSDictionary *JSON) {
-               // Do something with inserted items
-           } updated:^(NSDictionary *JSON, NSManagedObject *updatedObject) {
-               // Do something with updated items
-           }];
 ```
 
 ## Requirements
