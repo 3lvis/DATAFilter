@@ -47,8 +47,8 @@ func importObjects(JSON: [[String : AnyObject]], context: NSManagedObjectContext
 
 Use the predicate to filter out mapped changes. For example if the JSON response belongs to only inactive users, you could have a predicate like this:
 
-```objc
-NSPredicate *predicate = [NSString stringWithFormat:@"inactive = YES"];
+```swift
+let predicate = NSPredicate(format: "inactive == %@", true)
 ```
 
 ---------------
@@ -57,25 +57,25 @@ NSPredicate *predicate = [NSString stringWithFormat:@"inactive = YES"];
 
 ## Operations
 
-`DATAFilter` also provides the option to set which operations should be run when filtering, by default `DATAFilterOperationAll` is used but you could also set the option to just Insert and Update (avoiding removing items) or Update and Delete (avoiding updating items).
+`DATAFilter` also provides the option to set which operations should be run when filtering, by default `.All` is used but you could also set the option to just `.Insert` and `.Update` (avoiding removing items) or `.Update` and `.Delete` (avoiding updating items).
 
 Usage goes like this:
 
-```objc
+```swoft
 // No items will be deleted here
 
-[DATAFilter changes:JSON
-      inEntityNamed:@"User"
-          predicate:nil
-         operations:DATAFilterOperationInsert | DATAFilterOperationUpdate
-    localPrimaryKey:@"remoteID"
-   remotePrimaryKey:@"id"
-            context:context
-           inserted:^(NSDictionary *JSON) {
-               // Do something with inserted items
-           } updated:^(NSDictionary *JSON, NSManagedObject *updatedObject) {
-               // Do something with updated items
-           }];
+DATAFilter.changes(JSONObjects,
+    inEntityNamed: "User",
+    predicate: nil,
+    operations: [.Insert, .Update],
+    localPrimaryKey: "remoteID",
+    remotePrimaryKey: "id",
+    context: backgroundContext,
+    inserted: { objectJSON in
+        // Do something with inserted items
+    }, updated: { objectJSON, updatedObject in
+        // Do something with updated items
+})
 ```
 
 ## Requirements
