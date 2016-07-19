@@ -40,7 +40,7 @@ func importObjects(JSON: [[String : AnyObject]], context: NSManagedObjectContext
 
 ## Local and remote primary keys
 
-`localPrimaryKey` is the name of the local primary key, for example `id` or `remoteKey`.
+`localPrimaryKey` is the name of the local primary key, for example `id` or `remoteID`.
 `remotePrimaryKey` is the name of the key from JSON, for example `id`.
 
 ## Predicate
