@@ -15,7 +15,7 @@ public struct DATAFilterOperation : OptionSetType {
 	public static let All: DATAFilterOperation = [.Insert, .Update, .Delete]
 }
 
-public class DATAFilter: NSObject {
+@objc public class DATAFilter: NSObject {
 	public class func changes(
 							  changes: NSArray,
 				inEntityNamed entityName: String,
