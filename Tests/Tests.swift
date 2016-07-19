@@ -274,7 +274,7 @@ class Tests: XCTestCase {
             var inserted = 0
             var updated = 0
             var deleted = before.count
-            DATAFilter.changes(JSONObjects, inEntityNamed: "User", predicate: NSPredicate(format: "remoteID == %@", 0), operations: [.All], localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: { objectJSON in
+            DATAFilter.changes(JSONObjects, inEntityNamed: "User", predicate: NSPredicate(format: "remoteID == %@", NSNumber(int: 0)), operations: [.All], localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: { objectJSON in
                 inserted += 1
                 }, updated: { objectJSON, updatedObject in
                     updated += 1
