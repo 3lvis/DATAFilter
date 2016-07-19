@@ -53,7 +53,7 @@ public class DATAFilter: NSObject {
         let insertedObjectIDs = remoteObjectIDs.mutableCopy() as! NSMutableArray
         insertedObjectIDs.removeObjectsInArray(fetchedObjectIDs as [AnyObject])
 
-        if operations == .Delete || operations == .All {
+        if operations.contains(.Delete) {
             for fetchedID in deletedObjectIDs {
                 let objectID = dictionaryIDAndObjectID[fetchedID as! NSObject] as! NSManagedObjectID
                 let object = context.objectWithID(objectID)
@@ -61,14 +61,14 @@ public class DATAFilter: NSObject {
             }
         }
 
-        if operations == .Insert || operations == .All {
+        if operations.contains(.Insert) {
             for fetchedID in insertedObjectIDs as! [NSCopying] {
                 let objectDictionary = remoteIDAndChange[fetchedID] as! NSDictionary
                 inserted(objectJSON: objectDictionary)
             }
         }
 
-        if operations == .Update || operations == .All {
+        if operations.contains(.Update) {
             for fetchedID in updatedObjectIDs as! [NSCopying] {
                 let objectDictionary = remoteIDAndChange[fetchedID] as! NSDictionary
                 let objectID = dictionaryIDAndObjectID[fetchedID as! NSObject] as! NSManagedObjectID
