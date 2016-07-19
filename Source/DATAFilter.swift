@@ -37,8 +37,18 @@ public class DATAFilter: NSObject {
                                             updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
         let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate)
         let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
-        let remoteObjectIDs = (changes as NSArray).valueForKey(remotePrimaryKey).mutableCopy() as! NSMutableArray
-        remoteObjectIDs.removeObject(NSNull())
+		let remoteObjectIDsOpt = changes.map({$0[remotePrimaryKey]})
+		let remoteObjectIDs = (remoteObjectIDsOpt.filter({$0 != nil}) as! [AnyObject!] as NSArray).mutableCopy() as! NSMutableArray
+
+		/*
+		let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
+		let remoteObjectIDsOpt = changes.map({$0[remotePrimaryKey]})
+		let remoteObjectIDs = remoteObjectIDsOpt as! [AnyObject!]
+		let remoteObjectIDsNSArray = remoteObjectIDs as NSArray
+		let remoteObjectIDsCopy = remoteObjectIDsNSArray.mutableCopy()
+		let remoteObjectIDsMutable = remoteObjectIDsCopy as! NSMutableArray
+		remoteObjectIDsMutable.removeObject(NSNull())
+		*/
 
         let remoteIDAndChange = NSDictionary(objects: changes as [AnyObject], forKeys: remoteObjectIDs as NSArray as! [NSCopying])
         let intersection = NSMutableSet(array: remoteObjectIDs as [AnyObject])
