@@ -21,8 +21,8 @@ public class DATAFilter: NSObject {
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (objectJSON: NSDictionary) -> Void,
-                                            updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void){
+                                            inserted: (objectJSON: [String: AnyObject]) -> Void,
+                                            updated: (objectJSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void){
         self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
     }
 
@@ -33,11 +33,11 @@ public class DATAFilter: NSObject {
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (objectJSON: NSDictionary) -> Void,
-                                            updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
+                                            inserted: (objectJSON: [String: AnyObject]) -> Void,
+                                            updated: (objectJSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void) {
         let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate)
         let fetchedObjectIDs: [AnyObject] = Array(dictionaryIDAndObjectID.keys)
-		let remoteObjectIDsOpt = changes.map({$0[remotePrimaryKey]})
+        let remoteObjectIDsOpt = changes.map({$0[remotePrimaryKey]})
         let remoteObjectIDs = remoteObjectIDsOpt.filter({$0 != nil}) as! [AnyObject!]
 
         let remoteIDAndChange = NSDictionary(objects: changes as [AnyObject], forKeys: remoteObjectIDs as NSArray as! [NSCopying])
@@ -63,14 +63,14 @@ public class DATAFilter: NSObject {
 
         if operations.contains(.Insert) {
             for fetchedID in insertedObjectIDs as NSArray as! [NSCopying] {
-                let objectDictionary = remoteIDAndChange[fetchedID] as! NSDictionary
+                let objectDictionary = remoteIDAndChange[fetchedID] as! [String: AnyObject]
                 inserted(objectJSON: objectDictionary)
             }
         }
 
         if operations.contains(.Update) {
             for fetchedID in updatedObjectIDs as! [NSCopying] {
-                let objectDictionary = remoteIDAndChange[fetchedID] as! NSDictionary
+                let objectDictionary = remoteIDAndChange[fetchedID] as! [String: AnyObject]
                 let objectID = dictionaryIDAndObjectID[fetchedID as! NSObject] as! NSManagedObjectID
                 let object = context.objectWithID(objectID)
                 updated(objectJSON: objectDictionary, updatedObject: object)
