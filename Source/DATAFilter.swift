@@ -57,8 +57,10 @@ public class DATAFilter: NSObject {
         let updatedObjectIDs = intersection.allObjects
 
         // Create array with primary keys that are present locally but not remotely
-        let deletedObjectIDs = NSMutableArray(array: fetchedObjectIDs)
-        deletedObjectIDs.removeObjectsInArray(remoteObjectIDs as [AnyObject])
+        var deletedObjectIDs = fetchedObjectIDs
+        deletedObjectIDs = deletedObjectIDs.filter {value in
+            !remoteObjectIDs.contains({$0.isEqual(value)})
+        }
 
         // Create array with primary keys that are only present remotely
         var insertedObjectIDs = remoteObjectIDs
