@@ -36,9 +36,9 @@ public class DATAFilter: NSObject {
                                             inserted: (objectJSON: NSDictionary) -> Void,
                                             updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
         let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate)
-        let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
+        let fetchedObjectIDs: [AnyObject] = Array(dictionaryIDAndObjectID.keys)
 		let remoteObjectIDsOpt = changes.map({$0[remotePrimaryKey]})
-		let remoteObjectIDs = remoteObjectIDsOpt.filter({$0 != nil}) as! [AnyObject!]
+        let remoteObjectIDs = remoteObjectIDsOpt.filter({$0 != nil}) as! [AnyObject!]
 
         let remoteIDAndChange = NSDictionary(objects: changes as [AnyObject], forKeys: remoteObjectIDs as NSArray as! [NSCopying])
         let intersection = NSMutableSet(array: remoteObjectIDs as [AnyObject])
@@ -48,11 +48,10 @@ public class DATAFilter: NSObject {
         let deletedObjectIDs = NSMutableArray(array: fetchedObjectIDs)
         deletedObjectIDs.removeObjectsInArray(remoteObjectIDs as [AnyObject])
 
-		var insertedObjectIDs = remoteObjectIDs
-
-		for fetchedObjectID in fetchedObjectIDs {
-			insertedObjectIDs = insertedObjectIDs.filter({$0 as? NSObject != fetchedObjectID})
-		}
+        var insertedObjectIDs = remoteObjectIDs
+        insertedObjectIDs = insertedObjectIDs.filter {value in
+            !fetchedObjectIDs.contains({$0.isEqual(value)})
+        }
 
         if operations.contains(.Delete) {
             for fetchedID in deletedObjectIDs {
