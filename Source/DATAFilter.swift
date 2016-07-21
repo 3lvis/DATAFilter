@@ -21,8 +21,8 @@ public class DATAFilter: NSObject {
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (objectJSON: NSDictionary) -> Void,
-                                            updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void){
+                                            inserted: (objectJSON: [String: AnyObject]) -> Void,
+                                            updated: (objectJSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void){
         self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
     }
 
@@ -33,43 +33,75 @@ public class DATAFilter: NSObject {
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (objectJSON: NSDictionary) -> Void,
-                                            updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void) {
-        let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate)
+                                            inserted: (objectJSON: [String: AnyObject]) -> Void,
+                                            updated: (objectJSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void) {
+        // Get primary key values and objectIDs of objects in "context" as [primary key: objectID]
+        // Also deletes all objects that don't have a primary key or that have the same primary key already found in the context
+        let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate) as! [NSObject: NSManagedObjectID]
+        // Get array of primary keys
         let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
-        let remoteObjectIDs = (changes as NSArray).valueForKey(remotePrimaryKey).mutableCopy() as! NSMutableArray
-        remoteObjectIDs.removeObject(NSNull())
+        // Extract array of primary keys from "changes" (remote primary keys)
+        let remoteObjectIDsOpt = changes.map({$0[remotePrimaryKey]})
+        // Filter out nil values
+        let remoteObjectIDs = (remoteObjectIDsOpt.filter({$0 != nil}) as! [NSObject!]) as![NSObject]
 
-        let remoteIDAndChange = NSDictionary(objects: changes as [AnyObject], forKeys: remoteObjectIDs as NSArray as! [NSCopying])
-        let intersection = NSMutableSet(array: remoteObjectIDs as [AnyObject])
-        intersection.intersectSet(NSSet(array: fetchedObjectIDs) as Set<NSObject>)
-        let updatedObjectIDs = intersection.allObjects
+        // Construct dictionary with remote primary keys as keys and "changes" itself as objects
+        var remoteIDAndChange: [NSObject: [String: AnyObject]] = Dictionary()
+        for (key, value) in zip(remoteObjectIDs, changes) {
+            remoteIDAndChange[key] = value
+        }
+        
+        // Create array with primary keys that are present both locally and remotely
+        // Create Set from remote primary keys
+        var intersection = Set(remoteObjectIDs)
+        // Intersect remote primary keys with local primary keys so we have all IDs that are present in both
+        intersection.intersectInPlace(Set(fetchedObjectIDs))
+        // Get all IDs back in an array
+        let updatedObjectIDs = Array(intersection)
+        
+        
+        // Create array with primary keys that are present locally but not remotely
+        var deletedObjectIDs = fetchedObjectIDs
+        // Filter values...
+        deletedObjectIDs = deletedObjectIDs.filter {value in
+            //... that are not contained in remoteObjectIDs
+            !remoteObjectIDs.contains({$0.isEqual(value)})
+        }
 
-        let deletedObjectIDs = NSMutableArray(array: fetchedObjectIDs)
-        deletedObjectIDs.removeObjectsInArray(remoteObjectIDs as [AnyObject])
+        // Create array with primary keys that are only present remotely
+        var insertedObjectIDs = remoteObjectIDs
+        // Filter values...
+        insertedObjectIDs = insertedObjectIDs.filter {value in
+            //... that are not contained in fetchedObjectIDs
+            !fetchedObjectIDs.contains({$0.isEqual(value)})
+        }
 
-        let insertedObjectIDs = remoteObjectIDs.mutableCopy() as! NSMutableArray
-        insertedObjectIDs.removeObjectsInArray(fetchedObjectIDs as [AnyObject])
-
+        // Remove objects from context that aren't present remotely
         if operations.contains(.Delete) {
             for fetchedID in deletedObjectIDs {
-                let objectID = dictionaryIDAndObjectID[fetchedID as! NSObject] as! NSManagedObjectID
+                let objectID = dictionaryIDAndObjectID[fetchedID]!
                 let object = context.objectWithID(objectID)
                 context.deleteObject(object)
             }
         }
 
+        // Call "inserted" closure for every object that's not present locally
         if operations.contains(.Insert) {
-            for fetchedID in insertedObjectIDs as NSArray as! [NSCopying] {
-                let objectDictionary = remoteIDAndChange[fetchedID] as! NSDictionary
+            for fetchedID in insertedObjectIDs {
+                // Get dictionary that represents the new object
+                let objectDictionary = remoteIDAndChange[fetchedID]!
                 inserted(objectJSON: objectDictionary)
             }
         }
 
+        // Call "updated" closure for every object that's present both locally and remotely
         if operations.contains(.Update) {
-            for fetchedID in updatedObjectIDs as! [NSCopying] {
-                let objectDictionary = remoteIDAndChange[fetchedID] as! NSDictionary
-                let objectID = dictionaryIDAndObjectID[fetchedID as! NSObject] as! NSManagedObjectID
+            for fetchedID in updatedObjectIDs {
+                // Get dictionary that represents the updated object
+                let objectDictionary = remoteIDAndChange[fetchedID]!
+                // Get the objectID of the local version of the object
+                let objectID = dictionaryIDAndObjectID[fetchedID]!
+                // Get the actual object
                 let object = context.objectWithID(objectID)
                 updated(objectJSON: objectDictionary, updatedObject: object)
             }
