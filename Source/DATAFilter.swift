@@ -43,44 +43,21 @@ public class DATAFilter: NSObject {
         // Extract array of primary keys from "changes" (remote primary keys)
         let remoteObjectIDsOpt = changes.map({$0[remotePrimaryKey]})
         // Filter out nil values
-        let remoteObjectIDs = remoteObjectIDsOpt.filter({$0 != nil}) as! [NSObject!]
+        let remoteObjectIDs = (remoteObjectIDsOpt.filter({$0 != nil}) as! [NSObject!]) as![NSObject]
 
-        // Construct dictionary with remote primary keys as keys and "changes" itself as objects (type: [NSObject: [String: AnyObject]])
+        // Construct dictionary with remote primary keys as keys and "changes" itself as objects
         var remoteIDAndChange: [NSObject: [String: AnyObject]] = Dictionary()
         for (key, value) in zip(remoteObjectIDs, changes) {
             remoteIDAndChange[key] = value
         }
         
-        ////////////////////////////Work in progress////////////////////////////
-        //*
         // Create array with primary keys that are present both locally and remotely
         // Create Set from remote primary keys
-        //let intersection: Set<NSObject> = Set(arrayLiteral: remoteObjectIDs)
-        var intersection: Set<NSObject> = Set()
-        for obj in remoteObjectIDs {
-            intersection.insert(obj)
-        }
-        
+        var intersection = Set(remoteObjectIDs)
         // Intersect remote primary keys with local primary keys so we have all IDs that are present in both
-        //let intersection2 = intersection.intersect(Set(arrayLiteral: fetchedObjectIDs))
-        var fetchedObjectIDsSet: Set<NSObject> = Set()
-        for obj in fetchedObjectIDs {
-            fetchedObjectIDsSet.insert(obj)
-        }
-        intersection.intersectInPlace(fetchedObjectIDsSet)
-        
+        intersection.intersectInPlace(Set(fetchedObjectIDs))
         // Get all IDs back in an array
-        let updatedObjectIDs = intersection.filter({_ in true})
-        //*/
-
-        /*
-        let intersection = NSMutableSet(array: remoteObjectIDs as [AnyObject])
-        // Intersect remote primary keys with local primary keys so we have all IDs that are present in both
-        intersection.intersectSet(NSSet(array: fetchedObjectIDs) as Set<NSObject>)
-        // Get all IDs back in an array
-        let updatedObjectIDs = intersection.allObjects as! [NSObject]
-        */
-        ////////////////////////////End work in progress////////////////////////////
+        let updatedObjectIDs = Array(intersection)
         
         
         // Create array with primary keys that are present locally but not remotely
