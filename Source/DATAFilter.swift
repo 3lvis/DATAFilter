@@ -21,8 +21,8 @@ public class DATAFilter: NSObject {
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (JSON: [String: AnyObject]) -> Void,
-                                            updated: (JSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void){
+                                            inserted: (JSON: [String : AnyObject]) -> Void,
+                                            updated: (JSON: [String : AnyObject], updatedObject: NSManagedObject) -> Void){
         self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
     }
 
@@ -33,11 +33,11 @@ public class DATAFilter: NSObject {
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (JSON: [String: AnyObject]) -> Void,
-                                            updated: (JSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void) {
+                                            inserted: (JSON: [String : AnyObject]) -> Void,
+                                            updated: (JSON: [String : AnyObject], updatedObject: NSManagedObject) -> Void) {
         // Get primary key values and objectIDs of objects in "context" as [primary key: objectID]
         // Also deletes all objects that don't have a primary key or that have the same primary key already found in the context
-        let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate) as! [NSObject: NSManagedObjectID]
+        let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate) as! [NSObject : NSManagedObjectID]
         // Get array of primary keys
         let fetchedObjectIDs = Array(dictionaryIDAndObjectID.keys)
         // Extract array of primary keys from "changes" (remote primary keys)
@@ -46,7 +46,7 @@ public class DATAFilter: NSObject {
         let remoteObjectIDs = (remoteObjectIDsOpt.filter({$0 != nil}) as! [NSObject!]) as![NSObject]
 
         // Construct dictionary with remote primary keys as keys and "changes" itself as objects
-        var remoteIDAndChange: [NSObject: [String: AnyObject]] = Dictionary()
+        var remoteIDAndChange: [NSObject : [String : AnyObject]] = Dictionary()
         for (key, value) in zip(remoteObjectIDs, changes) {
             remoteIDAndChange[key] = value
         }
