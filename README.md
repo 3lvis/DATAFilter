@@ -14,8 +14,8 @@ public class func changes(changes: [[String : AnyObject]],
       localPrimaryKey: String, 
       remotePrimaryKey: String, 
       context: NSManagedObjectContext, 
-      inserted: (objectJSON: NSDictionary) -> Void, 
-      updated: (objectJSON: NSDictionary, updatedObject: NSManagedObject) -> Void)
+      inserted: (JSON: [String : AnyObject]) -> Void, 
+      updated: (JSON: [String : AnyObject], updatedObject: NSManagedObject) -> Void)
 ```
 
 ## How to use
@@ -27,10 +27,10 @@ func importObjects(JSON: [[String : AnyObject]], context: NSManagedObjectContext
                        localPrimaryKey: "remoteID",
                        remotePrimaryKey: "id",
                        context: context,
-                       inserted: { objectJSON in
-                        let user = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: context)
-                        user.fillObjectWithAttributes(JSON)
-        }) { objectJSON, updatedObject in
+                       inserted: { JSON in
+            let user = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: context)
+            user.fillObjectWithAttributes(JSON)
+        }) { JSON, updatedObject in
             if let user = updatedObject as? User {
                 user.fillObjectWithAttributes(JSON)
             }
@@ -62,8 +62,6 @@ let predicate = NSPredicate(format: "inactive == %@", true)
 Usage goes like this:
 
 ```swift
-// No items will be deleted here
-
 DATAFilter.changes(JSONObjects,
     inEntityNamed: "User",
     predicate: nil,
@@ -71,9 +69,9 @@ DATAFilter.changes(JSONObjects,
     localPrimaryKey: "remoteID",
     remotePrimaryKey: "id",
     context: backgroundContext,
-    inserted: { objectJSON in
+    inserted: { JSON in
         // Do something with inserted items
-    }, updated: { objectJSON, updatedObject in
+    }, updated: { JSON, updatedObject in
         // Do something with updated items
 })
 ```
