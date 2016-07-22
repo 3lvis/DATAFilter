@@ -21,8 +21,8 @@ public class DATAFilter: NSObject {
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (objectJSON: [String: AnyObject]) -> Void,
-                                            updated: (objectJSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void){
+                                            inserted: (JSON: [String: AnyObject]) -> Void,
+                                            updated: (JSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void){
         self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
     }
 
@@ -33,8 +33,8 @@ public class DATAFilter: NSObject {
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (objectJSON: [String: AnyObject]) -> Void,
-                                            updated: (objectJSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void) {
+                                            inserted: (JSON: [String: AnyObject]) -> Void,
+                                            updated: (JSON: [String: AnyObject], updatedObject: NSManagedObject) -> Void) {
         // Get primary key values and objectIDs of objects in "context" as [primary key: objectID]
         // Also deletes all objects that don't have a primary key or that have the same primary key already found in the context
         let dictionaryIDAndObjectID = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate) as! [NSObject: NSManagedObjectID]
@@ -90,7 +90,7 @@ public class DATAFilter: NSObject {
             for fetchedID in insertedObjectIDs {
                 // Get dictionary that represents the new object
                 let objectDictionary = remoteIDAndChange[fetchedID]!
-                inserted(objectJSON: objectDictionary)
+                inserted(JSON: objectDictionary)
             }
         }
 
@@ -103,7 +103,7 @@ public class DATAFilter: NSObject {
                 let objectID = dictionaryIDAndObjectID[fetchedID]!
                 // Get the actual object
                 let object = context.objectWithID(objectID)
-                updated(objectJSON: objectDictionary, updatedObject: object)
+                updated(JSON: objectDictionary, updatedObject: object)
             }
         }
     }
