@@ -16,7 +16,7 @@ s.osx.deployment_target = '10.9'
 s.watchos.deployment_target = '2.0'
 s.tvos.deployment_target = '9.0'
 s.requires_arc = true
-s.source_files = 'Source/**/*'
+s.source_files = 'Sources/**/*'
 s.frameworks = 'Foundation', 'CoreData'
 s.dependency 'DATAObjectIDs', '~> 0.5.1'
 end

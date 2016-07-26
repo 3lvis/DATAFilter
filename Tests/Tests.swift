@@ -3,6 +3,7 @@ import CoreData
 import DATAObjectIDs
 import DATAStack
 import JSON
+import DATAFilter
 
 class Tests: XCTestCase {
     func user(remoteID remoteID: Int, firstName: String, lastName: String, age: Int, context: NSManagedObjectContext) -> NSManagedObject {
