@@ -285,4 +285,249 @@ class Tests: XCTestCase {
             XCTAssertEqual(deleted, 4)
         }
     }
+    
+    /*
+     5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+     In users.json:
+     - Inserted: 6
+     - Updated: 0, 1, 2, 3 and 7
+     - Deleted: 4 and 8
+     - Returned: ([], [])
+     */
+    func testSyncStatusSynced() {
+        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+        dataStack.performInNewBackgroundContext{ backgroundContext in
+            self.createUsers(context: backgroundContext)
+            let users = try! backgroundContext.executeFetchRequest(NSFetchRequest(entityName: "User")) as! [NSManagedObject]
+            var user3: NSManagedObject?
+            for user in users {
+                if user.valueForKey("remoteID") as! Int == 3 {
+                    user3 = user
+                    break
+                }
+            }
+            user3!.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
+            
+            let user = self.user(remoteID: 8, firstName: "John", lastName: "Doe", age: 18, context: backgroundContext)
+            user.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
+            
+            // No `syncStatus`
+            let user7 = self.user(remoteID: 7, firstName: "Lauren", lastName: "Treacy", age: 28, context: backgroundContext)
+            
+            try! backgroundContext.save()
+            
+            let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
+            let JSONObjects = try! JSON.from("users.json", bundle: NSBundle(forClass: Tests.self)) as! [[String : AnyObject]]
+            var inserted = 0
+            var updated = 0
+            let (created, deleted) = DATAFilter.changes(JSONObjects, inEntityNamed: "User", predicate: nil, operations: .All, syncStatus: .All, localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: {_ in inserted += 1}, updated: {_, _ in updated += 1})
+            let deletedRemote = before.count - updated - created.count - deleted.count
+            
+            XCTAssertEqual(inserted, 1)
+            XCTAssertEqual(updated, 5)
+            XCTAssertEqual(deletedRemote, 2)
+            
+            XCTAssertTrue(created.isEmpty)
+            XCTAssertTrue(deleted.isEmpty)
+        }
+    }
+    
+    /*
+     5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+     In users.json:
+     - Inserted: 6 and 7
+     - Updated: 0, 1, 2 and 3
+     - Deleted: 4
+     - Returned: ([8], [])
+     */
+    func testSyncStatusCreated() {
+        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+        dataStack.performInNewBackgroundContext{ backgroundContext in
+            self.createUsers(context: backgroundContext)
+            let user = self.user(remoteID: 8, firstName: "John", lastName: "Doe", age: 18, context: backgroundContext)
+            user.setValue(DATAFilter.SyncStatus.Created.rawValue, forKey: "syncStatus")
+            try! backgroundContext.save()
+            
+            let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
+            let JSONObjects = try! JSON.from("users.json", bundle: NSBundle(forClass: Tests.self)) as! [[String : AnyObject]]
+            var inserted = 0
+            var updated = 0
+            let (created, deleted) = DATAFilter.changes(JSONObjects, inEntityNamed: "User", predicate: nil, operations: .All, syncStatus: .All, localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: {_ in inserted += 1}, updated: {_, _ in updated += 1})
+            let deletedRemote = before.count - updated - created.count - deleted.count
+            
+            XCTAssertEqual(inserted, 2)
+            XCTAssertEqual(updated, 4)
+            XCTAssertEqual(deletedRemote, 1)
+            
+            if created.count == 1 {
+                XCTAssertEqual(created[0], user)
+            } else {
+                XCTFail("created should've contained one item, namely, user")
+            }
+            XCTAssertTrue(deleted.isEmpty)
+        }
+    }
+    
+    /*
+     5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+     In users.json:
+     - Inserted: 6 and 7
+     - Updated: 0, 1 and 2
+     - Deleted: 4
+     - Returned: ([], [3])
+     */
+    func testSyncStatusDeleted() {
+        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+        dataStack.performInNewBackgroundContext{ backgroundContext in
+            self.createUsers(context: backgroundContext)
+            let users = try! backgroundContext.executeFetchRequest(NSFetchRequest(entityName: "User")) as! [NSManagedObject]
+            var user3: NSManagedObject?
+            for user in users {
+                if user.valueForKey("remoteID") as! Int == 3 {
+                    user3 = user
+                    break
+                }
+            }
+            user3!.setValue(DATAFilter.SyncStatus.Deleted.rawValue, forKey: "syncStatus")
+            try! backgroundContext.save()
+            
+            let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
+            let JSONObjects = try! JSON.from("users.json", bundle: NSBundle(forClass: Tests.self)) as! [[String : AnyObject]]
+            var inserted = 0
+            var updated = 0
+            let (created, deleted) = DATAFilter.changes(JSONObjects, inEntityNamed: "User", predicate: nil, operations: .All, syncStatus: .All, localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: {_ in inserted += 1}, updated: {_, _ in updated += 1})
+            let deletedRemote = before.count - updated - created.count - deleted.count
+            
+            XCTAssertEqual(inserted, 2)
+            XCTAssertEqual(updated, 3)
+            XCTAssertEqual(deletedRemote, 1)
+            
+            XCTAssertTrue(created.isEmpty)
+            if deleted.count == 1 {
+                XCTAssertEqual(deleted[0], user3)
+            } else {
+                XCTFail("created should've contained one item, namely, user3")
+            }
+        }
+    }
+    
+    /*
+     5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+     In users.json:
+     - Inserted: 6
+     - Updated: 0, 1, 2 and 7
+     - Deleted: 4 and 8
+     - Returned: ([9], [3])
+     */
+    func testSyncStatusAll() {
+        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+        dataStack.performInNewBackgroundContext{ backgroundContext in
+            self.createUsers(context: backgroundContext)
+            let users = try! backgroundContext.executeFetchRequest(NSFetchRequest(entityName: "User")) as! [NSManagedObject]
+            var user2: NSManagedObject?
+            var user3: NSManagedObject?
+            for user in users {
+                switch user.valueForKey("remoteID") as! Int {
+                case 2: user2 = user
+                case 3: user3 = user
+                default: break
+                }
+            }
+            user2!.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
+            user3!.setValue(DATAFilter.SyncStatus.Deleted.rawValue, forKey: "syncStatus")
+            
+            // No `syncStatus`
+            let user7 = self.user(remoteID: 7, firstName: "Lauren", lastName: "Treacy", age: 28, context: backgroundContext)
+            
+            let user8 = self.user(remoteID: 8, firstName: "John", lastName: "Doe", age: 18, context: backgroundContext)
+            user8.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
+            
+            let user9 = self.user(remoteID: 9, firstName: "Mark", lastName: "Abrahams", age: 26, context: backgroundContext)
+            user9.setValue(DATAFilter.SyncStatus.Created.rawValue, forKey: "syncStatus")
+            try! backgroundContext.save()
+            
+            let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
+            let JSONObjects = try! JSON.from("users.json", bundle: NSBundle(forClass: Tests.self)) as! [[String : AnyObject]]
+            var inserted = 0
+            var updated = 0
+            let (created, deleted) = DATAFilter.changes(JSONObjects, inEntityNamed: "User", predicate: nil, operations: .All, syncStatus: .All, localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: {_ in inserted += 1}, updated: {_, _ in updated += 1})
+            let deletedRemote = before.count - updated - created.count - deleted.count
+            
+            XCTAssertEqual(inserted, 1)
+            XCTAssertEqual(updated, 4)
+            XCTAssertEqual(deletedRemote, 2)
+            
+            if created.count == 1 {
+                XCTAssertEqual(created[0], user9)
+            } else {
+                XCTFail("created should've contained one item, namely, user9")
+            }
+            
+            
+            if deleted.count == 1 {
+                XCTAssertEqual(deleted[0], user3)
+            } else {
+                XCTFail("created should've contained one item, namely, user3")
+            }
+        }
+    }
+    
+    /*
+     5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+     In users.json:
+     - Inserted: 6
+     - Updated: 0, 1, 2, 3 and 7
+     - Deleted: 4, 8, 9 and 10
+     - Returned: ([], [])
+     */
+    func testSyncStatusNone() {
+        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+        dataStack.performInNewBackgroundContext{ backgroundContext in
+            self.createUsers(context: backgroundContext)
+            
+            let users = try! backgroundContext.executeFetchRequest(NSFetchRequest(entityName: "User")) as! [NSManagedObject]
+            var user1: NSManagedObject?
+            var user2: NSManagedObject?
+            var user3: NSManagedObject?
+            for user in users {
+                switch user.valueForKey("remoteID") as! Int {
+                case 1: user1 = user
+                case 2: user2 = user
+                case 3: user3 = user
+                default: break
+                }
+            }
+            user1!.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
+            user2!.setValue(DATAFilter.SyncStatus.Created.rawValue, forKey: "syncStatus")
+            user3!.setValue(DATAFilter.SyncStatus.Deleted.rawValue, forKey: "syncStatus")
+            
+            // No `syncStatus`
+            let user7 = self.user(remoteID: 7, firstName: "Lauren", lastName: "Treacy", age: 28, context: backgroundContext)
+            
+            let user8 = self.user(remoteID: 8, firstName: "John", lastName: "Doe", age: 18, context: backgroundContext)
+            user8.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
+            
+            let user9 = self.user(remoteID: 9, firstName: "Mark", lastName: "Abrahams", age: 26, context: backgroundContext)
+            user9.setValue(DATAFilter.SyncStatus.Created.rawValue, forKey: "syncStatus")
+            
+            let user10 = self.user(remoteID: 10, firstName: "Levi", lastName: "Roots", age: 47, context: backgroundContext)
+            user10.setValue(DATAFilter.SyncStatus.Deleted.rawValue, forKey: "syncStatus")
+            try! backgroundContext.save()
+            
+            let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
+            let JSONObjects = try! JSON.from("users.json", bundle: NSBundle(forClass: Tests.self)) as! [[String : AnyObject]]
+            var inserted = 0
+            var updated = 0
+            let (created, deleted) = DATAFilter.changes(JSONObjects, inEntityNamed: "User", predicate: nil, operations: .All, syncStatus: .None, localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: {_ in inserted += 1}, updated: {_, _ in updated += 1})
+            let deletedRemote = before.count - updated - created.count - deleted.count
+            
+            XCTAssertEqual(inserted, 1)
+            XCTAssertEqual(updated, 5)
+            XCTAssertEqual(deletedRemote, 4)
+            
+            // By definition of DATAFilter.SyncStatus.None
+            XCTAssertTrue(created.isEmpty)
+            XCTAssertTrue(deleted.isEmpty)
+        }
+    }
 }
