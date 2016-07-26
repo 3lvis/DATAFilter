@@ -52,55 +52,7 @@ public class DATAFilter: NSObject {
                                             context: NSManagedObjectContext,
                                             inserted: (JSON: [String : AnyObject]) -> Void,
                                             updated: (JSON: [String : AnyObject], updatedObject: NSManagedObject) -> Void) {
-        // `DATAObjectIDs.objectIDsInEntityNamed` also deletes all objects that don't have a primary key or that have the same primary key already found in the context
-        let primaryKeysAndObjectIDs = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate) as! [NSObject : NSManagedObjectID]
-        let localPrimaryKeys = Array(primaryKeysAndObjectIDs.keys)
-        let remotePrimaryKeys = changes.map { $0[remotePrimaryKey] }
-        let remotePrimaryKeysWithoutNils = (remotePrimaryKeys.filter { $0 != nil } as! [NSObject!]) as! [NSObject]
-
-        var remotePrimaryKeysAndChanges = [NSObject : [String : AnyObject]]()
-        for (primaryKey, change) in zip(remotePrimaryKeysWithoutNils, changes) {
-            remotePrimaryKeysAndChanges[primaryKey] = change
-        }
-        
-        var intersection = Set(remotePrimaryKeysWithoutNils)
-        intersection.intersectInPlace(Set(localPrimaryKeys))
-        let updatedObjectIDs = Array(intersection)
-        
-        
-        var deletedObjectIDs = localPrimaryKeys
-        deletedObjectIDs = deletedObjectIDs.filter { value in
-            !remotePrimaryKeysWithoutNils.contains { $0.isEqual(value) }
-        }
-
-        var insertedObjectIDs = remotePrimaryKeysWithoutNils
-        insertedObjectIDs = insertedObjectIDs.filter { value in
-            !localPrimaryKeys.contains { $0.isEqual(value) }
-        }
-
-        if operations.contains(.Delete) {
-            for fetchedID in deletedObjectIDs {
-                let objectID = primaryKeysAndObjectIDs[fetchedID]!
-                let object = context.objectWithID(objectID)
-                context.deleteObject(object)
-            }
-        }
-
-        if operations.contains(.Insert) {
-            for fetchedID in insertedObjectIDs {
-                let objectDictionary = remotePrimaryKeysAndChanges[fetchedID]!
-                inserted(JSON: objectDictionary)
-            }
-        }
-
-        if operations.contains(.Update) {
-            for fetchedID in updatedObjectIDs {
-                let JSON = remotePrimaryKeysAndChanges[fetchedID]!
-                let objectID = primaryKeysAndObjectIDs[fetchedID]!
-                let object = context.objectWithID(objectID)
-                updated(JSON: JSON, updatedObject: object)
-            }
-        }
+        self.changes(changes, inEntityNamed: entityName, predicate: predicate, operations: operations, syncStatus: .None, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
     }
     
     public class func changes(changes: [[String : AnyObject]],
