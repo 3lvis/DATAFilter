@@ -71,7 +71,7 @@ public class DATAFilter: NSObject {
         let localPrimaryKeys = Array(primaryKeysAndObjectIDs.keys)
         let remotePrimaryKeys = changes.map { $0[remotePrimaryKey] }
         let remotePrimaryKeysWithoutNils = (remotePrimaryKeys.filter { $0 != nil } as! [NSObject!]) as! [NSObject]
-        
+
         var remotePrimaryKeysAndChanges = [NSObject : [String : AnyObject]]()
         for (primaryKey, change) in zip(remotePrimaryKeysWithoutNils, changes) {
             remotePrimaryKeysAndChanges[primaryKey] = change
@@ -86,7 +86,7 @@ public class DATAFilter: NSObject {
         deletedObjectIDs = deletedObjectIDs.filter { value in
             !remotePrimaryKeysWithoutNils.contains { $0.isEqual(value) }
         }
-        
+
         var insertedObjectIDs = remotePrimaryKeysWithoutNils
         insertedObjectIDs = insertedObjectIDs.filter { value in
             !localPrimaryKeys.contains { $0.isEqual(value) }
@@ -98,7 +98,7 @@ public class DATAFilter: NSObject {
             for (i, fetchedID) in deletedObjectIDs.enumerate().reverse() {
                 let objectID = primaryKeysAndObjectIDs[fetchedID]!
                 let object = context.objectWithID(objectID)
-                if object.valueForKey("syncStatus") as! Int == 1 << 1 {
+                if object.valueForKey("syncStatus") as! Int == DATAFilter.SyncStatus.Created.rawValue {
                     created.append(object)
                     deletedObjectIDs.removeAtIndex(i)
                 }
@@ -110,7 +110,7 @@ public class DATAFilter: NSObject {
             for (i, fetchedID) in updatedObjectIDs.enumerate().reverse() {
                 let objectID = primaryKeysAndObjectIDs[fetchedID]!
                 let object = context.objectWithID(objectID)
-                if object.valueForKey("syncStatus") as! Int == 1 << 2 {
+                if object.valueForKey("syncStatus") as! Int == DATAFilter.SyncStatus.Deleted.rawValue {
                     deleted.append(object)
                     updatedObjectIDs.removeAtIndex(i)
                 }
@@ -124,14 +124,14 @@ public class DATAFilter: NSObject {
                 context.deleteObject(object)
             }
         }
-        
+
         if operations.contains(.Insert) {
             for fetchedID in insertedObjectIDs {
                 let objectDictionary = remotePrimaryKeysAndChanges[fetchedID]!
                 inserted(JSON: objectDictionary)
             }
         }
-                        
+
         if operations.contains(.Update) {
             for fetchedID in updatedObjectIDs {
                 let objectDictionary = remotePrimaryKeysAndChanges[fetchedID]!

@@ -306,10 +306,10 @@ class Tests: XCTestCase {
                     break
                 }
             }
-            user3!.setValue(1 << 0, forKey: "syncStatus")
+            user3!.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
             
             let user = self.user(remoteID: 8, firstName: "John", lastName: "Doe", age: 18, context: backgroundContext)
-            user.setValue(1 << 0, forKey: "syncStatus")
+            user.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
             
             // No `syncStatus`
             let user7 = self.user(remoteID: 7, firstName: "Lauren", lastName: "Treacy", age: 28, context: backgroundContext)
@@ -345,7 +345,7 @@ class Tests: XCTestCase {
         dataStack.performInNewBackgroundContext{ backgroundContext in
             self.createUsers(context: backgroundContext)
             let user = self.user(remoteID: 8, firstName: "John", lastName: "Doe", age: 18, context: backgroundContext)
-            user.setValue(1 << 1, forKey: "syncStatus")
+            user.setValue(DATAFilter.SyncStatus.Created.rawValue, forKey: "syncStatus")
             try! backgroundContext.save()
             
             let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
@@ -388,7 +388,7 @@ class Tests: XCTestCase {
                     break
                 }
             }
-            user3!.setValue(1 << 2, forKey: "syncStatus")
+            user3!.setValue(DATAFilter.SyncStatus.Deleted.rawValue, forKey: "syncStatus")
             try! backgroundContext.save()
             
             let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
@@ -433,17 +433,17 @@ class Tests: XCTestCase {
                 default: break
                 }
             }
-            user2!.setValue(1 << 0, forKey: "syncStatus")
-            user3!.setValue(1 << 2, forKey: "syncStatus")
+            user2!.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
+            user3!.setValue(DATAFilter.SyncStatus.Deleted.rawValue, forKey: "syncStatus")
             
             // No `syncStatus`
             let user7 = self.user(remoteID: 7, firstName: "Lauren", lastName: "Treacy", age: 28, context: backgroundContext)
             
             let user8 = self.user(remoteID: 8, firstName: "John", lastName: "Doe", age: 18, context: backgroundContext)
-            user8.setValue(1 << 0, forKey: "syncStatus")
+            user8.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
             
             let user9 = self.user(remoteID: 9, firstName: "Mark", lastName: "Abrahams", age: 26, context: backgroundContext)
-            user9.setValue(1 << 1, forKey: "syncStatus")
+            user9.setValue(DATAFilter.SyncStatus.Created.rawValue, forKey: "syncStatus")
             try! backgroundContext.save()
             
             let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
@@ -497,21 +497,21 @@ class Tests: XCTestCase {
                 default: break
                 }
             }
-            user1!.setValue(1 << 0, forKey: "syncStatus")
-            user2!.setValue(1 << 1, forKey: "syncStatus")
-            user3!.setValue(1 << 2, forKey: "syncStatus")
+            user1!.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
+            user2!.setValue(DATAFilter.SyncStatus.Created.rawValue, forKey: "syncStatus")
+            user3!.setValue(DATAFilter.SyncStatus.Deleted.rawValue, forKey: "syncStatus")
             
             // No `syncStatus`
             let user7 = self.user(remoteID: 7, firstName: "Lauren", lastName: "Treacy", age: 28, context: backgroundContext)
             
             let user8 = self.user(remoteID: 8, firstName: "John", lastName: "Doe", age: 18, context: backgroundContext)
-            user8.setValue(1 << 0, forKey: "syncStatus")
+            user8.setValue(DATAFilter.SyncStatus.Synced.rawValue, forKey: "syncStatus")
             
             let user9 = self.user(remoteID: 9, firstName: "Mark", lastName: "Abrahams", age: 26, context: backgroundContext)
-            user9.setValue(1 << 1, forKey: "syncStatus")
+            user9.setValue(DATAFilter.SyncStatus.Created.rawValue, forKey: "syncStatus")
             
             let user10 = self.user(remoteID: 10, firstName: "Levi", lastName: "Roots", age: 47, context: backgroundContext)
-            user10.setValue(1 << 2, forKey: "syncStatus")
+            user10.setValue(DATAFilter.SyncStatus.Deleted.rawValue, forKey: "syncStatus")
             try! backgroundContext.save()
             
             let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
