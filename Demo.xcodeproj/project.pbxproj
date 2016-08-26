@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		144CDE2D1D47C48900C035E5 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 144CDE251D47C48900C035E5 /* Model.xcdatamodeld */; };
 		144CDE2E1D47C48900C035E5 /* note.json in Resources */ = {isa = PBXBuildFile; fileRef = 144CDE271D47C48900C035E5 /* note.json */; };
-		144CDE2F1D47C48900C035E5 /* nulls.json in Resources */ = {isa = PBXBuildFile; fileRef = 144CDE281D47C48900C035E5 /* nulls.json */; };
 		144CDE301D47C48900C035E5 /* simple.json in Resources */ = {isa = PBXBuildFile; fileRef = 144CDE291D47C48900C035E5 /* simple.json */; };
 		144CDE311D47C48900C035E5 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 144CDE2A1D47C48900C035E5 /* users.json */; };
 		144CDE321D47C48900C035E5 /* users2.json in Resources */ = {isa = PBXBuildFile; fileRef = 144CDE2B1D47C48900C035E5 /* users2.json */; };
 		144CDE331D47C48900C035E5 /* users3.json in Resources */ = {isa = PBXBuildFile; fileRef = 144CDE2C1D47C48900C035E5 /* users3.json */; };
+		1466ACBC1D705DD700F4A69C /* users-with-nulls.json in Resources */ = {isa = PBXBuildFile; fileRef = 1466ACBB1D705DD700F4A69C /* users-with-nulls.json */; };
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
 		14C47E0E1CD2AE5F004A48DF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14C47E0D1CD2AE5F004A48DF /* Info.plist */; };
 		569C054F5F309FB681A97842 /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7465028F558320AA856C8AA4 /* Pods_Tests.framework */; };
@@ -35,11 +35,11 @@
 		067088EA1DACA156FB326A04 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		144CDE261D47C48900C035E5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		144CDE271D47C48900C035E5 /* note.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = note.json; sourceTree = "<group>"; };
-		144CDE281D47C48900C035E5 /* nulls.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nulls.json; sourceTree = "<group>"; };
 		144CDE291D47C48900C035E5 /* simple.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simple.json; sourceTree = "<group>"; };
 		144CDE2A1D47C48900C035E5 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		144CDE2B1D47C48900C035E5 /* users2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users2.json; sourceTree = "<group>"; };
 		144CDE2C1D47C48900C035E5 /* users3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users3.json; sourceTree = "<group>"; };
+		1466ACBB1D705DD700F4A69C /* users-with-nulls.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "users-with-nulls.json"; sourceTree = "<group>"; };
 		146D72AC1AB782920058798C /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		146D72B11AB782920058798C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14A139B31AEFC72B00AD732F /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
@@ -92,9 +92,9 @@
 			children = (
 				144CDE251D47C48900C035E5 /* Model.xcdatamodeld */,
 				144CDE271D47C48900C035E5 /* note.json */,
-				144CDE281D47C48900C035E5 /* nulls.json */,
 				144CDE291D47C48900C035E5 /* simple.json */,
 				144CDE2A1D47C48900C035E5 /* users.json */,
+				1466ACBB1D705DD700F4A69C /* users-with-nulls.json */,
 				144CDE2B1D47C48900C035E5 /* users2.json */,
 				144CDE2C1D47C48900C035E5 /* users3.json */,
 				14A139B31AEFC72B00AD732F /* Tests.swift */,
@@ -208,8 +208,8 @@
 				144CDE311D47C48900C035E5 /* users.json in Resources */,
 				144CDE331D47C48900C035E5 /* users3.json in Resources */,
 				144CDE321D47C48900C035E5 /* users2.json in Resources */,
-				144CDE2F1D47C48900C035E5 /* nulls.json in Resources */,
 				144CDE301D47C48900C035E5 /* simple.json in Resources */,
+				1466ACBC1D705DD700F4A69C /* users-with-nulls.json in Resources */,
 				14C47E0E1CD2AE5F004A48DF /* Info.plist in Resources */,
 				144CDE2E1D47C48900C035E5 /* note.json in Resources */,
 			);
