@@ -39,9 +39,7 @@ public class DATAFilter: NSObject {
         let primaryKeysAndObjectIDs = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate) as! [NSObject : NSManagedObjectID]
         let localPrimaryKeys = Array(primaryKeysAndObjectIDs.keys)
         let remotePrimaryKeys = changes.map { $0[remotePrimaryKey] }
-        let remotePrimaryKeysWithoutNils = (remotePrimaryKeys.filter { let isNotNSNull = (($0 as? NSObject) != NSNull()) && ($0 != nil)
-            print("Is NSNull() or nil: " + (!isNotNSNull).description)
-            return isNotNSNull } as! [NSObject!]) as! [NSObject]
+        let remotePrimaryKeysWithoutNils = (remotePrimaryKeys.filter { (($0 as? NSObject) != NSNull()) && ($0 != nil) } as! [NSObject!]) as! [NSObject]
 
         var remotePrimaryKeysAndChanges = [NSObject : [String : AnyObject]]()
         for (primaryKey, change) in zip(remotePrimaryKeysWithoutNils, changes) {
