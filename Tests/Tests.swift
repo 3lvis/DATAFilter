@@ -81,13 +81,13 @@ class Tests: XCTestCase {
      - Updated: 0, 1, 2 and 3
      - Deleted: 4
      */
-    func testMapChangesAWitNulls() {
+    func testMapChangesAWitNull() {
         let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
         dataStack.performInNewBackgroundContext { backgroundContext in
             self.createUsers(context: backgroundContext)
 
             let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("users-with-nulls.json", bundle: NSBundle(forClass: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("users-with-null.json", bundle: NSBundle(forClass: Tests.self)) as! [[String : AnyObject]]
             var inserted = 0
             var updated = 0
             var deleted = before.count
@@ -100,6 +100,35 @@ class Tests: XCTestCase {
             XCTAssertEqual(inserted, 2)
             XCTAssertEqual(updated, 4)
             XCTAssertEqual(deleted, 1)
+        }
+    }
+    
+    /*
+     5 pre-defined users are inserted, IDs: 0, 1, 2, 3, 4
+     In users.json:
+     - Inserted: 6 and 7
+     - Updated: 0, 1, 2 and 3
+     - Deleted: 4
+     */
+    func testMapChangesAWithNil() {
+        let dataStack = DATAStack(modelName: "Model", bundle: NSBundle(forClass: Tests.self), storeType: .InMemory)
+        dataStack.performInNewBackgroundContext { backgroundContext in
+            self.createUsers(context: backgroundContext)
+            
+            let before = DATAObjectIDs.objectIDsInEntityNamed("User", withAttributesNamed: "remoteID", context: backgroundContext)
+            let JSONObjects = try! JSON.from("users-with-nil.json", bundle: NSBundle(forClass: Tests.self)) as! [[String : AnyObject]]
+            var inserted = 0
+            var updated = 0
+            var deleted = before.count
+            DATAFilter.changes(JSONObjects, inEntityNamed: "User", localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: { objectJSON in
+                inserted += 1
+                }, updated: { objectJSON, updatedObject in
+                    updated += 1
+                    deleted -= 1
+            })
+            XCTAssertEqual(inserted, 2)
+            XCTAssertEqual(updated, 3)
+            XCTAssertEqual(deleted, 2)
         }
     }
 
