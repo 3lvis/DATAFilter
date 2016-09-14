@@ -3,7 +3,7 @@ import CoreData
 import DATAObjectIDs
 
 public class DATAFilter: NSObject {
-    public struct Operation : OptionSetType {
+    public struct Operation : OptionSet {
         public let rawValue: Int
 
         public init(rawValue: Int) {
@@ -16,30 +16,30 @@ public class DATAFilter: NSObject {
         public static let All: Operation = [.Insert, .Update, .Delete]
     }
 
-    public class func changes(changes: [[String : AnyObject]],
+    public class func changes(_ changes: [[String : AnyObject]],
                               inEntityNamed entityName: String,
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (JSON: [String : AnyObject]) -> Void,
-                                            updated: (JSON: [String : AnyObject], updatedObject: NSManagedObject) -> Void){
+                                            inserted: (_ JSON: [String : AnyObject]) -> Void,
+                                            updated: (_ JSON: [String : AnyObject], _ updatedObject: NSManagedObject) -> Void){
         self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
     }
 
-    public class func changes(changes: [[String : AnyObject]],
+    public class func changes(_ changes: [[String : AnyObject]],
                               inEntityNamed entityName: String,
                                             predicate: NSPredicate?,
                                             operations: Operation,
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (JSON: [String : AnyObject]) -> Void,
-                                            updated: (JSON: [String : AnyObject], updatedObject: NSManagedObject) -> Void) {
+                                            inserted: (_ JSON: [String : AnyObject]) -> Void,
+                                            updated: (_ JSON: [String : AnyObject], _ updatedObject: NSManagedObject) -> Void) {
         // `DATAObjectIDs.objectIDsInEntityNamed` also deletes all objects that don't have a primary key or that have the same primary key already found in the context
-        let primaryKeysAndObjectIDs = DATAObjectIDs.objectIDsInEntityNamed(entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate) as! [NSObject : NSManagedObjectID]
+        let primaryKeysAndObjectIDs = DATAObjectIDs.objectIDs(inEntityNamed: entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate) as! [NSObject : NSManagedObjectID]
         let localPrimaryKeys = Array(primaryKeysAndObjectIDs.keys)
         let remotePrimaryKeys = changes.map { $0[remotePrimaryKey] }
-        let remotePrimaryKeysWithoutNils = (remotePrimaryKeys.filter { (($0 as? NSObject) != NSNull()) && ($0 != nil) } as! [NSObject!]) as! [NSObject]
+        let remotePrimaryKeysWithoutNils = (remotePrimaryKeys.filter { (($0 as? NSObject) != NSNull()) && ($0 != nil) } as! [NSObject?]) as! [NSObject]
 
         var remotePrimaryKeysAndChanges = [NSObject : [String : AnyObject]]()
         for (primaryKey, change) in zip(remotePrimaryKeysWithoutNils, changes) {
@@ -47,7 +47,7 @@ public class DATAFilter: NSObject {
         }
         
         var intersection = Set(remotePrimaryKeysWithoutNils)
-        intersection.intersectInPlace(Set(localPrimaryKeys))
+        intersection.formIntersection(Set(localPrimaryKeys))
         let updatedObjectIDs = Array(intersection)
         
         
@@ -64,15 +64,15 @@ public class DATAFilter: NSObject {
         if operations.contains(.Delete) {
             for fetchedID in deletedObjectIDs {
                 let objectID = primaryKeysAndObjectIDs[fetchedID]!
-                let object = context.objectWithID(objectID)
-                context.deleteObject(object)
+                let object = context.object(with: objectID)
+                context.delete(object)
             }
         }
 
         if operations.contains(.Insert) {
             for fetchedID in insertedObjectIDs {
                 let objectDictionary = remotePrimaryKeysAndChanges[fetchedID]!
-                inserted(JSON: objectDictionary)
+                inserted(objectDictionary)
             }
         }
 
@@ -80,8 +80,8 @@ public class DATAFilter: NSObject {
             for fetchedID in updatedObjectIDs {
                 let JSON = remotePrimaryKeysAndChanges[fetchedID]!
                 let objectID = primaryKeysAndObjectIDs[fetchedID]!
-                let object = context.objectWithID(objectID)
-                updated(JSON: JSON, updatedObject: object)
+                let object = context.object(with: objectID)
+                updated(JSON, object)
             }
         }
     }
