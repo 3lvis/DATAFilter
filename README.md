@@ -9,19 +9,19 @@ Helps you filter insertions, deletions and updates by comparing your JSON dictio
 ## The magic
 
 ```swift
-public class func changes(changes: [[String : AnyObject]], 
+public class func changes(changes: [[String : Any]], 
       inEntityNamed entityName: String, 
       localPrimaryKey: String, 
       remotePrimaryKey: String, 
       context: NSManagedObjectContext, 
-      inserted: (JSON: [String : AnyObject]) -> Void, 
-      updated: (JSON: [String : AnyObject], updatedObject: NSManagedObject) -> Void)
+      inserted: (JSON: [String : Any]) -> Void, 
+      updated: (JSON: [String : Any], updatedObject: NSManagedObject) -> Void)
 ```
 
 ## How to use
 
 ```swift
-func importObjects(JSON: [[String : AnyObject]], context: NSManagedObjectContext) {
+func importObjects(JSON: [[String : Any]], context: NSManagedObjectContext) {
     DATAFilter.changes(JSON,
                        inEntityNamed: "User",
                        localPrimaryKey: "remoteID",

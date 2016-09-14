@@ -16,32 +16,32 @@ public class DATAFilter: NSObject {
         public static let All: Operation = [.Insert, .Update, .Delete]
     }
 
-    public class func changes(_ changes: [[String : AnyObject]],
+    public class func changes(_ changes: [[String : Any]],
                               inEntityNamed entityName: String,
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (_ JSON: [String : AnyObject]) -> Void,
-                                            updated: (_ JSON: [String : AnyObject], _ updatedObject: NSManagedObject) -> Void){
+                                            inserted: (_ JSON: [String : Any]) -> Void,
+                                            updated: (_ JSON: [String : Any], _ updatedObject: NSManagedObject) -> Void){
         self.changes(changes, inEntityNamed: entityName, predicate: nil, operations: .All, localPrimaryKey: localPrimaryKey, remotePrimaryKey: remotePrimaryKey, context: context, inserted: inserted, updated: updated)
     }
 
-    public class func changes(_ changes: [[String : AnyObject]],
+    public class func changes(_ changes: [[String : Any]],
                               inEntityNamed entityName: String,
                                             predicate: NSPredicate?,
                                             operations: Operation,
                                             localPrimaryKey: String,
                                             remotePrimaryKey: String,
                                             context: NSManagedObjectContext,
-                                            inserted: (_ JSON: [String : AnyObject]) -> Void,
-                                            updated: (_ JSON: [String : AnyObject], _ updatedObject: NSManagedObject) -> Void) {
+                                            inserted: (_ JSON: [String : Any]) -> Void,
+                                            updated: (_ JSON: [String : Any], _ updatedObject: NSManagedObject) -> Void) {
         // `DATAObjectIDs.objectIDsInEntityNamed` also deletes all objects that don't have a primary key or that have the same primary key already found in the context
         let primaryKeysAndObjectIDs = DATAObjectIDs.objectIDs(inEntityNamed: entityName, withAttributesNamed: localPrimaryKey, context: context, predicate: predicate) as! [NSObject : NSManagedObjectID]
         let localPrimaryKeys = Array(primaryKeysAndObjectIDs.keys)
         let remotePrimaryKeys = changes.map { $0[remotePrimaryKey] }
         let remotePrimaryKeysWithoutNils = (remotePrimaryKeys.filter { (($0 as? NSObject) != NSNull()) && ($0 != nil) } as! [NSObject?]) as! [NSObject]
 
-        var remotePrimaryKeysAndChanges = [NSObject : [String : AnyObject]]()
+        var remotePrimaryKeysAndChanges = [NSObject : [String : Any]]()
         for (primaryKey, change) in zip(remotePrimaryKeysWithoutNils, changes) {
             remotePrimaryKeysAndChanges[primaryKey] = change
         }

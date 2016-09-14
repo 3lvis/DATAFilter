@@ -58,7 +58,7 @@ class Tests: XCTestCase {
             self.createUsers(context: backgroundContext)
 
             let before = DATAObjectIDs.objectIDs(inEntityNamed: "User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("users.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]            
+            let JSONObjects = try! JSON.from("users.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]            
             var inserted = 0
             var updated = 0
             var deleted = before?.count ?? 0
@@ -87,7 +87,7 @@ class Tests: XCTestCase {
             self.createUsers(context: backgroundContext)
 
             let before = DATAObjectIDs.objectIDs(inEntityNamed: "User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("users-with-null.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("users-with-null.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             var inserted = 0
             var updated = 0
             var deleted = before?.count ?? 0
@@ -116,7 +116,7 @@ class Tests: XCTestCase {
             self.createUsers(context: backgroundContext)
             
             let before = DATAObjectIDs.objectIDs(inEntityNamed: "User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("users-with-nil.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("users-with-nil.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             var inserted = 0
             var updated = 0
             var deleted = before?.count ?? 0
@@ -145,7 +145,7 @@ class Tests: XCTestCase {
             self.createUsers(context: backgroundContext)
 
             let before = DATAObjectIDs.objectIDs(inEntityNamed: "User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("users2.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("users2.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             var inserted = 0
             var updated = 0
             var deleted = before?.count ?? 0
@@ -174,7 +174,7 @@ class Tests: XCTestCase {
             self.createUsers(context: backgroundContext)
 
             let before = DATAObjectIDs.objectIDs(inEntityNamed: "User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("users3.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("users3.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             var inserted = 0
             var updated = 0
             var deleted = before?.count ?? 0
@@ -212,7 +212,7 @@ class Tests: XCTestCase {
             let numberOfUsers = try! backgroundContext.count(for: request)
             XCTAssertEqual(numberOfUsers, 8)
 
-            let JSONObjects = try! JSON.from("users.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("users.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             DATAFilter.changes(JSONObjects, inEntityNamed: "User", localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: { objectJSON in
                 }, updated: { objectJSON, updatedObject in
             })
@@ -239,7 +239,7 @@ class Tests: XCTestCase {
             let count = try! backgroundContext.count(for: request)
             XCTAssertEqual(count, 1)
 
-            let JSONObjects = try! JSON.from("note.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("note.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             DATAFilter.changes(JSONObjects, inEntityNamed: "Note", localPrimaryKey: "remoteID", remotePrimaryKey: "id", context: backgroundContext, inserted: { objectJSON in
                 XCTAssertFalse(true)
                 }, updated: { objectJSON, updatedObject in
@@ -255,7 +255,7 @@ class Tests: XCTestCase {
             self.user(remoteID: 1, firstName: "Ben", lastName: "Boykewich", age: 23, context: backgroundContext)
 
             let before = DATAObjectIDs.objectIDs(inEntityNamed: "User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("simple.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("simple.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             var inserted = 0
             var updated = 0
             var deleted = before?.count ?? 0
@@ -278,7 +278,7 @@ class Tests: XCTestCase {
             self.user(remoteID: 1, firstName: "Ben", lastName: "Boykewich", age: 23, context: backgroundContext)
 
             let before = DATAObjectIDs.objectIDs(inEntityNamed: "User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("simple.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("simple.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             var inserted = 0
             var updated = 0
             var deleted = before?.count ?? 0
@@ -301,7 +301,7 @@ class Tests: XCTestCase {
             self.user(remoteID: 1, firstName: "Ben", lastName: "Boykewich", age: 23, context: backgroundContext)
 
             let before = DATAObjectIDs.objectIDs(inEntityNamed: "User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("simple.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("simple.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             var inserted = 0
             var updated = 0
             var deleted = before?.count ?? 0
@@ -329,7 +329,7 @@ class Tests: XCTestCase {
             self.createUsers(context: backgroundContext)
 
             let before = DATAObjectIDs.objectIDs(inEntityNamed: "User", withAttributesNamed: "remoteID", context: backgroundContext)
-            let JSONObjects = try! JSON.from("users.json", bundle: Bundle(for: Tests.self)) as! [[String : AnyObject]]
+            let JSONObjects = try! JSON.from("users.json", bundle: Bundle(for: Tests.self)) as! [[String : Any]]
             var inserted = 0
             var updated = 0
             var deleted = before?.count ?? 0
