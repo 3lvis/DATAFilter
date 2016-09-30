@@ -9,12 +9,12 @@ Helps you filter insertions, deletions and updates by comparing your JSON dictio
 ## The magic
 
 ```swift
-public class func changes(changes: [[String : Any]], 
-      inEntityNamed entityName: String, 
-      localPrimaryKey: String, 
-      remotePrimaryKey: String, 
-      context: NSManagedObjectContext, 
-      inserted: (JSON: [String : Any]) -> Void, 
+public class func changes(changes: [[String : Any]],
+      inEntityNamed entityName: String,
+      localPrimaryKey: String,
+      remotePrimaryKey: String,
+      context: NSManagedObjectContext,
+      inserted: (JSON: [String : Any]) -> Void,
       updated: (JSON: [String : Any], updatedObject: NSManagedObject) -> Void)
 ```
 
@@ -91,8 +91,8 @@ pod 'DATAFilter'
 
 ## Author
 
-Elvis Nuñez, [elvisnunez@me.com](mailto:elvisnunez@me.com)
+SyncDB, [syncdb.contact@gmail.com](mailto:syncdb.contact@gmail.com)
 
 ## License
 
-**DATAFilter** is available under the MIT license. See the [LICENSE](https://github.com/3lvis/DATAFilter/blob/master/LICENSE.md) file for more info.
+**DATAFilter** is available under the MIT license. See the [LICENSE](https://github.com/SyncDB/DATAFilter/blob/master/LICENSE.md) file for more info.
