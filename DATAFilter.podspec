@@ -6,11 +6,11 @@ s.description      = <<-DESC
 Filters inserts, updates and deletions from your JSON response.
 Returns every insert and update in a block, handles deletions and uniquing internally.
 DESC
-s.homepage         = "https://github.com/SyncDB/DATAFilter"
+s.homepage         = "https://github.com/3lvis/DATAFilter"
 s.license          = 'MIT'
-s.author           = { "SyncDB" => "syncdb.contact@gmail.com" }
-s.source           = { :git => "https://github.com/SyncDB/DATAFilter.git", :tag => s.version.to_s }
-s.social_media_url = 'https://twitter.com/Sync_DB'
+  s.author           = { "Elvis Nuñez" => "elvisnunez@me.com" }
+s.source           = { :git => "https://github.com/3lvis/DATAFilter.git", :tag => s.version.to_s }
+  s.social_media_url = 'https://twitter.com/3lvis'
 s.ios.deployment_target = '8.0'
 s.osx.deployment_target = '10.9'
 s.watchos.deployment_target = '2.0'
